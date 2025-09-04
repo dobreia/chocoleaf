@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Fizetés indítása...</title>
+</head>
+
+<body>
+    <p>Átirányítás a fizetési felületre, kérlek várj...</p>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get("course");
+
+            // kurzusok adatai
+            const courses = {
+                gyereknapi: {
+                    name: "Gyereknapi csokoládé készítő tanfolyam",
+                    price: 16900,
+                    bookingUrl: "https://cal.com/dobreia/gyereknapi-csoki"
+                },
+                // ide jöhetnek majd a többi kurzus adatai is
+            };
+
+            const course = courses[courseId];
+            if (!course) {
+                alert("Ismeretlen kurzus.");
+                window.location.href = "idopont.html";
+                return;
+            }
+
+            const POSKey = "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
+            const MerchantId = "dobreiandras@gmail.com";
+
+            const paymentRequest = {
+                POSKey,
+                PaymentType: "Immediate",
+                GuestCheckOut: true,
+                FundingSources: ["All"],
+                PaymentRequestId: "course-" + courseId + "-" + Date.now(),
+                OrderNumber: "COURSE-" + Date.now(),
+                Currency: "HUF",
+                RedirectUrl: "https://sajatdomain.hu/redirect.html?course=" + courseId + "&booking=" + encodeURIComponent(course.bookingUrl),
+                Transactions: [{
+                    POSTransactionId: "T" + Date.now(),
+                    Payee: MerchantId,
+                    Total: course.price,
+                    Comment: course.name,
+                    Items: [{
+                        Name: course.name,
+                        Description: "1 fő részvétel",
+                        Quantity: 1,
+                        Unit: "db",
+                        UnitPrice: course.price,
+                        ItemTotal: course.price
+                    }]
+                }]
+            };
+
+            try {
+                const response = await fetch("https://api.test.barion.com/v2/Payment/Start", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(paymentRequest)
+                });
+                const data = await response.json();
+                if (data.GatewayUrl) {
+                    window.location.href = data.GatewayUrl;
+                } else {
+                    alert("Hiba: " + (data.Errors?.[0]?.Title || "Ismeretlen hiba"));
+                    window.location.href = "idopont.html";
+                }
+            } catch (err) {
+                alert("Nem sikerült kapcsolódni a Barionhoz.");
+                console.error(err);
+                window.location.href = "idopont.html";
+            }
+        });
+    </script>
+</body>
+
+</html>

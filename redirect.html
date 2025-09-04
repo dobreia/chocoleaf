@@ -1,0 +1,30 @@
+<script>window.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentId = urlParams.get("paymentId");
+
+        if (!paymentId) {
+            // ha nincs paymentId, akkor valami nem stimmel → vissza a giftcardhoz
+            window.location.href = "giftcard.html";
+            return;
+        }
+
+        // 🔑 saját Barion POSKey kell ide
+        const POSKey = "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
+
+        try {
+            const response = await fetch(
+                "https://api.test.barion.com/v2/Payment/GetPaymentState?POSKey=" + POSKey + "&PaymentId=" + paymentId
+            );
+            const data = await response.json();
+
+            if (data.Status === "Succeeded") {
+                window.location.href = "thankyou.html";
+            } else {
+                window.location.href = "giftcard.html";
+            }
+        } catch (err) {
+            console.error("Hiba a Barion lekérdezéskor:", err);
+            window.location.href = "giftcard.html?status=error";
+        }
+    });
+</script>
