@@ -1,75 +1,63 @@
-<script>
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>Fizetés ellenőrzése...</title>
+</head>
+<body>
+  <p>Fizetés ellenőrzése, kérlek várj...</p>
+
+  <script>
     window.addEventListener("DOMContentLoaded", async () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const paymentId = urlParams.get("paymentId");
-        const courseId = urlParams.get("course");
+      const urlParams = new URLSearchParams(window.location.search);
+      const paymentId = urlParams.get("paymentId");
+      const bookingId = urlParams.get("bookingId"); // ezt a Cal.com adja vissza amikor foglalás létrejön
 
-        // Cal.com redirectből jövő adatok
-        const name = urlParams.get("name");
-        const email = urlParams.get("email");
-        const startTime = urlParams.get("startTime");
-        const endTime = urlParams.get("endTime");
+      if (!paymentId || !bookingId) {
+        window.location.href = "idopont.html?status=error";
+        return;
+      }
 
-        if (!paymentId) {
-            window.location.href = "giftcard.html";
-            return;
-        }
+      const POSKey = "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
 
-        const POSKey = "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
+      try {
+        const response = await fetch(
+          "https://api.test.barion.com/v2/Payment/GetPaymentState?POSKey=" + POSKey + "&PaymentId=" + paymentId
+        );
+        const data = await response.json();
 
-        // kurzusokhoz tartozó Cal.com eventTypeId-k
-        const courses = {
-            gyereknapi: { eventTypeId: "evt_abc123" },
-            alap: { eventTypeId: "evt_def456" },
-            halado: { eventTypeId: "evt_ghi789" },
-            muffin: { eventTypeId: "evt_jkl012" },
-            elso: { eventTypeId: "evt_mno345" },
-            torta: { eventTypeId: "evt_pqr678" }
-        };
+        if (data.Status === "Succeeded") {
+          // Fizetés sikeres → update booking metadata
+          try {
+            const res = await fetch(`https://api.cal.com/v1/bookings/${bookingId}`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer KÉSŐBB_ENV_BŐL" // NE kódba írd, Vercelben env változó
+              },
+              body: JSON.stringify({
+                metadata: { paymentStatus: "paid" }
+              })
+            });
 
-        const course = courses[courseId];
-        if (!course) {
-            alert("Ismeretlen kurzus azonosító: " + courseId);
-            window.location.href = "idopont.html";
-            return;
-        }
-
-        try {
-            const response = await fetch(
-                "https://api.test.barion.com/v2/Payment/GetPaymentState?POSKey=" + POSKey + "&PaymentId=" + paymentId
-            );
-            const data = await response.json();
-
-            if (data.Status === "Succeeded") {
-                try {
-                    const bookingResponse = await fetch("https://chocoleaf.vercel.app/api/create-booking", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            eventTypeId: course.eventTypeId,
-                            startTime,
-                            endTime,
-                            name,
-                            email
-                        })
-                    });
-
-                    const bookingData = await bookingResponse.json();
-                    if (bookingResponse.ok) {
-                        window.location.href = "thankyou.html?course=" + courseId;
-                    } else {
-                        alert("Fizetés sikerült, de a foglalás nem jött létre: " + bookingData.message);
-                    }
-                } catch (err) {
-                    console.error("Foglalás hiba:", err);
-                    alert("Fizetés sikeres, de a foglalás rögzítése nem sikerült.");
-                }
+            if (res.ok) {
+              window.location.href = "thankyou.html";
             } else {
-                window.location.href = "idopont.html?status=cancelled";
+              console.error("Foglalás update hiba:", await res.text());
+              window.location.href = "idopont.html?status=update-fail";
             }
-        } catch (err) {
-            console.error("Hiba a Barion lekérdezéskor:", err);
-            window.location.href = "giftcard.html?status=error";
+          } catch (err) {
+            console.error("Foglalás update exception:", err);
+            window.location.href = "idopont.html?status=update-fail";
+          }
+        } else {
+          window.location.href = "idopont.html?status=cancelled";
         }
+      } catch (err) {
+        console.error("Barion lekérdezési hiba:", err);
+        window.location.href = "idopont.html?status=error";
+      }
     });
-</script>
+  </script>
+</body>
+</html>
