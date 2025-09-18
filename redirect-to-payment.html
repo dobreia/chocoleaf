@@ -14,12 +14,17 @@
             const urlParams = new URLSearchParams(window.location.search);
             const courseId = urlParams.get("course");
 
+            // ezek a Cal.com által átadott paraméterek (Forward parameters)
+            const name = urlParams.get("name");
+            const email = urlParams.get("email");
+            const startTime = urlParams.get("startTime");
+            const endTime = urlParams.get("endTime");
+
             // kurzusok adatai
             const courses = {
                 gyereknapi: {
                     name: "Gyereknapi csokoládé készítő tanfolyam",
-                    price: 16900,
-                    bookingUrl: "https://cal.com/dobreia/gyereknapi-csoki"
+                    price: 16900
                 },
                 // ide jöhetnek majd a többi kurzus adatai is
             };
@@ -34,6 +39,15 @@
             const POSKey = "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
             const MerchantId = "dobreiandras@gmail.com";
 
+            // a Barion redirect URL-be átvisszük a Cal.com paramétereket is
+            const redirectUrl =
+                "https://dobreia.github.io/chocoleaf/redirect.html"
+                + "?course=" + encodeURIComponent(courseId)
+                + "&name=" + encodeURIComponent(name || "")
+                + "&email=" + encodeURIComponent(email || "")
+                + "&startTime=" + encodeURIComponent(startTime || "")
+                + "&endTime=" + encodeURIComponent(endTime || "");
+
             const paymentRequest = {
                 POSKey,
                 PaymentType: "Immediate",
@@ -42,7 +56,7 @@
                 PaymentRequestId: "course-" + courseId + "-" + Date.now(),
                 OrderNumber: "COURSE-" + Date.now(),
                 Currency: "HUF",
-                RedirectUrl: "https://dobreia.github.io/chocoleaf/redirect.html?course=" + courseId + "&booking=" + encodeURIComponent(course.bookingUrl),
+                RedirectUrl: redirectUrl,
                 Transactions: [{
                     POSTransactionId: "T" + Date.now(),
                     Payee: MerchantId,
