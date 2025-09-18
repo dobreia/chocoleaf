@@ -1,16 +1,13 @@
 async function testApiKey() {
-  const apiKey = "cal_live_b6ed7fdff373b73dc0ebb900bf16016b";
-
   const res = await fetch("https://api.cal.com/v1/event-types", {
     headers: {
-      "x-api-key": apiKey,       // <-- próbaképp nem Authorization-ban
-      "Accept": "application/json"
+      "Authorization": "Bearer cal_live_3386581f0ae9a9e3eb2e0c11c06570ad"
     }
   });
 
-  console.log("Status:", res.status);
-  const text = await res.text();
-  console.log("Response:", text);
+  console.log("HTTP status:", res.status);
+  const data = await res.json();
+  console.log("Response:", data);
 }
 
 testApiKey();
