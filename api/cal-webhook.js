@@ -1,5 +1,11 @@
 import crypto from "crypto";
 
+export const config = {
+    api: {
+        bodyParser: false, // így hozzáférsz a raw body-hoz
+    },
+};
+
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Csak POST engedélyezett" });
@@ -8,10 +14,16 @@ export default async function handler(req, res) {
     const secret = process.env.CALCOM_WEBHOOK_SECRET;
     const signature = req.headers["x-cal-signature"];
 
-    // Ellenőrizzük az aláírást
+    // raw body összegyűjtése
+    let rawBody = "";
+    for await (const chunk of req) {
+        rawBody += chunk;
+    }
+
+    // Ellenőrzés
     const computed = crypto
         .createHmac("sha256", secret)
-        .update(JSON.stringify(req.body))
+        .update(rawBody)
         .digest("hex");
 
     if (signature !== computed) {
@@ -19,18 +31,18 @@ export default async function handler(req, res) {
     }
 
     try {
-        const booking = req.body;
+        const booking = JSON.parse(rawBody);
         console.log("Webhook érkezett:", booking);
 
-        // Ha nincs fizetve → töröljük a foglalást
         if (!booking.metadata || booking.metadata.paymentStatus !== "paid") {
-            await fetch(`https://api.cal.com/v1/bookings/${booking.id}`, {
+            const del = await fetch(`https://api.cal.com/v1/bookings/${booking.id}`, {
                 method: "DELETE",
                 headers: {
-                    "Authorization": `Bearer ${process.env.CALCOM_API_KEY}`
-                }
+                    "Authorization": `Bearer ${process.env.CALCOM_API_KEY}`,
+                },
             });
 
+            console.log("Delete response:", del.status, await del.text());
             return res.status(200).json({ message: "Foglalás törölve (nem fizetett)" });
         }
 
