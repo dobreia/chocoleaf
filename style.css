@@ -607,7 +607,7 @@ button {
     margin-right: auto;
 }
 
-.opinions-button{
+.opinions-button {
     padding-bottom: 4px;
 }
 
@@ -862,6 +862,27 @@ input[type=submit]:active {
     font-size: 16px;
     margin: 8px 0;
 }
+
+.footer-icons {
+    display: flex;
+}
+
+.icons-left {
+    margin-right: 30px;
+}
+
+.icons-right a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+
+.icons-right img {
+    width: 22px;
+    height: 22px;
+}
+
 
 .footer-icons img {
     height: 22px;
