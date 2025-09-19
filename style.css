@@ -435,7 +435,7 @@ button {
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
-    background-color: #6C485C;
+    background-color: #EEE8DC;
     padding: 20px 0;
 }
 
@@ -453,6 +453,7 @@ button {
     margin: 0 15px;
     border-radius: 10px;
     object-fit: cover;
+    border: 1px black solid;
 }
 
 
@@ -531,17 +532,17 @@ button {
     margin-right: -5px;
 }
 
-#opinions .fb {
+#opinions .google {
     width: 25px;
     margin-bottom: 24px;
 }
 
-#opinions .fb-tooltip {
+#opinions .google-tooltip {
     position: relative;
     display: inline-block;
 }
 
-#opinions .fb-tooltip .fb-tooltip-text {
+#opinions .google-tooltip .google-tooltip-text {
     visibility: hidden;
     /* Maximum szélesség megadása, hogy ne legyen túl széles */
     width: 272px;
@@ -560,13 +561,13 @@ button {
     transition: opacity 0.3s ease;
 }
 
-#opinions .fb-tooltip:hover .fb-tooltip-text,
-#opinions .fb-tooltip-text:hover {
+#opinions .google-tooltip:hover .google-tooltip-text,
+#opinions .google-tooltip-text:hover {
     visibility: visible;
     opacity: 1;
 }
 
-#opinions .fb-tooltip .fb-tooltip-text::after {
+#opinions .google-tooltip .google-tooltip-text::after {
     content: "";
     position: absolute;
     top: 100%;
@@ -579,14 +580,14 @@ button {
 }
 
 /* Bal oldalra igazítás */
-#opinions .left-tooltip .fb-tooltip-text {
+#opinions .left-tooltip .google-tooltip-text {
     left: auto;
     right: 0;
     transform: none;
     /* Elhelyezés balra */
 }
 
-#opinions .left-tooltip .fb-tooltip-text::after {
+#opinions .left-tooltip .google-tooltip-text::after {
     left: auto;
     right: 2%;
     /* A nyíl a balra igazított tooltiphez igazodik */
@@ -600,6 +601,17 @@ button {
     font-family: 'Libre Baskerville';
 }
 
+#opinions button {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.opinions-button{
+    padding-bottom: 4px;
+}
+
+
 .second-divider {
     display: block;
     width: 100%;
@@ -608,8 +620,9 @@ button {
     z-index: 1;
     overflow: hidden;
     margin: -2px auto -20px auto;
-    /* felső térköz */
+    /* itt növeld a felső margót */
 }
+
 
 
 #form h1 {
