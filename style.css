@@ -178,7 +178,6 @@ button {
     overflow: hidden;
     transform: translateX(-19.5%);
     /* középre igazítás, ha kell */
-
 }
 
 .first-divider img {
@@ -916,29 +915,65 @@ input[type=submit]:active {
     }
 }
 
+@media (max-width: 926px) {
+    .hero-content h1 {
+        font-size: 68px;
+    }
+
+    .hero-content h2 {
+        font-size: 34px;
+    }
+
+    .carousel-track img {
+        height: 200px;
+    }
+
+    .first-divider {
+        width: 200%;
+    }
+}
+
 @media (max-width: 768px) {
     .image-container .overlay-text {
         padding: 0 45px;
     }
+
+    .hero-content h1 {
+        font-size: 60px;
+    }
+
+    .hero-content h2 {
+        font-size: 30px;
+    }
+}
+
+@media(max-width: 750px) {
+    .first-divider {
+        width: 250%;
+    }
+
+    .introducing h1 {
+        font-size: 50px;
+        margin-bottom: 30px;
+    }
 }
 
 @media (max-width: 576px) {
+    .carousel-track img {
+        height: 180px;
+    }
+
     .contact-button {
         justify-content: center;
-        /* mobilon középre kerül */
         margin-right: 0;
-        /* ne toljuk el jobbra */
         margin-top: 20px;
-        /* kis térköz a profil után */
     }
 
     .profile-container {
         margin-top: -50px;
         justify-content: center;
-        /* opcionális: kép + szöveg középre */
         text-align: center;
         flex-direction: column;
-        /* ha szeretnéd egymás alá rakni */
         align-items: center;
     }
 
@@ -966,4 +1001,34 @@ input[type=submit]:active {
     .card-container p {
         margin: 10px;
     }
+}
+
+@media (max-width: 475px) {
+    .first-divider {
+        width: 400%;
+    }
+
+    .introducing h1 {
+        font-size: 40px;
+        margin-bottom: 15px;
+    }
+
+    .image-container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 413px) {
+    .first-divider {
+        width: 450%;
+    }
+}
+
+@media (max-width: 360px) {
+    .introducing h1 {
+        font-size: 35px;
+        margin-bottom: 10px;
+    }
+
+
 }
