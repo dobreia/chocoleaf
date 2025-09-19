@@ -903,9 +903,18 @@ input[type=submit]:active {
     }
 }
 
+@media (max-width: 1300px){
+    .vr{
+        display: none;
+    }
+}
 @media (max-width: 1200px) {
     .image-container .overlay-text {
         padding: 0 45px;
+    }
+
+    .bg-purple h1 {
+        width: 85%;
     }
 }
 
@@ -931,6 +940,16 @@ input[type=submit]:active {
     .first-divider {
         width: 200%;
     }
+
+    .bg-purple h1 {
+        width: 87%;
+        font-size: 50px;
+    }
+
+    .bg-purple h2 {
+        font-size: 20px;
+        width: 85%
+    }
 }
 
 @media (max-width: 768px) {
@@ -945,6 +964,16 @@ input[type=submit]:active {
     .hero-content h2 {
         font-size: 30px;
     }
+
+    .bg-purple h1 {
+        width: 95%;
+        font-size: 40px;
+    }
+
+    .bg-purple h2 {
+        font-size: 18px;
+        width: 90%
+    }
 }
 
 @media(max-width: 750px) {
@@ -955,6 +984,16 @@ input[type=submit]:active {
     .introducing h1 {
         font-size: 50px;
         margin-bottom: 30px;
+    }
+
+    .bg-purple h1 {
+        width: 98%;
+        font-size: 30px;
+    }
+
+    .bg-purple h2 {
+        font-size: 17px;
+        width: 95%
     }
 }
 
@@ -1002,13 +1041,15 @@ input[type=submit]:active {
         margin: 10px;
     }
 
-    .benefits h1{
+    .benefits h1 {
         font-size: 45px;
     }
 
-    .benefit-container img{
+    .benefit-container img {
         height: 80px;
     }
+
+
 }
 
 @media (max-width: 475px) {
