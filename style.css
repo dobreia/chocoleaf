@@ -1001,6 +1001,14 @@ input[type=submit]:active {
     .card-container p {
         margin: 10px;
     }
+
+    .benefits h1{
+        font-size: 45px;
+    }
+
+    .benefit-container img{
+        height: 80px;
+    }
 }
 
 @media (max-width: 475px) {
@@ -1029,6 +1037,4 @@ input[type=submit]:active {
         font-size: 35px;
         margin-bottom: 10px;
     }
-
-
 }
