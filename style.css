@@ -901,12 +901,17 @@ input[type=submit]:active {
 
 #footer a {
     text-decoration: none;
-    color: #7C7498;
 }
 
 #footer a:hover {
     text-decoration: underline;
 }
+
+a[href^="tel"] {
+    color: inherit;
+    text-decoration: none;
+}
+
 
 @keyframes scroll {
     0% {
