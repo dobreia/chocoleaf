@@ -1,13 +1,26 @@
-import { verifyCalSignature } from "../lib/hmac.js";
+import express from "express";
+import { confirmBooking, cancelBooking } from "../lib/cal.js";
 
-export async function calWebhook(req, res) {
-  const signature = req.headers["x-cal-signature-256"];
-  if (!verifyCalSignature(signature, req.body)) {
-    return res.status(401).send("Invalid signature");
+const router = express.Router();
+
+// Manual confirm (debug)
+router.post("/:uid/confirm", async (req, res) => {
+  try {
+    const out = await confirmBooking(req.params.uid);
+    res.json({ ok: true, out });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: String(e) });
   }
+});
 
-  const data = JSON.parse(req.body.toString());
-  console.log("Cal webhook event:", data.triggerEvent);
+// Manual cancel (debug)
+router.post("/:uid/cancel", async (req, res) => {
+  try {
+    const out = await cancelBooking(req.params.uid, req.body?.reason);
+    res.json({ ok: true, out });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: String(e) });
+  }
+});
 
-  res.status(200).end("ok");
-}
+export default router;

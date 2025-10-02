@@ -2,96 +2,59 @@
 <html lang="hu">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Fizetés indítása...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Helvetica, Arial, sans-serif;
+            padding: 24px;
+            max-width: 680px;
+            margin: auto
+        }
+    </style>
 </head>
 
 <body>
-    <p>Átirányítás a fizetési felületre, kérlek várj...</p>
+    <h1>Átirányítás Barion fizetésre...</h1>
+    <p>Kérlek, várj egy pillanatot.</p>
 
     <script>
-        window.addEventListener("DOMContentLoaded", async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const courseId = urlParams.get("course");
-
-            // ezek a Cal.com által átadott paraméterek (Forward parameters)
-            const name = urlParams.get("name");
-            const email = urlParams.get("email");
-            const startTime = urlParams.get("startTime");
-            const endTime = urlParams.get("endTime");
-
-            // kurzusok adatai
-            const courses = {
-                gyereknapi: {
-                    name: "Gyereknapi csokoládé készítő tanfolyam",
-                    price: 16900
-                },
-                // ide jöhetnek majd a többi kurzus adatai is
-            };
-
-            const course = courses[courseId];
-            if (!course) {
-                alert("Ismeretlen kurzus.");
-                window.location.href = "idopont.html";
-                return;
-            }
-
-            const POSKey = "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
-            const MerchantId = "dobreiandras@gmail.com";
-
-            // a Barion redirect URL-be átvisszük a Cal.com paramétereket is
-            const redirectUrl =
-                "https://piliferous-vickie-secretive.ngrok-free.dev/redirect.html"
-                + "?course=" + encodeURIComponent(courseId)
-                + "&name=" + encodeURIComponent(name || "")
-                + "&email=" + encodeURIComponent(email || "")
-                + "&startTime=" + encodeURIComponent(startTime || "")
-                + "&endTime=" + encodeURIComponent(endTime || "");
-
-            const paymentRequest = {
-                POSKey,
-                PaymentType: "Immediate",
-                GuestCheckOut: true,
-                FundingSources: ["All"],
-                PaymentRequestId: "course-" + courseId + "-" + Date.now(),
-                OrderNumber: "COURSE-" + Date.now(),
-                Currency: "HUF",
-                RedirectUrl: redirectUrl,
-                Transactions: [{
-                    POSTransactionId: "T" + Date.now(),
-                    Payee: MerchantId,
-                    Total: course.price,
-                    Comment: course.name,
-                    Items: [{
-                        Name: course.name,
-                        Description: "1 fő részvétel",
-                        Quantity: 1,
-                        Unit: "db",
-                        UnitPrice: course.price,
-                        ItemTotal: course.price
-                    }]
-                }]
-            };
-
+        (async function () {
             try {
-                const response = await fetch("https://api.test.barion.com/v2/Payment/Start", {
+                const qp = new URLSearchParams(location.search);
+                const bookingUid = qp.get("uid") || qp.get("bookingUid") || qp.get("bookingId");
+                const course = qp.get("course");      // csak slug kell
+                const name = qp.get("name") || "";
+                const email = qp.get("email") || "";
+                const startTime = qp.get("startTime") || "";
+                const endTime = qp.get("endTime") || "";
+
+                if (!bookingUid) throw new Error("Hiányzik a foglalás azonosító (bookingUid).");
+                if (!course) throw new Error("Hiányzik a kurzus azonosító (course).");
+
+                const r = await fetch("/api/barion/start", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(paymentRequest)
+                    body: JSON.stringify({ bookingUid, course, name, email, startTime, endTime })
                 });
-                const data = await response.json();
-                if (data.GatewayUrl) {
-                    window.location.href = data.GatewayUrl;
-                } else {
-                    alert("Hiba: " + (data.Errors?.[0]?.Title || "Ismeretlen hiba"));
-                    window.location.href = "idopont.html";
+
+                if (!r.ok) {
+                    const t = await r.text();
+                    throw new Error("Szerver hiba: " + t);
                 }
-            } catch (err) {
-                alert("Nem sikerült kapcsolódni a Barionhoz.");
-                console.error(err);
-                window.location.href = "idopont.html";
+                const data = await r.json();
+
+                if (data.redirectUrl) {
+                    location.replace(data.redirectUrl);
+                } else {
+                    throw new Error("Nem érkezett redirectUrl a szervertől.");
+                }
+            } catch (e) {
+                alert("Hiba a fizetés indításakor: " + e.message);
+                console.error(e);
             }
-        });
+        })();
     </script>
 </body>
 

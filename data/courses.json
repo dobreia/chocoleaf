@@ -1,0 +1,18 @@
+{
+    "gyereknapi": {
+        "id": "gyereknapi",
+        "title": "Gyereknapi csokiműhely",
+        "priceHUF": 15000,
+        "currency": "HUF",
+        "durationMinutes": 90,
+        "active": true
+    },
+    "csoki-workshop": {
+        "id": "csoki-workshop",
+        "title": "Kézműves csoki workshop",
+        "priceHUF": 22000,
+        "currency": "HUF",
+        "durationMinutes": 120,
+        "active": true
+    }
+}
