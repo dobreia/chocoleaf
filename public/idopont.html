@@ -18,68 +18,38 @@
             <a href="index.html" class="button button-secondary">Vissza</a>
             <h1>KÉPZÉSEK</h1>
         </div>
-        <div class="row gy-4">
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="workshop-card">
-                    <img src="assets/carousel/img2.jpg" alt="">
-                    <h2>Gyereknapi csokoládé készítő tanfolyam</h2>
-                    <p>Egyszerű és gyors kézműves csokoládé gyermeked keze által :-)</p>
-                    <p class="price">16 900 Ft</p>
-                    <a href="https://cal.com/dobreia/gyereknapi-csoki"
-                        class="button button-secondary">Időpontfoglalás</a>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="workshop-card">
-                    <img src="assets/carousel/img1.png" alt="">
-                    <h2>Kakaóbabtól a táblás csokiig 1.</h2>
-                    <p>Készítsd el SAJÁT, EGYEDI Csokoládédat! Pörkölj, konsolj, temperálj és vidd haza a SAJÁT
-                        CSOKIdat!</p>
-                    <p class="price">185 900 Ft</p>
-                    <a href="https://cal.com/dobreia/csokikurzus-alap"
-                        class="button button-secondary">Időpontfoglalás</a>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="workshop-card">
-                    <img src="assets/carousel/img3.jpg" alt="">
-                    <h2>Kakaóbabtól a táblás csokiig 2.</h2>
-                    <p>Készítsd el SAJÁT, EGYEDI ÉTCSOKOLÁDÉdat! Pörkölj, konsolj, temperálj és vidd haza a SAJÁT
-                        CSOKIdat!</p>
-                    <p class="price">185 900 Ft</p>
-                    <a href="https://cal.com/dobreia/csokikurzus-halado"
-                        class="button button-secondary">Időpontfoglalás</a>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="workshop-card">
-                    <img src="assets/carousel/img4.jpg" alt="">
-                    <h2>Muffin vagy Cupcake?</h2>
-                    <p>Gyere és Süssünk sütit egy Általad választott időpontban!</p>
-                    <p class="price">27 900 Ft</p>
-                    <a href="https://cal.com/dobreia/muffin-cupcake" class="button button-secondary">Időpontfoglalás</a>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="workshop-card">
-                    <img src="assets/carousel/img5.jpg" alt="">
-                    <h2>Készítsd el első saját csokoládédat!</h2>
-                    <p>Kézműves Csokoládékészítés 1x1 Az általad választott időpontban!</p>
-                    <p class="price">39 900 Ft</p>
-                    <a href="https://cal.com/dobreia/elso-csoki" class="button button-secondary">Időpontfoglalás</a>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="workshop-card">
-                    <img src="assets/carousel/img6.png" alt="">
-                    <h2>Torta, ahogy TE szereted!</h2>
-                    <p>Süssük meg a kedvenc tortádat egy általad választott időpontban!</p>
-                    <p class="price">42 900 Ft</p>
-                    <a href="https://cal.com/dobreia/sajat-torta" class="button button-secondary">Időpontfoglalás</a>
-                </div>
-            </div>
-        </div>
+        <div class="row gy-4" id="workshops-container"></div>
     </div>
+
+    <script>
+        async function loadWorkshops() {
+            const res = await fetch("/api/courses");
+            const courses = await res.json();
+
+            const container = document.getElementById("workshops-container");
+            container.innerHTML = "";
+
+            Object.values(courses).forEach(course => {
+                const col = document.createElement("div");
+                col.className = "col-12 col-sm-6 col-md-3";
+                col.innerHTML = `
+      <div class="workshop-card">
+        <img src="${course.image}" alt="">
+        <h2>${course.title}</h2>
+        <p>${course.description || ""}</p>
+        <p class="duration">${course.durationHour} óra</p>
+        <p class="price">${course.priceHUF.toLocaleString("hu-HU")} Ft</p>
+
+        <a href="${course.calUrl}" class="button button-secondary">Időpontfoglalás</a>
+      </div>
+    `;
+                container.appendChild(col);
+            });
+        }
+
+        loadWorkshops();
+    </script>
+
 
 </body>
 

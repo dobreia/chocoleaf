@@ -7,7 +7,7 @@ body {
 }
 
 
-button{
+button {
     border: none;
 }
 
@@ -88,10 +88,15 @@ h2 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+.duration {
+    font-size: 24px;
+    margin: 15px 0 0 0;
+}
+
 .price {
     font-size: 24px;
     font-weight: bold;
-    margin: 15px 0;
+    margin-bottom: 15px;
 }
 
 a {

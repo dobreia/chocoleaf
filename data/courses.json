@@ -1,18 +1,90 @@
 {
-    "gyereknapi": {
-        "id": "gyereknapi",
-        "title": "Gyereknapi csokiműhely",
-        "priceHUF": 15000,
+    "gyereknapi-csoki": {
+        "id": "gyereknapi-csoki",
+        "title": "Gyereknapi csokoládé készítő tanfolyam",
+        "description": "Egyszerű és gyors kézműves csokoládé gyermeked keze által :-)",
+        "priceHUF": 17900,
         "currency": "HUF",
-        "durationMinutes": 90,
+        "durationHour": 3,
+        "image": "assets/carousel/img2.jpg",
+        "calUrl": "https://cal.com/dobreia/gyereknapi-csoki",
+        "active": false
+    },
+    "cakepop-csokinyaloka-poharcsoki": {
+        "id": "cakepop-csokinyaloka-poharcsoki",
+        "title": "Cakepop, Csokinyalóka és Pohárcsoki",
+        "description": "Egyszerű és gyors kézműves csokoládé ajándékok",
+        "priceHUF": 16800,
+        "currency": "HUF",
+        "durationHour": 3,
+        "image": "assets/carousel/img1.png",
+        "calUrl": "https://cal.com/dobreia/cakepop-csokinyaloka-poharcsoki",
         "active": true
     },
-    "csoki-workshop": {
-        "id": "csoki-workshop",
-        "title": "Kézműves csoki workshop",
-        "priceHUF": 22000,
+    "dobostorta": {
+        "id": "dobostorta",
+        "title": "Dobostorta - Torta, ahogy TE szereted!",
+        "description": "Süssük meg a kedvenc tortádat! - Ma Dobostortát készítünk! :-)",
+        "priceHUF": 42900,
         "currency": "HUF",
-        "durationMinutes": 120,
+        "durationHour": 4,
+        "image": "assets/carousel/img3.jpg",
+        "calUrl": "https://cal.com/dobreia/dobostorta",
+        "active": true
+    },
+    "sacher-feketeerdo": {
+        "id": "sacher-feketeerdo",
+        "title": "Bécsi Sacher vagy Fekete erdő?",
+        "description": "Mindegy melyik a kedvenced, nálunk megsütheted!",
+        "priceHUF": 39900,
+        "currency": "HUF",
+        "durationHour": 4,
+        "image": "assets/carousel/img4.jpg",
+        "calUrl": "https://cal.com/dobreia/sacher-feketeerdo",
+        "active": true
+    },
+    "bejgli": {
+        "id": "bejgli",
+        "title": "Bejglizzünk!",
+        "description": "Diós, mákos vagy különleges bejgli – süsd meg velünk!",
+        "priceHUF": 39000,
+        "currency": "HUF",
+        "durationHour": 5,
+        "image": "assets/carousel/img5.jpg",
+        "calUrl": "https://cal.com/dobreia/bejgli",
+        "active": true
+    },
+    "sajat-csoki": {
+        "id": "sajat-csoki",
+        "title": "Készítsd el első saját csokoládédat!",
+        "description": "Kézműves Csokoládékészítés 1x1 Az általad választott időpontban!",
+        "priceHUF": 39900,
+        "currency": "HUF",
+        "durationHour": 4,
+        "image": "assets/carousel/img6.png",
+        "calUrl": "https://cal.com/dobreia/sajat-csoki",
+        "active": true
+    },
+    "torta": {
+        "id": "torta",
+        "title": "Torta, ahogy TE szereted!",
+        "description": "Süssük meg a kedvenc tortádat egy általad választott időpontban!",
+        "priceHUF": 42900,
+        "currency": "HUF",
+        "durationHour": 4,
+        "image": "assets/carousel/img6.png",
+        "calUrl": "https://cal.com/dobreia/torta",
+        "active": true
+    },
+    "muffin-cupcake": {
+        "id": "muffin-cupcake",
+        "title": "Muffin vagy Cupcake?",
+        "description": "Gyere és süssünk sütit egy általad választott időpontban!",
+        "priceHUF": 27900,
+        "currency": "HUF",
+        "durationHour": 3,
+        "image": "assets/carousel/img6.png",
+        "calUrl": "https://cal.com/dobreia/muffin-cupcake",
         "active": true
     }
 }
