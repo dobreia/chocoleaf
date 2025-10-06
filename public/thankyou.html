@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="hu">
+
 <head>
   <meta charset="UTF-8">
   <title>Köszönjük a vásárlást | ChocoLeaf</title>
   <link rel="stylesheet" href="css/thankyou.css">
 </head>
+
 <body>
   <section class="thankyou">
     <div class="container">
@@ -13,5 +15,20 @@
       <a href="index.html" class="btn">Vissza a főoldalra</a>
     </div>
   </section>
+  <!-- === Szükséges scriptek (nem kell cookie consent) === -->
+
+  <!-- Barion fizetési integráció -->
+  <script src="https://api.barion.com/js/barion.js" defer></script>
+
+  <!-- Cal.com időpontfoglaló -->
+  <script src="https://cal.com/embed.js" async></script>
+
+  <!-- Saját oldal működése -->
+  <script src="/js/main.js" defer></script>
+
+  <!-- Cookie consent manager (később az analitika/marketinghez) -->
+  <script src="/js/consent.js" defer></script>
+
 </body>
+
 </html>
