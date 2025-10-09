@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo+2">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre Baskerville">
 
+    <!-- GA4 – helyőrzők a HEAD-ben -->
+    <script type="plain/text" data-consent="analytics"
+        data-src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script type="plain/text" data-consent="analytics">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX', { anonymize_ip: true });
+  </script>
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cookies.css">
     <title>Kézműves Édesség | Chocoleaf</title>
@@ -376,6 +386,8 @@
                 <label for="datum">Átvételi időpont</label>
                 <input type="date" id="datum" name="Dátum" class="date-input">
 
+                <p>Az űrlap beküldésével az <a href="privacy-policy.html">adatkezelési tájékoztatót</a> elolvastam és
+                    elfogadom.</p>
                 <input type="submit" value="Küldés">
             </form>
         </div>
@@ -393,6 +405,13 @@
                         Egyedi torta- és süteménytervezés, akár glutén- és cukormentes változatban is.<br>
                         Rövid határidővel, teljesen személyre szabottan.
                     </p>
+                    <div class="footer-legal">
+                        <a href="impressum.html">Impresszum</a> ·
+                        <a href="rendelesi-feltetelek.html">Rendelési feltételek</a> ·
+                        <a href="privacy-policy.html">Adatkezelés</a> ·
+                        <a href="cookie-policy.html">Sütik kezelése</a>
+                    </div>
+
                 </div>
                 <!-- Jobb oldal -->
                 <div class="footer-right">
@@ -431,13 +450,53 @@
         </div>
     </section>
 
-    <!-- === Cookie banner (szükséges verzió) === -->
-    <div id="cookie-banner">
-        Ez a weboldal sütiket használ a működéshez (Barion, Cal.com, munkamenet).
-        <a href="cookie-policy.html">További információ</a>.
-        <button id="cookie-ok" class="button-secondary">Rendben</button>
+    <!-- Cookie Banner -->
+    <div id="cookie-banner" class="cookie-banner" style="display:none">
+        <div class="cookie-banner__text">
+            Ez a weboldal sütiket használ. A szükséges sütik a működéshez kellenek; az analitika és marketing csak
+            hozzájárulás után töltődik.
+            <a href="cookie-policy.html">Részletek</a>
+        </div>
+        <div class="cookie-banner__buttons">
+            <button id="cookie-reject" class="button-secondary">Elutasítom</button>
+            <button id="cookie-customize" class="button-secondary">Testreszabás</button>
+            <button id="cookie-accept" class="button-primary">Elfogadom</button>
+        </div>
     </div>
 
+    <!-- Cookie Settings Modal -->
+    <div id="cookie-modal" class="cookie-modal" style="display:none">
+        <div class="cookie-modal__box">
+            <h2>Süti-beállítások</h2>
+            <p>A szükséges sütik nem kapcsolhatók ki. Az alábbi kategóriákhoz adhatsz hozzájárulást.</p>
+
+            <label class="cookie-row">
+                <input type="checkbox" id="consent-analytics">
+                <strong>Analitika</strong> — forgalmi statisztikák (pl. GA4).
+            </label>
+            <label class="cookie-row">
+                <input type="checkbox" id="consent-marketing">
+                <strong>Marketing</strong> — hirdetési / remarketing címkék.
+            </label>
+
+            <div class="cookie-modal__actions">
+                <button id="cookie-save" class="button-primary">Mentés</button>
+                <button id="cookie-cancel" class="button-secondary">Mégse</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Állandó gomb a sarokban -->
+    <button id="open-cookie-settings" class="cookie-fab">Süti-beállítások</button>
+
+    <script type="plain/text" data-consent="marketing">
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)}; if(!f._fbq)f._fbq=n;
+    n.push=n; n.loaded=!0; n.version='2.0'; n.queue=[]; t=b.createElement(e); t.async=!0;
+    t.src=v; s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s)
+    }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID'); fbq('track', 'PageView');
+  </script>
     <!-- === Szükséges scriptek (nem kell cookie consent) === -->
 
     <!-- Barion fizetési integráció -->

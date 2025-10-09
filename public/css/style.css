@@ -655,6 +655,18 @@ button {
     color: rgb(255, 255, 255);
 }
 
+#form p {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 15px;
+    font-family: 'Exo 2';
+    width: 80%;
+    color: rgba(0, 0, 0, 0.793);
+}
+
 .bg-blue {
     padding-bottom: 30px;
 }
@@ -775,7 +787,7 @@ textarea {
 
 input[type=submit] {
     display: block;
-    margin: 30px auto 15px auto;
+    margin: 20px auto 15px auto;
     width: 100px;
     padding: 6px 12px;
     border: black 1px solid;
@@ -835,6 +847,17 @@ input[type=submit]:active {
     font-size: 16px;
     line-height: 1.6;
 }
+
+.footer-legal {
+    font-size: 14px;
+}
+
+.footer-legal a {
+    color: #7C7498;
+    margin: 0 5px 0 0;
+    text-decoration: underline;
+}
+
 
 /* Jobb oldal */
 .footer-right {
