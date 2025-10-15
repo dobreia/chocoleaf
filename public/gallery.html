@@ -6,16 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Courgette">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo+2">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre Baskerville">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
 
+    <!-- Saját stílusok -->
     <link rel="stylesheet" href="css/gallery.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Galéria | Chocoleaf</title>
+
+    <title>Galéria | ChocoLeaf</title>
 </head>
 
 <body>
+    <!-- Navigáció -->
     <nav class="navbar navbar-expand-xl custom-navbar">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -32,7 +37,7 @@
                         <a class="nav-link" href="index.html#introduction">Rólam</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="gallery.html">Munkáim</a>
+                        <a class="nav-link active" aria-current="page" href="gallery.html">Munkáim</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="index.html#footer">Kapcsolat</a>
@@ -48,113 +53,69 @@
             </div>
         </div>
     </nav>
+
+    <!-- Galéria -->
     <section class="gallery-section bg-cream">
         <div class="container-lg">
             <h1>Ízelítő munkáimból</h1>
             <p class="subtitle">Amennyiben inkább a saját szemednek hiszel, akkor tekintsd meg legutóbbi munkáimat.</p>
-            <div class="row g-4">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img1.png" alt="Torta">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img2.jpg" alt="Csokoládé">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img3.jpg" alt="Bonbon">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img4.jpg" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img5.jpg" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img6.png" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img7.png" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img8.png" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img1.png" alt="Torta">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img2.jpg" alt="Csokoládé">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img3.jpg" alt="Bonbon">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img4.jpg" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img5.jpg" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img6.png" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img7.png" alt="Sütemény">
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="gallery-item">
-                        <img src="assets/gallery/img8.png" alt="Sütemény">
-                    </div>
-                </div>
+            <div class="row g-4" id="gallery-container">
+                <p class="text-center">Képek betöltése...</p>
             </div>
         </div>
     </section>
 
-    <!-- Bootstrap + JS -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
 
-    <!-- === Szükséges scriptek (nem kell cookie consent) === -->
     <!-- Barion fizetési integráció -->
     <script src="https://api.barion.com/js/barion.js" defer></script>
 
     <!-- Cal.com időpontfoglaló -->
     <script src="https://cal.com/embed.js" async></script>
 
-    <!-- Saját oldal működése -->
+    <!-- Saját oldalszintű JS -->
     <script src="/js/main.js" defer></script>
 
-    <!-- Cookie consent manager (később az analitika/marketinghez) -->
+    <!-- Cookie consent manager -->
     <script src="/js/consent.js" defer></script>
 
+    <!-- Galéria betöltő script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const galleryContainer = document.getElementById("gallery-container");
+
+            try {
+                const res = await fetch("/api/gallery");
+                if (!res.ok) throw new Error(`HTTP hiba: ${res.status}`);
+
+                const images = await res.json();
+                galleryContainer.innerHTML = "";
+
+                if (images.length === 0) {
+                    galleryContainer.innerHTML = "<p class='text-center'>Nincsenek képek a galériában.</p>";
+                    return;
+                }
+
+                images.forEach(src => {
+                    const col = document.createElement("div");
+                    col.className = "col-12 col-sm-6 col-md-4 col-lg-3";
+                    col.innerHTML = `
+                        <div class="gallery-item">
+                            <img src="${src}" alt="Galéria kép" loading="lazy">
+                        </div>`;
+                    galleryContainer.appendChild(col);
+                });
+
+            } catch (err) {
+                console.error("Gallery load error:", err);
+                galleryContainer.innerHTML =
+                    "<p class='text-center text-danger'>Hiba történt a képek betöltésekor.</p>";
+            }
+        });
+    </script>
 </body>
 
 </html>

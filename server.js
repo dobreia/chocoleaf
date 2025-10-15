@@ -9,6 +9,8 @@ import barionRoutes from "./routes/barion.js";
 import calRoutes from "./routes/cal.js";
 import { initCoursesWatcher, listCourses } from "./lib/courses.js";
 
+import galleryRoutes from "./routes/galleryRoutes.js";
+
 
 const app = express();
 
@@ -25,6 +27,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // statikus fájlok (public/)
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(galleryRoutes);
 
 // kurzus-adatbázis betöltése + fájlfigyelés (nem blokkoló)
 try {

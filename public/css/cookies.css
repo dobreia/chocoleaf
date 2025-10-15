@@ -59,21 +59,37 @@
 }
 
 .cookie-modal__actions {
+    margin-top: 30px;
     display: flex;
     gap: 8px;
     justify-content: flex-end;
 }
 
+.cookie-modal__actions button {
+    font-size: 16px;
+}
+
 /* Sarok gomb */
 .cookie-fab {
     position: fixed;
-    right: 12px;
-    bottom: 12px;
+    bottom: 20px;
+    right: 20px;
+    background: #6D475B;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    font-family: "Exo 2", sans-serif;
     z-index: 9999;
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    background: #fff;
+    display: none;
+    /* alapból rejtve */
+}
+
+.cookie-fab.show {
+    display: block;
+    /* 👈 ha engedélyezve van, ez teszi láthatóvá */
 }
 
 /* opcionális: a Te gombstílusaidhoz igazíthatod a .button-primary / .button-secondary osztályokkal */

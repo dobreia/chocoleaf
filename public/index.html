@@ -76,24 +76,29 @@
         <section>
             <div class="infinite-carousel">
                 <div class="carousel-track">
-                    <img src="assets/carousel/img1.png" alt="">
+                    <img src="assets/carousel/img1.jpg" alt="">
                     <img src="assets/carousel/img2.jpg" alt="">
                     <img src="assets/carousel/img3.jpg" alt="">
                     <img src="assets/carousel/img4.jpg" alt="">
                     <img src="assets/carousel/img5.jpg" alt="">
-                    <img src="assets/carousel/img6.png" alt="">
-                    <img src="assets/carousel/img7.png" alt="">
-                    <img src="assets/carousel/img8.png" alt="">
-                    <img src="assets/carousel/img1.png" alt="">
+                    <img src="assets/carousel/img6.jpg" alt="">
+                    <img src="assets/carousel/img7.jpg" alt="">
+                    <img src="assets/carousel/img8.jpg" alt="">
+                    <img src="assets/carousel/img9.jpg" alt="">
+                    <img src="assets/carousel/img10.jpg" alt="">
+                    <img src="assets/carousel/img1.jpg" alt="">
                     <img src="assets/carousel/img2.jpg" alt="">
                     <img src="assets/carousel/img3.jpg" alt="">
                     <img src="assets/carousel/img4.jpg" alt="">
                     <img src="assets/carousel/img5.jpg" alt="">
-                    <img src="assets/carousel/img6.png" alt="">
-                    <img src="assets/carousel/img7.png" alt="">
-                    <img src="assets/carousel/img8.png" alt="">
+                    <img src="assets/carousel/img6.jpg" alt="">
+                    <img src="assets/carousel/img7.jpg" alt="">
+                    <img src="assets/carousel/img8.jpg" alt="">
+                    <img src="assets/carousel/img9.jpg" alt="">
+                    <img src="assets/carousel/img10.jpg" alt="">
                 </div>
             </div>
+            <a href="gallery.html"><button class="button-primary gallery-button">További képek</button></a>
         </section>
         <h1>Bemutatkozás</h1>
         <div class="container">
@@ -130,7 +135,7 @@
         <div class="container contact-container">
             <div class="row">
                 <div class="col-sm order-2 order-sm-1 contact-button">
-                    <button class="button-primary">Kapcsolat</button>
+                    <a href="#footer"><button class="button-primary">Kapcsolat</button></a>
                 </div>
                 <div class="col-sm order-1 order-sm-2">
                     <div class="profile-container">
@@ -149,7 +154,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <p>Torták</p>
                         <div class="image-container">
-                            <img src="assets/cake.png" alt="">
+                            <img src="assets/cake.jpg" alt="">
                             <div class="overlay-text">Egyedi toták készítése alkalmohoz illő stílusban és dekorációval.
                                 Torta házhoz szállítás! Gluténmentes és kalóriaszegény verziókban is teljes értékű
                                 egyedi tortakészítést vállalok.</div>
@@ -158,7 +163,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <p>Sütemények</p>
                         <div class="image-container">
-                            <img src="assets/cookies.png" alt="">
+                            <img src="assets/cookies.jpg" alt="">
                             <div class="overlay-text">Egyedi kézműves sütemények készítése catering vagy csapatépítő
                                 eseményekre. Különleges kialakítás, egyedi igények teljesítése. Bonbon, fánk,
                                 teasütemény.</div>
@@ -167,7 +172,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <p>Desszertek</p>
                         <div class="image-container">
-                            <img src="assets/desserts.png" alt="">
+                            <img src="assets/desserts.jpg" alt="">
                             <div class="overlay-text">Speciális kézműves desszertek készítése különleges alkalmakra. Nem
                                 csak egyedi ízvilággal, hanem különleges megjelenéssel, egyedi dekorációkkal is.</div>
                         </div>
@@ -175,7 +180,7 @@
                     <div class="col-sm-6 col-lg-3">
                         <p>Bonbonok</p>
                         <div class="image-container">
-                            <img src="assets/bonbons.png" alt="">
+                            <img src="assets/bonbons.jpg" alt="">
                             <div class="overlay-text">Egyedi házi készítésű különleges bonbonok, amelyek garantáltan
                                 sikert aratnak. Prémium összetevők, Kézműves bonbonkészításhez.</div>
                         </div>
@@ -244,7 +249,7 @@
             hozzáadott cukor, glutén, tartósítószer, dió-és mogyóróféle alapanyagok nélkül. </p>
         <p><img src="./assets/Ikonok/check.svg" alt="">Egyéni kívánságok, extra igények megvalósítása, személyreszabott
             forma, ízvilág és díszítés. Határ a csillagos ég!</p>
-        <button class="button-primary">Ajánlatkérés</button>
+        <a href="#form"><button class="button-primary">Ajánlatkérés</button></a>
         <div class="vr"></div>
     </section>
     <section id="opinions" class="bg-cream">
@@ -451,16 +456,17 @@
     </section>
 
     <!-- Cookie Banner -->
+    <!-- Cookie Banner -->
     <div id="cookie-banner" class="cookie-banner" style="display:none">
         <div class="cookie-banner__text">
-            Ez a weboldal sütiket használ. A szükséges sütik a működéshez kellenek; az analitika és marketing csak
-            hozzájárulás után töltődik.
+            Ez a weboldal sütiket használ. A szükséges sütik a működéshez kellenek;
+            az analitika és marketing csak hozzájárulás után töltődik.
             <a href="cookie-policy.html">Részletek</a>
         </div>
         <div class="cookie-banner__buttons">
             <button id="cookie-reject" class="button-secondary">Elutasítom</button>
             <button id="cookie-customize" class="button-secondary">Testreszabás</button>
-            <button id="cookie-accept" class="button-primary">Elfogadom</button>
+            <button id="cookie-accept-all" class="button-primary">Mindet elfogadom</button>
         </div>
     </div>
 
@@ -480,8 +486,9 @@
             </label>
 
             <div class="cookie-modal__actions">
-                <button id="cookie-save" class="button-primary">Mentés</button>
-                <button id="cookie-cancel" class="button-secondary">Mégse</button>
+                <button id="cookie-modal-cancel" class="button-secondary">Mégse</button>
+                <button id="cookie-modal-save" class="button-secondary">Mentés</button>
+                <button id="cookie-modal-accept-all" class="button-primary">Mindet elfogadom</button>
             </div>
         </div>
     </div>
