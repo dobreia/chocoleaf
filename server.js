@@ -9,6 +9,7 @@ import barionRoutes from "./routes/barion.js";
 import calRoutes from "./routes/cal.js";
 import { initCoursesWatcher, listCourses } from "./lib/courses.js";
 
+import { getPaymentState } from "./lib/barion.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 
 
@@ -59,6 +60,35 @@ app.get("/health", (_req, res) => res.status(200).send("OK"));
 app.get("/", (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
+app.get("/api/barion/redirect", async (req, res) => {
+  try {
+    // A Barion "Id" paramétert küld, nem "PaymentId"-t
+    const paymentId = req.query.paymentId || req.query.PaymentId || req.query.Id;
+    const bookingUid = req.query.bookingUid;
+
+    if (!paymentId) {
+      console.warn("❌ Nincs PaymentId az URL-ben!", req.query);
+      return res.redirect(`/booking-status.html?status=error&bookingUid=${encodeURIComponent(bookingUid || "")}`);
+    }
+
+    // Lekérdezzük az állapotot
+    const state = await getPaymentState(paymentId);
+
+    console.log("💳 Barion payment state:", state.Status, paymentId);
+
+    if (state.Status === "Succeeded") {
+      return res.redirect(`/booking-status.html?status=success&bookingUid=${encodeURIComponent(bookingUid || "")}`);
+    } else {
+      return res.redirect(`/booking-status.html?status=error&bookingUid=${encodeURIComponent(bookingUid || "")}`);
+    }
+  } catch (e) {
+    console.error("Redirect check error:", e);
+    res.redirect(`/booking-status.html?status=error`);
+  }
+});
+
+
 
 // szerver indítása
 const PORT = process.env.PORT || 3000;

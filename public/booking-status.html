@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foglalás állapota | ChocoLeaf</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .status-container {
+            max-width: 600px;
+            margin: 100px auto;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .status-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            color: #28a745;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body class="bg-cream">
+    <div class="status-container">
+        <div id="success-message" style="display:none">
+            <div class="status-icon success">✓</div>
+            <h1>Sikeres foglalás!</h1>
+            <p>Köszönjük a foglalást! A részleteket elküldtük emailben.</p>
+        </div>
+
+        <div id="error-message" style="display:none">
+            <div class="status-icon error">×</div>
+            <h1>Sikertelen foglalás</h1>
+            <p>Sajnáljuk, a fizetés nem sikerült. Kérjük próbálja újra később.</p>
+        </div>
+
+        <a href="index.html"><button class="button-primary mt-4">Vissza a főoldalra</button></a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const status = params.get('status');
+
+            if (status === 'success') {
+                document.getElementById('success-message').style.display = 'block';
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+
+</html>
