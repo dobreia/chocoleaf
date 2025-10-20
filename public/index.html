@@ -38,7 +38,10 @@
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
+                <div class="nav-buttons">
+                    <a href="#form"><button class="button-primary">Ajánlatkérés</button></a>
+                    <a href="./idopont.html"><button class="button-secondary">Képzések</button></a>
+                </div>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav mx-auto text-center">
                         <li class="nav-item">
@@ -58,10 +61,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="nav-buttons">
-                    <a href="#form"><button class="button-primary">Ajánlatkérés</button></a>
-                    <a href="./idopont.html"><button class="button-secondary">Képzések</button></a>
-                </div>
+
             </div>
         </nav>
         <div class="hero-content">
@@ -72,7 +72,7 @@
         <img class="first-divider" src="assets/line.png" alt="">
     </section>
 
-    <section class="introducing bg-cream" id="introduction">
+    <section class="introducing bg-cream">
         <section>
             <div class="infinite-carousel">
                 <div class="carousel-track">
@@ -100,7 +100,7 @@
             </div>
             <a href="gallery.html"><button class="button-primary gallery-button">További képek</button></a>
         </section>
-        <h1>Bemutatkozás</h1>
+        <h1 id="introduction">Bemutatkozás</h1>
         <div class="container">
             <div class="row">
                 <div class="col-lg">
@@ -382,7 +382,7 @@
         <div class="form-bg">
             <form action="https://formsubmit.co/dobreiandras@gmail.com" method="post" accept-charset="UTF-8">
                 <input type="hidden" name="_captcha" value="false">
-                <input type="text" name="Név" id="nev" placeholder="Név" maxlength="16">
+                <input type="text" name="Név" id="nev" placeholder="Név">
                 <input type="email" name="Email" id="email" placeholder="Email cím">
                 <input type="tel" name="Telefonszám" id="telefon" placeholder="Telefonszám">
                 <input type="text" name="Termék" id="termek" placeholder="Termék megnevezése">
@@ -464,9 +464,9 @@
             <a href="cookie-policy.html">Részletek</a>
         </div>
         <div class="cookie-banner__buttons">
-            <button id="cookie-reject" class="button-secondary">Elutasítom</button>
-            <button id="cookie-customize" class="button-secondary">Testreszabás</button>
-            <button id="cookie-accept-all" class="button-primary">Mindet elfogadom</button>
+            <button id="cookie-reject" class="button-primary">Elutasítom</button>
+            <button id="cookie-customize" class="button-primary">Testreszabás</button>
+            <button id="cookie-accept-all" class="button-secondary">Mindet elfogadom</button>
         </div>
     </div>
 

@@ -93,3 +93,66 @@
 }
 
 /* opcionális: a Te gombstílusaidhoz igazíthatod a .button-primary / .button-secondary osztályokkal */
+
+@media (max-width: 768px) {
+    .cookie-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .cookie-banner__buttons {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .cookie-banner button {
+        flex: 1 1 auto;
+        min-width: 120px;
+    }
+
+    .cookie-modal__box {
+        width: 90%;
+        max-width: 400px;
+        padding: 15px;
+    }
+
+    .cookie-modal__actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .cookie-modal__actions button {
+        flex: 1 1 100px;
+    }
+}
+
+/* ======== HERO szöveg igazítás (ha túl nagy) ======== */
+@media (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 40px;
+    }
+
+    .hero-content h2 {
+        font-size: 22px;
+    }
+
+    .hero-content button {
+        width: 80%;
+    }
+}
+
+/* ======== FOOTER mobilbarát ======== */
+@media (max-width: 576px) {
+    .footer-flex {
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .footer-map iframe {
+        width: 100%;
+        margin: 0 auto;
+    }
+}

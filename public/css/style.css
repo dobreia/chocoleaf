@@ -970,7 +970,28 @@ a[href^="tel"] {
     .bg-purple h1 {
         width: 85%;
     }
+
+    .nav-buttons {
+        position: static;
+        /* ne legyen absolute */
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .navbar-collapse {
+        text-align: center;
+    }
+
+    .nav-item {
+        border: none !important;
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+    }
 }
+
+
 
 @media (max-width: 992px) {
     .image-container .overlay-text {
