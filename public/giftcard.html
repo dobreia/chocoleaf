@@ -79,6 +79,7 @@
                     <button onclick="changeQty(1)">+</button>
                 </div>
             </section>
+
             <button id="PayBtn" class="button-primary mt-4" onclick="startPayment()">Tovább a fizetéshez</button>
         </div>
     </section>
@@ -122,7 +123,7 @@
                 PaymentRequestId: "giftcard-" + total + "-" + Date.now(),
                 OrderNumber: "GC-" + Date.now(),
                 Currency: "HUF",
-                RedirectUrl: "https://dobreia.github.io/chocoleaf/redirect.html",   // siker után ide irányít
+                RedirectUrl: "https://piliferous-vickie-secretive.ngrok-free.dev/redirect.html",   // siker után ide irányít
                 Transactions: [
                     {
                         POSTransactionId: "T" + Date.now(),
