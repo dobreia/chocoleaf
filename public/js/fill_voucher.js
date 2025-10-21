@@ -56,7 +56,6 @@ async function fillVoucherDesign() {
 
     // --- Adatok ---
     const recText = "Andris";
-    const serText = "0001";
     const valText = "2025.12.31.";
 
     const pages = pdfDoc.getPages();
@@ -65,6 +64,14 @@ async function fillVoucherDesign() {
     const recipientYOffset = 1;  // pl. +5 ha feljebb akarod
     const serialYOffset = 3;
     const validYOffset = 5;     // dátum feljebb tolva
+
+    let counter = 0;
+    let serText = counter.toString().padStart(4, "0"); // "0000"
+
+    while (fs.existsSync(`../assets/voucher/filled_voucher_${serText}.pdf`)) {
+        counter++;
+        serText = counter.toString().padStart(4, "0"); // pl. "0001"
+    }
 
     // Recipient jobbra, első oldal
     drawTextCustom(recipient, recText, 15, "right", rgb(0, 0, 0), pages[0], recipientYOffset);
@@ -77,11 +84,9 @@ async function fillVoucherDesign() {
     form.flatten();
 
     const out = await pdfDoc.save();
-    let i = 0;
-    while (fs.existsSync(`../assets/voucher/filled_voucher_${i}.pdf`)) i++;
-    fs.writeFileSync(`../assets/voucher/filled_voucher_${i}.pdf`, out);
+    fs.writeFileSync(`../assets/voucher/filled_voucher_${serText}.pdf`, out);
 
-    console.log("Voucher kész:", `../assets/voucher/filled_voucher_${i}.pdf`);
+    console.log("Voucher kész:", `../assets/voucher/filled_voucher_${serText}.pdf`);
 }
 
 fillVoucherDesign().catch(err => console.error("Hiba:", err));
