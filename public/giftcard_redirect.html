@@ -11,6 +11,7 @@
     <p id="message"></p>
 
     <script>
+
         const params = new URLSearchParams(window.location.search);
         const paymentId = params.get("paymentId");
 
@@ -21,6 +22,15 @@
                     if (data.success) {
                         document.getElementById("message").innerText =
                             `${data.userData.name} részére elküldjük az ajándékkártyát a ${data.userData.email} címre.`;
+                        // voucher készítés backend hívással
+                        fetch("/api/giftcard/generate", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                name: data.userData.name,
+                                email: data.userData.email
+                            })
+                        });
                     } else {
                         document.getElementById("message").innerText =
                             "Nem sikerült azonosítani a vásárlást.";

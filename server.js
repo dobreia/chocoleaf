@@ -12,6 +12,7 @@ import { initCoursesWatcher, listCourses } from "./lib/courses.js";
 import { getPaymentState } from "./lib/barion.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 
+import { fillVoucherDesign } from "./lib/fill_voucher.js";
 const app = express();
 
 // ha ngrok / reverse proxy mögött fut
@@ -184,6 +185,24 @@ app.get("/api/giftcard/status", async (req, res) => {
   }
 });
 
+app.post("/api/giftcard/generate", async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    console.log("📩 Generate request:", { name, email });
+
+    if (!name) {
+      throw new Error("Nincs név megadva");
+    }
+
+    const serial = Date.now().toString().slice(-6);
+    await fillVoucherDesign(name, serial);
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error("❌ Voucher generálás hiba:", err);
+    res.status(500).json({ success: false, error: String(err) });
+  }
+});
 
 // szerver indítása
 const PORT = process.env.PORT || 3000;
