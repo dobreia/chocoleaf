@@ -4,14 +4,13 @@ dotenv.config();
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import fetch from "node-fetch";
 
 import barionRoutes from "./routes/barion.js";
 import calRoutes from "./routes/cal.js";
 import { initCoursesWatcher, listCourses } from "./lib/courses.js";
-
 import { getPaymentState } from "./lib/barion.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
-
 
 const app = express();
 
@@ -29,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 // statikus fájlok (public/)
 app.use(express.static(path.join(__dirname, "public")));
 
+// galéria route
 app.use(galleryRoutes);
 
 // kurzus-adatbázis betöltése + fájlfigyelés (nem blokkoló)
@@ -61,6 +61,7 @@ app.get("/", (_req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// Booking redirect (meglévő)
 app.get("/api/barion/redirect", async (req, res) => {
   try {
     // A Barion "Id" paramétert küld, nem "PaymentId"-t
@@ -88,6 +89,100 @@ app.get("/api/barion/redirect", async (req, res) => {
   }
 });
 
+
+// =========================
+// 🎁 GIFT CARD INTEGRÁCIÓ
+// =========================
+const POSKey = process.env.BARION_POSKEY || "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
+const MerchantId = process.env.BARION_MERCHANT || "dobreiandras@gmail.com";
+
+// ideiglenes store (élesben DB!)
+const giftcardStore = new Map();
+
+// 1. fizetés indítása
+app.post("/api/giftcard/start-payment", async (req, res) => {
+  const { name, email, amount, qty } = req.body;
+  if (!name || !email || !amount || !qty) {
+    return res.status(400).json({ error: "Hiányzó adatok" });
+  }
+
+  const total = amount * qty;
+  const paymentRequestId = "giftcard-" + Date.now();
+
+  // tárolás (később DB-be érdemes)
+  giftcardStore.set(paymentRequestId, { name, email, amount, qty });
+
+  const paymentRequest = {
+    POSKey,
+    PaymentType: "Immediate",
+    GuestCheckOut: true,
+    FundingSources: ["All"],
+    PaymentRequestId: paymentRequestId,
+    OrderNumber: "GC-" + Date.now(),
+    Currency: "HUF",
+    RedirectUrl: `${process.env.PUBLIC_URL || "http://localhost:3000"}/giftcard_redirect.html`,
+    Transactions: [
+      {
+        POSTransactionId: "T" + Date.now(),
+        Payee: MerchantId,
+        Total: total,
+        Comment: `Ajándékutalvány ${qty} × ${amount} Ft`,
+        Items: [
+          {
+            Name: "ChocoLeaf Ajándékutalvány",
+            Description: `${qty} × ${amount} Ft értékű ajándékutalvány`,
+            Quantity: qty,
+            Unit: "db",
+            UnitPrice: amount,
+            ItemTotal: total
+          }
+        ]
+      }
+    ]
+  };
+
+  try {
+    const response = await fetch("https://api.test.barion.com/v2/Payment/Start", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(paymentRequest)
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Giftcard Barion Start error:", err);
+    res.status(500).json({ error: "Nem sikerült a Barion hívás" });
+  }
+});
+
+// 2. redirect után lekérdezés
+app.get("/api/giftcard/status", async (req, res) => {
+  const paymentId = req.query.paymentId;
+  if (!paymentId) return res.status(400).json({ error: "Nincs paymentId" });
+
+  try {
+    const response = await fetch(
+      `https://api.test.barion.com/v2/Payment/GetPaymentState?POSKey=${POSKey}&PaymentId=${paymentId}`
+    );
+    const data = await response.json();
+
+    const requestId = data.PaymentRequestId;
+    const stored = giftcardStore.get(requestId);
+
+    if (stored) {
+      res.json({
+        success: data.Status === "Succeeded",
+        userData: stored
+      });
+    } else {
+      res.json({ success: false, error: "Nincs tárolt adat ehhez a fizetéshez" });
+    }
+  } catch (err) {
+    console.error("Giftcard status lekérdezés hiba:", err);
+    res.status(500).json({ error: "Nem sikerült lekérdezni" });
+  }
+});
 
 
 // szerver indítása

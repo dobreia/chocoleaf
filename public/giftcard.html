@@ -79,8 +79,14 @@
                     <button onclick="changeQty(1)">+</button>
                 </div>
             </section>
-
+            <form id="giftForm">
+                <label for="name" class="form-label mt-4">Név:</label>
+                <input type="text" id="name" name="name">
+                <label for="email" class="form-label mt-4">E-mail cím (ahová az utalványt küldjük):</label>
+                <input type="email" id="email" class="form-control" placeholder="E-mail cím">
+            </form>
             <button id="PayBtn" class="button-primary mt-4" onclick="startPayment()">Tovább a fizetéshez</button>
+
         </div>
     </section>
 
@@ -101,70 +107,49 @@
         }
 
         async function startPayment() {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+
             if (!selectedAmount) {
                 alert("Kérlek válassz összeget!");
                 return;
             }
+            if (!name || !email) {
+                alert("Kérlek add meg a nevet és az email címet!");
+                return;
+            }
 
             const qty = parseInt(document.getElementById("qty").value) || 1;
-            const total = selectedAmount * qty;
-
-            const url = "https://api.test.barion.com/v2/Payment/Start";
-
-            // 🔑 Saját Barion sandbox adataid
-            const POSKey = "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
-            const MerchantId = "dobreiandras@gmail.com";
-
-            const paymentRequest = {
-                POSKey: POSKey,
-                PaymentType: "Immediate",
-                GuestCheckOut: true,
-                FundingSources: ["All"],
-                PaymentRequestId: "giftcard-" + total + "-" + Date.now(),
-                OrderNumber: "GC-" + Date.now(),
-                Currency: "HUF",
-                RedirectUrl: "https://piliferous-vickie-secretive.ngrok-free.dev/redirect.html",   // siker után ide irányít
-                Transactions: [
-                    {
-                        POSTransactionId: "T" + Date.now(),
-                        Payee: MerchantId,
-                        Total: total,
-                        Comment: `ChocoLeaf Ajándékutalvány ${qty} × ${selectedAmount} Ft`,
-                        Items: [
-                            {
-                                Name: "ChocoLeaf Ajándékutalvány",
-                                Description: `${qty} × ${selectedAmount} Ft értékű ajándékutalvány`,
-                                Quantity: qty,
-                                Unit: "db",
-                                UnitPrice: selectedAmount,
-                                ItemTotal: total
-                            }
-                        ]
-                    }
-                ]
-            };
 
             try {
-                const response = await fetch(url, {
+                // a backend endpointot hívjuk, nem közvetlen a Bariont
+                const response = await fetch("/api/giftcard/start-payment", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(paymentRequest)
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        amount: selectedAmount,
+                        qty
+                    })
                 });
 
                 const data = await response.json();
-                console.log("Barion response:", data);
+                console.log("Backend response:", data);
 
                 if (data.GatewayUrl) {
-                    window.location.href = data.GatewayUrl; // átirányítás a fizetőoldalra
+                    // átirányítás a Barion fizetőoldalra
+                    window.location.href = data.GatewayUrl;
                 } else {
                     alert("Hiba történt: " + (data.Errors?.[0]?.Title || "Ismeretlen hiba"));
                 }
             } catch (err) {
                 console.error("Hálózati hiba:", err);
-                alert("Nem sikerült kapcsolódni a Barion API-hoz.");
+                alert("Nem sikerült kapcsolódni a szerverhez.");
             }
         }
     </script>
+
 
 
 

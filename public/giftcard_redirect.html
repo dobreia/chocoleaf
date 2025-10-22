@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ajándékkártya sikeres vásárlás</title>
+</head>
+
+<body>
+    <h1>Köszönjük a vásárlást!</h1>
+    <p id="message"></p>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const paymentId = params.get("paymentId");
+
+        if (paymentId) {
+            fetch(`/api/giftcard/status?paymentId=${paymentId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById("message").innerText =
+                            `${data.userData.name} részére elküldjük az ajándékkártyát a ${data.userData.email} címre.`;
+                    } else {
+                        document.getElementById("message").innerText =
+                            "Nem sikerült azonosítani a vásárlást.";
+                    }
+                })
+                .catch(err => {
+                    console.error("Hiba a lekérdezésnél:", err);
+                    document.getElementById("message").innerText =
+                        "Hiba történt a fizetés állapotának lekérdezése közben.";
+                });
+        } else {
+            document.getElementById("message").innerText =
+                "Nincs paymentId az URL-ben.";
+        }
+    </script>
+
+</body>
+
+</html>
