@@ -13,6 +13,7 @@ import { getPaymentState } from "./lib/barion.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 
 import { fillVoucherDesign } from "./lib/fill_voucher.js";
+import { sendVoucherEmail } from "./lib/mail.js";
 const app = express();
 
 // ha ngrok / reverse proxy mögött fut
@@ -187,19 +188,17 @@ app.get("/api/giftcard/status", async (req, res) => {
 
 app.post("/api/giftcard/generate", async (req, res) => {
   try {
-    const { name, email, amount, quantity } = req.body;
-    console.log("📩 Generate request:", { name, email, amount, quantity });
+    const { name, email, amount, quantity, serial } = req.body;
+    console.log("📩 Generate request:", { name, email, amount, quantity, serial });
 
     if (!name) {
       throw new Error("Nincs név megadva");
     }
 
-    if (quantity > 1) {
-      for (let i = 0; i < quantity; i++) {
-        await fillVoucherDesign(name, amount);
-      }
-    } else {
-      await fillVoucherDesign(name, amount);
+    for (let i = 0; i < quantity; i++) {
+      const { outPath, serial } = await fillVoucherDesign(name, amount);
+      await sendVoucherEmail(email, name, outPath, serial);
+
     }
 
     res.json({ success: true });
@@ -215,3 +214,5 @@ app.listen(PORT, () => {
   const base = process.env.PUBLIC_URL || `http://localhost:${PORT}`;
   console.log(`Server running on ${base}`);
 });
+
+
