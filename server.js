@@ -188,18 +188,18 @@ app.get("/api/giftcard/status", async (req, res) => {
 
 app.post("/api/giftcard/generate", async (req, res) => {
   try {
-    const { name, email, amount, quantity, serial } = req.body;
-    console.log("📩 Generate request:", { name, email, amount, quantity, serial });
+    const { name, email, amount, quantity } = req.body;
+    console.log("📩 Generate request:", { name, email, amount, quantity });
 
-    if (!name) {
-      throw new Error("Nincs név megadva");
-    }
+    if (!name) throw new Error("Nincs név megadva");
 
+    const attachments = [];
     for (let i = 0; i < quantity; i++) {
       const { outPath, serial } = await fillVoucherDesign(name, amount);
-      await sendVoucherEmail(email, name, outPath, serial);
-
+      attachments.push({ path: outPath, serial });
     }
+
+    await sendVoucherEmail(email, name, attachments);
 
     res.json({ success: true });
   } catch (err) {
@@ -207,6 +207,7 @@ app.post("/api/giftcard/generate", async (req, res) => {
     res.status(500).json({ success: false, error: String(err) });
   }
 });
+
 
 // szerver indítása
 const PORT = process.env.PORT || 3000;

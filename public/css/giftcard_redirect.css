@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    font-family: "Urbanist", sans-serif;
+    background-color: #fdfaf7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    background-color: #EEE8DC;
+}
+
+h1 {
+    font-family: "Bad Script", cursive;
+    color: #6C485C;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+p#message {
+    font-size: 1.1rem;
+    background-color: #fff6ef;
+    border: 1px solid #e7d3c6;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    max-width: 500px;
+    line-height: 1.6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+
+.footer {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    color: #7b6a62;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    font-family: 'Exo 2' !important;
+}

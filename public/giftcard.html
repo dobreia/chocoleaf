@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" href="css/giftcard.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Galéria | Chocoleaf</title>
+    <title>Ajándékutalvány | Chocoleaf</title>
 </head>
 
 <body class="bg-cream">
@@ -23,7 +23,10 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
+            <div class="nav-buttons">
+                <a href="index.html#form"><button class="button-primary">Ajánlatkérés</button></a>
+                <a href="./idopont.html"><button class="button-secondary">Képzések</button></a>
+            </div>
             <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                 <ul class="navbar-nav mx-auto text-center">
                     <li class="nav-item">
@@ -43,10 +46,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="nav-buttons">
-                <a href="index.html#form"><button class="button-primary">Ajánlatkérés</button></a>
-                <a href="./idopont.html"><button class="button-secondary">Képzések</button></a>
-            </div>
+
         </div>
     </nav>
 
@@ -80,10 +80,14 @@
                 </div>
             </section>
             <form id="giftForm">
-                <label for="name" class="form-label mt-4">Név:</label>
+                <label id="nameLabel" for="name" class="form-label mt-4">
+                    <h3>Az ajándékutalványon szereplő név:</h3>
+                </label>
                 <input type="text" id="name" name="name">
-                <label for="email" class="form-label mt-4">E-mail cím (ahová az utalványt küldjük):</label>
-                <input type="email" id="email" class="form-control" placeholder="E-mail cím">
+                <label id="emailLabel" for="email" class="form-label">
+                    <h3>E-mail cím (ahová az utalványt küldjük):</h3>
+                </label>
+                <input type="email" id="email">
             </form>
             <button id="PayBtn" class="button-primary mt-4" onclick="startPayment()">Tovább a fizetéshez</button>
 

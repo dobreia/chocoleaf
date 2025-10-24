@@ -3,12 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/giftcard_redirect.css">
     <title>Ajándékkártya sikeres vásárlás</title>
 </head>
 
 <body>
     <h1>Köszönjük a vásárlást!</h1>
     <p id="message"></p>
+
+    <a href="/"><button class="button-primary">Vissza a főoldalra</button></a>
+
+
 
     <script>
 
@@ -21,7 +28,8 @@
                 .then(data => {
                     if (data.success) {
                         document.getElementById("message").innerText =
-                            `${data.userData.name} részére elküldjük az ajándékkártyát a ${data.userData.email} címre.`;
+                            `Az ajándékkártyát elküldtük a(z) ${data.userData.email} címre. Ha pár percen belül nem találod a levelet, nézd meg a spam mappát is —
+és ha ott sincs, írj bátran, segítek!`;
                         // voucher készítés backend hívással
                         fetch("/api/giftcard/generate", {
                             method: "POST",
@@ -36,17 +44,23 @@
                         });
                     } else {
                         document.getElementById("message").innerText =
-                            "Nem sikerült azonosítani a vásárlást.";
+                            "A fizetésedet nem sikerült egyértelműen azonosítani. "
+                            + "Ha a Barion rendszere szerint sikeres volt a tranzakció, kérlek, jelezd nekem, hogy utánanézhessek.";
+
                     }
                 })
                 .catch(err => {
                     console.error("Hiba a lekérdezésnél:", err);
                     document.getElementById("message").innerText =
-                        "Hiba történt a fizetés állapotának lekérdezése közben.";
+                        "Hiba történt a fizetés állapotának lekérdezése közben. "
+                        + "Kérlek, frissítsd az oldalt egy perc múlva, vagy írj, ha a probléma továbbra is fennáll.";
+
                 });
         } else {
             document.getElementById("message").innerText =
-                "Nincs paymentId az URL-ben.";
+                "Nem találtunk fizetési azonosítót az URL-ben. "
+                + "Kérlek, ellenőrizd, hogy a vásárlás befejeződött-e, vagy lépj vissza a főoldalra és próbáld újra.";
+
         }
     </script>
 
