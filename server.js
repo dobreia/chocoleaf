@@ -102,16 +102,16 @@ const giftcardStore = new Map();
 
 // 1. fizetés indítása
 app.post("/api/giftcard/start-payment", async (req, res) => {
-  const { name, email, amount, qty } = req.body;
-  if (!name || !email || !amount || !qty) {
+  const { name, email, amount, quantity } = req.body;
+  if (!name || !email || !amount || !quantity) {
     return res.status(400).json({ error: "Hiányzó adatok" });
   }
 
-  const total = amount * qty;
+  const total = amount * quantity;
   const paymentRequestId = "giftcard-" + Date.now();
 
   // tárolás (később DB-be érdemes)
-  giftcardStore.set(paymentRequestId, { name, email, amount, qty });
+  giftcardStore.set(paymentRequestId, { name, email, amount, quantity });
 
   const paymentRequest = {
     POSKey,
@@ -127,12 +127,12 @@ app.post("/api/giftcard/start-payment", async (req, res) => {
         POSTransactionId: "T" + Date.now(),
         Payee: MerchantId,
         Total: total,
-        Comment: `Ajándékutalvány ${qty} × ${amount} Ft`,
+        Comment: `Ajándékutalvány ${quantity} × ${amount} Ft`,
         Items: [
           {
             Name: "ChocoLeaf Ajándékutalvány",
-            Description: `${qty} × ${amount} Ft értékű ajándékutalvány`,
-            Quantity: qty,
+            Description: `${quantity} × ${amount} Ft értékű ajándékutalvány`,
+            Quantity: quantity,
             Unit: "db",
             UnitPrice: amount,
             ItemTotal: total
@@ -187,15 +187,20 @@ app.get("/api/giftcard/status", async (req, res) => {
 
 app.post("/api/giftcard/generate", async (req, res) => {
   try {
-    const { name, email, amount } = req.body;
-    console.log("📩 Generate request:", { name, email, amount });
+    const { name, email, amount, quantity } = req.body;
+    console.log("📩 Generate request:", { name, email, amount, quantity });
 
     if (!name) {
       throw new Error("Nincs név megadva");
     }
 
-    const serial = Date.now().toString().slice(-6);
-    await fillVoucherDesign(name, amount);
+    if (quantity > 1) {
+      for (let i = 0; i < quantity; i++) {
+        await fillVoucherDesign(name, amount);
+      }
+    } else {
+      await fillVoucherDesign(name, amount);
+    }
 
     res.json({ success: true });
   } catch (err) {

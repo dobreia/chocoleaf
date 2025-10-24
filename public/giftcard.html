@@ -74,9 +74,9 @@
             <section class="quantity mt-4">
                 <h3>Mennyiség:</h3>
                 <div class="quantity-input">
-                    <button onclick="changeQty(-1)">-</button>
-                    <input type="number" id="qty" value="1" min="1">
-                    <button onclick="changeQty(1)">+</button>
+                    <button onclick="changeQuantity(-1)">-</button>
+                    <input type="number" id="quantity" value="1" min="1">
+                    <button onclick="changeQuantity(1)">+</button>
                 </div>
             </section>
             <form id="giftForm">
@@ -99,8 +99,8 @@
             event.target.classList.add("active");
         }
 
-        function changeQty(delta) {
-            const input = document.getElementById("qty");
+        function changeQuantity(delta) {
+            const input = document.getElementById("quantity");
             let newValue = parseInt(input.value) + delta;
             if (newValue < 1) newValue = 1;
             input.value = newValue;
@@ -119,7 +119,7 @@
                 return;
             }
 
-            const qty = parseInt(document.getElementById("qty").value) || 1;
+            const quantity = parseInt(document.getElementById("quantity").value) || 1;
 
             try {
                 // a backend endpointot hívjuk, nem közvetlen a Bariont
@@ -130,7 +130,7 @@
                         name,
                         email,
                         amount: selectedAmount,
-                        qty
+                        quantity
                     })
                 });
 
