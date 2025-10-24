@@ -187,15 +187,15 @@ app.get("/api/giftcard/status", async (req, res) => {
 
 app.post("/api/giftcard/generate", async (req, res) => {
   try {
-    const { name, email } = req.body;
-    console.log("📩 Generate request:", { name, email });
+    const { name, email, amount } = req.body;
+    console.log("📩 Generate request:", { name, email, amount });
 
     if (!name) {
       throw new Error("Nincs név megadva");
     }
 
     const serial = Date.now().toString().slice(-6);
-    await fillVoucherDesign(name, serial);
+    await fillVoucherDesign(name, amount);
 
     res.json({ success: true });
   } catch (err) {
