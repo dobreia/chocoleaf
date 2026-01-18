@@ -3,52 +3,38 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Fizetés indítása...</title>
+    <title>Átutalási adatok betöltése...</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
         body {
             font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Helvetica, Arial, sans-serif;
             padding: 24px;
             max-width: 680px;
-            margin: auto
+            margin: auto;
         }
     </style>
-    <script>
-        // Create BP element on the window
-        window["bp"] = window["bp"] || function () {
-            (window["bp"].q = window["bp"].q || []).push(arguments);
-        };
-        window["bp"].l = 1 * new Date();
-
-        // Insert a script tag on the top of the head to load bp.js
-        scriptElement = document.createElement("script");
-        firstScript = document.getElementsByTagName("script")[0];
-        scriptElement.async = true;
-        scriptElement.src = 'https://pixel.barion.com/bp.js';
-        firstScript.parentNode.insertBefore(scriptElement, firstScript);
-        window['barion_pixel_id'] = 'BP-0000000000-00';
-
-        // Send init event
-        bp('init', 'addBarionPixelId', window['barion_pixel_id']);
-    </script>
-
-    <noscript>
-        <img height="1" width="1" style="display:none" alt="Barion Pixel"
-            src="https://pixel.barion.com/a.gif?ba_pixel_id='BP-0000000000-00'&ev=contentView&noscript=1">
-    </noscript>
 </head>
 
 <body>
-    <h1>Átirányítás Barion fizetésre...</h1>
+    <h1>Átirányítás az átutalási adatokhoz...</h1>
     <p>Kérlek, várj egy pillanatot.</p>
 
     <script>
+
         (async function () {
+
             try {
                 const qp = new URLSearchParams(location.search);
                 const bookingUid = qp.get("uid") || qp.get("bookingUid") || qp.get("bookingId");
-                const course = qp.get("course");      // csak slug kell
-                const name = qp.get("name") || "";
+                const course = qp.get("course"); // slug
+                const name =
+                    qp.get("name") ||
+                    qp.get("attendeeName") ||
+                    qp.get("inviteeName") ||
+                    qp.get("fullName") ||
+                    [qp.get("firstName"), qp.get("lastName")].filter(Boolean).join(" ") ||
+                    "";
+
                 const email = qp.get("email") || "";
                 const startTime = qp.get("startTime") || "";
                 const endTime = qp.get("endTime") || "";
@@ -59,40 +45,26 @@
                 const r = await fetch("/api/barion/start", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ bookingUid, course, name, email, startTime, endTime })
+                    body: JSON.stringify({ bookingUid, course, name, email, startTime, endTime, })
                 });
 
                 if (!r.ok) {
                     const t = await r.text();
                     throw new Error("Szerver hiba: " + t);
                 }
-                const data = await r.json();
 
+                const data = await r.json();
                 if (data.redirectUrl) {
-                    location.replace(data.redirectUrl);
+                    location.replace(data.redirectUrl); // /transfer.html?id=...
                 } else {
                     throw new Error("Nem érkezett redirectUrl a szervertől.");
                 }
             } catch (e) {
-                alert("Hiba a fizetés indításakor: " + e.message);
+                alert("Hiba az átutalási adatok betöltésekor: " + e.message);
                 console.error(e);
             }
         })();
     </script>
-    <!-- === Szükséges scriptek (nem kell cookie consent) === -->
-
-    <!-- Barion fizetési integráció -->
-    <script src="https://api.barion.com/js/barion.js" defer></script>
-
-    <!-- Cal.com időpontfoglaló -->
-    <script src="https://cal.com/embed.js" async></script>
-
-    <!-- Saját oldal működése -->
-    <script src="/js/main.js" defer></script>
-
-    <!-- Cookie consent manager (később az analitika/marketinghez) -->
-    <script src="/js/consent.js" defer></script>
-
 </body>
 
 </html>
