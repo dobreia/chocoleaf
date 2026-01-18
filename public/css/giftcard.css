@@ -147,7 +147,6 @@ input[type=number] {
 #PayBtn {
     display: block;
     margin: auto;
-    margin-bottom: 20px;
 }
 
 #name,
@@ -159,6 +158,10 @@ input[type=number] {
 #nameLabel,
 #emailLabel {
     margin-left: 0;
+}
+
+.payment-logos img {
+    width: 186.75px;
 }
 
 @media (max-width: 992px) {

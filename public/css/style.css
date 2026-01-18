@@ -863,7 +863,9 @@ input[type=submit]:active {
     margin: 0 5px 0 0;
     text-decoration: underline;
 }
-
+.payment-logos img {
+    height: 50px !important;
+}
 
 /* Jobb oldal */
 .footer-right {
