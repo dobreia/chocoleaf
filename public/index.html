@@ -40,7 +40,7 @@
         // Send init event
         bp('init', 'addBarionPixelId', window['barion_pixel_id']);
     </script>
- 
+
     <noscript>
         <img height="1" width="1" style="display:none" alt="Barion Pixel"
             src="https://pixel.barion.com/a.gif?ba_pixel_id='BP-0000000000-00'&ev=contentView&noscript=1">
@@ -403,16 +403,17 @@
             Édesség rendelést minimum 1 hetes elkészítési határidővel tudunk vállalni!
         </h2>
         <div class="form-bg">
-            <form action="https://formsubmit.co/dobreiandras@gmail.com" method="post" accept-charset="UTF-8">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="text" name="Név" id="nev" placeholder="Név">
-                <input type="email" name="Email" id="email" placeholder="Email cím">
-                <input type="tel" name="Telefonszám" id="telefon" placeholder="Telefonszám">
+            <form action="https://formsubmit.co/info@chocoleaf.hu" method="post" accept-charset="UTF-8">
+                <input type="hidden" name="_captcha" value="true">
+                <input type="text" name="_honey" style="display:none">
+                <input type="text" name="Név" id="nev" placeholder="Név" required>
+                <input type="email" name="Email" id="email" placeholder="Email cím" required>
+                <input type="tel" name="Telefonszám" id="telefon" placeholder="Telefonszám" required>
                 <input type="text" name="Termék" id="termek" placeholder="Termék megnevezése">
-                <textarea name="Részletek" id="reszletek" rows="8" placeholder="Termék leírása"></textarea>
+                <textarea name="Részletek" id="reszletek" rows="8" placeholder="Termék leírása" required></textarea>
 
                 <label for="datum">Átvételi időpont</label>
-                <input type="date" id="datum" name="Dátum" class="date-input">
+                <input type="date" id="datum" name="Dátum" class="date-input" required>
 
                 <p>Az űrlap beküldésével az <a href="privacy-policy.html">adatkezelési tájékoztatót</a> elolvastam és
                     elfogadom.</p>
@@ -430,7 +431,7 @@
                     <img src="assets/logo_horizontal_full.png" alt="ChocoLeaf logó" class="footer-logo">
                     <h1>ChocoLeaf - kézműves édességek</h1>
                     <p>
-                        Egyedi torta- és süteménytervezés, akár glutén- és cukormentes változatban is.<br>
+                        Egyedi csokoládé-, torta- és süteménytervezés, akár glutén- és cukormentes változatban is.<br>
                         Rövid határidővel, teljesen személyre szabottan.
                     </p>
                     <div class="footer-legal">

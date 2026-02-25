@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rendelési feltételek | ChocoLeaf</title>
+
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/cookies.css">
+
     <style>
         body {
             background: #faf7f5;
@@ -17,7 +19,8 @@
         }
 
         h1,
-        h2 {
+        h2,
+        h3 {
             color: #6D475B;
         }
 
@@ -40,28 +43,28 @@
             text-decoration: none;
         }
     </style>
+
+    <!-- Barion Pixel -->
     <script>
-        // Create BP element on the window
         window["bp"] = window["bp"] || function () {
             (window["bp"].q = window["bp"].q || []).push(arguments);
         };
         window["bp"].l = 1 * new Date();
 
-        // Insert a script tag on the top of the head to load bp.js
-        scriptElement = document.createElement("script");
-        firstScript = document.getElementsByTagName("script")[0];
+        const scriptElement = document.createElement("script");
+        const firstScript = document.getElementsByTagName("script")[0];
         scriptElement.async = true;
-        scriptElement.src = 'https://pixel.barion.com/bp.js';
+        scriptElement.src = "https://pixel.barion.com/bp.js";
         firstScript.parentNode.insertBefore(scriptElement, firstScript);
-        window['barion_pixel_id'] = 'BP-0000000000-00';
 
-        // Send init event
-        bp('init', 'addBarionPixelId', window['barion_pixel_id']);
+        window["barion_pixel_id"] = "BP-0000000000-00";
+        bp("init", "addBarionPixelId", window["barion_pixel_id"]);
     </script>
 
     <noscript>
-        <img height="1" width="1" style="display:none" alt="Barion Pixel"
-            src="https://pixel.barion.com/a.gif?ba_pixel_id='BP-0000000000-00'&ev=contentView&noscript=1">
+        <img height="1" width="1" style="display:none"
+            src="https://pixel.barion.com/a.gif?ba_pixel_id=BP-0000000000-00&ev=contentView&noscript=1"
+            alt="Barion Pixel">
     </noscript>
 </head>
 
@@ -71,78 +74,108 @@
 
     <p>
         A jelen rendelési feltételek a <strong>ChocoLeaf – Kézműves Édességkészítés</strong>
-        szolgáltatásaira vonatkoznak, melyeket <strong>Braun Edit egyéni vállalkozó</strong>
-        (székhely: 1039 Budapest, Huba utca 3., adószám: 12345678-1-41, e-mail: info@chocoleaf.hu)
+        szolgáltatásaira vonatkoznak, melyeket
+        <strong>Braun Edit egyéni vállalkozó</strong>
+        (székhely: 1039 Budapest, Huba utca 3.,
+        adószám: 66578921-1-41,
+        e-mail: <a href="mailto:info@chocoleaf.hu">info@chocoleaf.hu</a>)
         nyújt.
     </p>
 
     <h2>1. A rendelés menete</h2>
     <ul>
-        <li>A weboldalon elérhető <strong>ajánlatkérő űrlap</strong> kitöltésével, e-mailben vagy telefonon adhat le
-            rendelést.</li>
-        <li>A rendelés beérkezését követően a Szolgáltató e-mailben vagy telefonon egyeztet az igényekről.</li>
-        <li>Az egyedi édességek, torták és workshopok ára az egyeztetés után kerül meghatározásra.</li>
+        <li>Megrendelés leadható az ajánlatkérő űrlapon, e-mailben vagy telefonon.</li>
+        <li>A rendelés beérkezését követően a Szolgáltató egyeztet a részletekről.</li>
+        <li>Az egyedi termékek pontos ára az egyeztetés után kerül meghatározásra.</li>
         <li>Az ajánlat elfogadásával a megrendelés véglegessé válik.</li>
+    </ul>
+
+    <h3>Workshopok</h3>
+    <ul>
+        <li>A workshopokra a weboldalon elérhető foglalási rendszeren keresztül lehet jelentkezni.</li>
+        <li>A foglalás a workshop teljes díjának kifizetésével válik véglegessé.</li>
+    </ul>
+
+    <h3>Ajándékutalvány</h3>
+    <ul>
+        <li>Lehetőség van névre szóló ajándékutalvány vásárlására.</li>
+        <li>Az utalvány szólhat konkrét workshopra vagy meghatározott névértékre.</li>
+        <li>Az Ajándékutalvány pénzre nem váltható át, visszatérítés nem kérhető.</li>
     </ul>
 
     <h2>2. Fizetési feltételek</h2>
     <ul>
-        <li>A fizetés történhet <strong>előre Barionon keresztül</strong> vagy <strong>helyszínen készpénzzel /
-                átutalással</strong>.</li>
-        <li>A Barion fizetési rendszer biztonságos, a bankkártya-adatokat a Szolgáltató nem látja és nem kezeli.</li>
-        <li>Előre fizetett megrendelés esetén a rendelés visszaigazolása a fizetés beérkezése után történik meg.</li>
+        <li>Fizetés előre Barionon keresztül vagy helyszínen készpénzzel / azonnali átutalással.</li>
+        <li>A Barion rendszer biztonságos, bankkártya-adatokat a Szolgáltató nem kezeli.</li>
+        <li>Előre fizetés esetén a rendelés a fizetés beérkezése után kerül visszaigazolásra.</li>
     </ul>
 
     <h2>3. Teljesítés és átvétel</h2>
     <ul>
-        <li>Az egyedi termékek elkészítési ideje a megrendeléstől számított <strong>minimum 7 nap</strong>.</li>
-        <li>Az elkészült termékeket a megbeszélt időpontban lehet átvenni személyesen vagy egyeztetett módon (pl.
-            kiszállítás).</li>
-        <li>Az esetleges késedelemről a Szolgáltató időben tájékoztatja a Megrendelőt.</li>
+        <li>Az egyedi termékek elkészítési ideje minimum <strong>7 nap</strong>.</li>
+        <li>A pontos átvételi időpont egyeztetés alapján történik.</li>
+        <li>Az esetleges késedelemről a Szolgáltató időben értesít.</li>
     </ul>
 
     <h2>4. Lemondás és módosítás</h2>
+
+    <h3>Édességek, torták</h3>
     <ul>
-        <li>A megrendelés módosítása vagy lemondása a tervezett átvétel előtt legalább <strong>72 órával</strong>
-            lehetséges.</li>
-        <li>24 órán belüli lemondás esetén a Szolgáltató a már elkészült vagy előkészített termékek árát jogosult
-            felszámítani.</li>
-        <li>Workshop részvétel esetén a lemondás legkésőbb 48 órával az esemény előtt díjmentes.</li>
+        <li>120 órával (5 nappal) korábban: díjmentes lemondás.</li>
+        <li>72–120 órával: a rendelés 50%-a felszámításra kerül.</li>
+        <li>72 órán belül: a rendelés értékének 100%-a fizetendő.</li>
+    </ul>
+
+    <h3>Workshop</h3>
+    <ul>
+        <li>120 órával korábban: díjmentes, 100% visszatérítés.</li>
+        <li>72–120 órával: 50% visszatérítés.</li>
+        <li>72 órán belül: nincs visszatérítés.</li>
+    </ul>
+
+    <h3>Ajándékutalvánnyal foglalt workshop</h3>
+    <ul>
+        <li>Időpontmódosítás és lemondás 72 órával korábban 1 alkalommal lehetséges.</li>
+        <li>72 órán belül az utalvány beváltottnak minősül.</li>
     </ul>
 
     <h2>5. Minőség és reklamáció</h2>
     <ul>
-        <li>Minden termék kézzel készül, ezért kis mértékű eltérés előfordulhat a képeken látható mintadarabokhoz
-            képest.</li>
-        <li>Minőségi kifogás esetén kérjük, az átvételt követően haladéktalanul vegye fel a kapcsolatot e-mailben vagy
-            telefonon.</li>
-        <li>A hibás vagy nem megfelelő minőségű termék esetén a Szolgáltató javítást, cserét vagy részleges
-            díjvisszatérítést biztosít.</li>
+        <li>A termékek kézzel készülnek, kisebb eltérés előfordulhat.</li>
+        <li>Reklamációt átvételt követően haladéktalanul kérjük jelezni.</li>
+        <li>Indokolt esetben javítás, csere vagy részleges visszatérítés biztosított.</li>
     </ul>
 
     <h2>6. Fogyasztóvédelem és panaszkezelés</h2>
     <p>
-        Panasz esetén fordulhat közvetlenül a Szolgáltatóhoz (<strong>info@chocoleaf.hu</strong>),
-        vagy a <strong>Budapesti Békéltető Testülethez</strong> (1016 Budapest, Krisztina krt. 99.).
+        Panasz benyújtható a Szolgáltatónál (<a href="mailto:info@chocoleaf.hu">info@chocoleaf.hu</a>),
+        illetve az alábbi szerveknél:
     </p>
+    <ul>
+        <li>Budapesti Békéltető Testület – 1016 Budapest, Krisztina krt. 99.</li>
+        <li>BFKH Fogyasztóvédelmi Osztály – 1033 Budapest, Harrer Pál u. 9–11.</li>
+        <li>III. ker. Jegyző – 1033 Budapest, Fő tér 1.</li>
+    </ul>
 
     <h2>7. Adatkezelés</h2>
     <p>
-        A rendelés során megadott személyes adatokat a Szolgáltató az
-        <a href="privacy-policy.html">adatkezelési tájékoztatóban</a> foglaltak szerint kezeli.
+        A személyes adatok kezelése az
+        <a href="privacy-policy.html">adatkezelési tájékoztató</a>
+        szerint történik.
     </p>
 
     <h2>8. Egyéb rendelkezések</h2>
     <p>
-        A Szolgáltató fenntartja a jogot, hogy az árakat és a rendelési feltételeket bármikor módosítsa,
-        amelyről a weboldalon tájékoztatást nyújt.
+        A Szolgáltató fenntartja a jogot a feltételek módosítására,
+        amelyről a weboldalon ad tájékoztatást.
     </p>
 
     <p>
-        A jelen rendelési feltételek 2025. október 8-án léptek hatályba.
+        <strong>Hatálybalépés dátuma: 2025. december 8.</strong>
     </p>
 
     <a href="index.html" class="back">← Vissza a főoldalra</a>
+
 </body>
 
 </html>

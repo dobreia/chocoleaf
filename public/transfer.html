@@ -1,432 +1,458 @@
 <!doctype html>
 <html lang="hu">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Átutalás – Chocoleaf</title>
-    <meta name="robots" content="noindex,nofollow" />
 
-    <!-- Fontok a meglévő tematikához -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Courgette&family=Exo+2:wght@400;600;700&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Átutalás – Chocoleaf</title>
+  <meta name="robots" content="noindex,nofollow" />
 
-    <style>
-      :root {
-        --cream: #EEE8DC;
-        --blue: #92B4B8;
-        --purple: #6C485C;
-        --light-purple: #CECBE6;
-        --text: rgba(0, 0, 0, 0.75);
-        --muted: rgba(0, 0, 0, 0.55);
-        --white: #ffffff;
-      }
+  <!-- Fontok a meglévő tematikához -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Courgette&family=Exo+2:wght@400;600;700&family=Libre+Baskerville:wght@400;700&family=Montserrat:wght@400;600&display=swap"
+    rel="stylesheet" />
 
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        background: var(--cream);
-        color: var(--text);
-        font-family: "Exo 2", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      }
+  <style>
+    :root {
+      --cream: #EEE8DC;
+      --blue: #92B4B8;
+      --purple: #6C485C;
+      --light-purple: #CECBE6;
+      --text: rgba(0, 0, 0, 0.75);
+      --muted: rgba(0, 0, 0, 0.55);
+      --white: #ffffff;
+    }
 
-      /* “hero” jellegű fejléc a ti stílusotokban */
-      .top {
-        background: var(--purple);
-        color: white;
-        padding: 28px 16px 18px;
-        position: relative;
-        overflow: hidden;
-      }
-      .top h1 {
-        margin: 0;
-        text-align: center;
-        font-family: "Courgette", cursive;
-        font-size: 54px;
-        line-height: 1.05;
-      }
-      .top h2 {
-        margin: 10px auto 0;
-        text-align: center;
-        font-family: "Exo 2", sans-serif;
-        font-size: 20px;
-        opacity: 0.85;
-        width: min(820px, 95%);
-        font-weight: 400;
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      .divider {
-        width: 100%;
-        height: 10px;
-        background: var(--blue);
-      }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--text);
+      font-family: "Exo 2", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
 
-      .container {
-        width: min(1100px, 92%);
-        margin: 0 auto;
-        padding: 28px 0 46px;
-      }
+    /* “hero” jellegű fejléc a ti stílusotokban */
+    .top {
+      background: var(--purple);
+      color: white;
+      padding: 28px 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
 
-      .card {
-        background: rgba(255,255,255,0.75);
-        border: rgba(255, 255, 255, 0.9) 5px solid;
-        border-radius: 18px;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-        padding: 22px;
-      }
+    .top h1 {
+      margin: 0;
+      text-align: center;
+      font-family: "Courgette", cursive;
+      font-size: 54px;
+      line-height: 1.05;
+    }
 
+    .top h2 {
+      margin: 10px auto 0;
+      text-align: center;
+      font-family: "Exo 2", sans-serif;
+      font-size: 20px;
+      opacity: 0.85;
+      width: min(820px, 95%);
+      font-weight: 400;
+    }
+
+    .divider {
+      width: 100%;
+      height: 10px;
+      background: var(--blue);
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+      padding: 28px 0 46px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.75);
+      border: rgba(255, 255, 255, 0.9) 5px solid;
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+      padding: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 920px) {
       .grid {
-        display: grid;
-        grid-template-columns: 1.35fr 0.65fr;
-        gap: 18px;
-        align-items: start;
+        grid-template-columns: 1fr;
       }
-      @media (max-width: 920px) {
-        .grid { grid-template-columns: 1fr; }
-      }
+    }
 
-      .section-title {
-        font-family: "Courgette", cursive;
-        font-size: 34px;
-        color: var(--purple);
-        margin: 0 0 12px;
-        text-align: left;
-      }
+    .section-title {
+      font-family: "Courgette", cursive;
+      font-size: 34px;
+      color: var(--purple);
+      margin: 0 0 12px;
+      text-align: left;
+    }
 
-      .hint {
-        font-family: "Libre Baskerville", serif;
-        font-size: 15px;
-        color: var(--muted);
-        margin: 0 0 18px;
-        line-height: 1.55;
-      }
+    .hint {
+      font-family: "Libre Baskerville", serif;
+      font-size: 15px;
+      color: var(--muted);
+      margin: 0 0 18px;
+      line-height: 1.55;
+    }
 
-      .rows {
-        display: grid;
-        gap: 10px;
-      }
+    .rows {
+      display: grid;
+      gap: 10px;
+    }
 
+    .row {
+      display: grid;
+      grid-template-columns: 160px 1fr auto;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      background: rgba(108, 72, 92, 0.06);
+      border: 2px solid rgba(108, 72, 92, 0.20);
+    }
+
+    @media (max-width: 560px) {
       .row {
-        display: grid;
-        grid-template-columns: 160px 1fr auto;
-        gap: 12px;
-        padding: 12px 12px;
-        border-radius: 12px;
-        background: rgba(108, 72, 92, 0.06);
-        border: 2px solid rgba(108, 72, 92, 0.20);
+        grid-template-columns: 1fr;
       }
-      @media (max-width: 560px) {
-        .row { grid-template-columns: 1fr; }
-      }
+    }
 
-      .k {
-        font-family: "Exo 2", sans-serif;
-        font-weight: 700;
-        color: var(--purple);
-        font-size: 14px;
-        padding-top: 2px;
-      }
-      .v {
-        font-family: "Montserrat", sans-serif;
-        font-size: 15px;
-        color: var(--text);
-        word-break: break-word;
-        line-height: 1.4;
-      }
-      .mono {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      }
+    .k {
+      font-family: "Exo 2", sans-serif;
+      font-weight: 700;
+      color: var(--purple);
+      font-size: 14px;
+      padding-top: 2px;
+    }
 
-      /* A ti gombstílusotok */
-      button {
-        width: auto;
-        padding: 6px 12px;
-        border: black 1px solid;
-        border-radius: 6px;
-        font-family: "Exo 2";
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        background: transparent;
-      }
-      .button-primary {
-        background-color: var(--purple);
-        color: white;
-        border-color: var(--purple);
-      }
-      .button-primary:hover {
-        background-color: #d49eb9;
-        color: white;
-      }
-      .button-secondary {
-        background-color: var(--cream);
-        color: black;
-      }
-      .button-secondary:hover {
-        background-color: #A39DCD;
-        color: white;
-      }
+    .v {
+      font-family: "Montserrat", sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      word-break: break-word;
+      line-height: 1.4;
+    }
 
-      .right {
-        background: rgba(146, 180, 184, 0.18);
-        border: 2px solid rgba(146, 180, 184, 0.55);
-        border-radius: 16px;
-        padding: 16px;
-      }
-      .right h3 {
-        margin: 0 0 10px;
-        font-family: "Courgette";
-        color: var(--purple);
-        font-size: 28px;
-      }
-      .amount {
-        font-family: "Exo 2";
-        font-size: 38px;
-        font-weight: 800;
-        color: var(--purple);
-        margin: 0 0 4px;
-      }
-      .small {
-        font-family: "Libre Baskerville";
-        font-size: 13px;
-        color: var(--muted);
-        margin: 0;
-        line-height: 1.5;
-      }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
 
-      .steps {
-        margin-top: 14px;
-        display: grid;
-        gap: 10px;
-      }
-      .step {
-        background: rgba(255,255,255,0.55);
-        border: 2px solid rgba(108, 72, 92, 0.16);
-        border-radius: 12px;
-        padding: 10px;
-      }
-      .step b {
-        display: block;
-        font-family: "Exo 2";
-        color: var(--purple);
-        margin-bottom: 4px;
-      }
-      .step p {
-        margin: 0;
-        font-family: "Libre Baskerville";
-        font-size: 13px;
-        color: var(--muted);
-        line-height: 1.45;
-      }
+    /* A ti gombstílusotok */
+    button {
+      width: auto;
+      padding: 6px 12px;
+      border: black 1px solid;
+      border-radius: 6px;
+      font-family: "Exo 2";
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      background: transparent;
+    }
 
-      .status {
-        display: none;
-        margin-top: 14px;
-        padding: 10px 12px;
-        border-radius: 12px;
-        font-family: "Exo 2";
-        font-size: 14px;
-        border: 2px solid rgba(0,0,0,0.15);
-      }
-      .status.ok {
-        display: block;
-        background: rgba(76, 175, 80, 0.12);
-        border-color: rgba(76, 175, 80, 0.35);
-      }
-      .status.bad {
-        display: block;
-        background: rgba(239, 68, 68, 0.10);
-        border-color: rgba(239, 68, 68, 0.35);
-      }
+    .button-primary {
+      background-color: var(--purple);
+      color: white;
+      border-color: var(--purple);
+    }
 
-      .footerline {
-        margin-top: 16px;
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
-        font-family: "Montserrat";
-        font-size: 12px;
-        color: var(--muted);
-      }
-    </style>
-  </head>
+    .button-primary:hover {
+      background-color: #d49eb9;
+      color: white;
+    }
 
-  <body>
-    <div class="top">
-      <h1>Átutalásos fizetés</h1>
-      <h2>
-        Az alábbi adatokkal tudsz utalni. A <b>közleményt</b> kérlek másold pontosan, hogy gyorsan be tudjuk azonosítani.
-      </h2>
-    </div>
-    <div class="divider"></div>
+    .button-secondary {
+      background-color: var(--cream);
+      color: black;
+    }
 
-    <div class="container">
-      <div class="card">
-        <div class="grid">
-          <!-- bal oldal -->
-          <div>
-            <h3 class="section-title">Utalási adatok</h3>
-            <p class="hint">
-              Ha mobilbankot használsz, a “Másolás” gombbal könnyen beillesztheted a számlaszámot és a közleményt.
-            </p>
+    .button-secondary:hover {
+      background-color: #A39DCD;
+      color: white;
+    }
 
-            <div class="rows" id="rows"></div>
+    .right {
+      background: rgba(146, 180, 184, 0.18);
+      border: 2px solid rgba(146, 180, 184, 0.55);
+      border-radius: 16px;
+      padding: 16px;
+    }
 
-            <div class="status" id="statusBox" role="status" aria-live="polite"></div>
+    .right h3 {
+      margin: 0 0 10px;
+      font-family: "Courgette";
+      color: var(--purple);
+      font-size: 28px;
+    }
 
-            <div class="footerline">
-              <div>Azonosító: <span class="mono" id="intentId">—</span></div>
-              <div id="kindHint">—</div>
+    .amount {
+      font-family: "Exo 2";
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--purple);
+      margin: 0 0 4px;
+    }
+
+    .small {
+      font-family: "Libre Baskerville";
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .steps {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      background: rgba(255, 255, 255, 0.55);
+      border: 2px solid rgba(108, 72, 92, 0.16);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .step b {
+      display: block;
+      font-family: "Exo 2";
+      color: var(--purple);
+      margin-bottom: 4px;
+    }
+
+    .step p {
+      margin: 0;
+      font-family: "Libre Baskerville";
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .status {
+      display: none;
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-family: "Exo 2";
+      font-size: 14px;
+      border: 2px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .status.ok {
+      display: block;
+      background: rgba(76, 175, 80, 0.12);
+      border-color: rgba(76, 175, 80, 0.35);
+    }
+
+    .status.bad {
+      display: block;
+      background: rgba(239, 68, 68, 0.10);
+      border-color: rgba(239, 68, 68, 0.35);
+    }
+
+    .footerline {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-family: "Montserrat";
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top">
+    <h1>Átutalásos fizetés</h1>
+    <h2>
+      Az alábbi adatokkal tudsz utalni. A <b>közleményt</b> kérlek másold pontosan, hogy gyorsan be tudjuk azonosítani.
+    </h2>
+  </div>
+  <div class="divider"></div>
+
+  <div class="container">
+    <div class="card">
+      <div class="grid">
+        <!-- bal oldal -->
+        <div>
+          <h3 class="section-title">Utalási adatok</h3>
+          <p class="hint">
+            Ha mobilbankot használsz, a “Másolás” gombbal könnyen beillesztheted a számlaszámot és a közleményt.
+          </p>
+
+          <div class="rows" id="rows"></div>
+
+          <div class="status" id="statusBox" role="status" aria-live="polite"></div>
+
+          <div class="footerline">
+            <div>Azonosító: <span class="mono" id="intentId">—</span></div>
+            <div id="kindHint">—</div>
+          </div>
+        </div>
+
+        <!-- jobb oldal -->
+        <aside class="right">
+          <h3>Összeg</h3>
+          <div class="amount" id="amount">—</div>
+          <p class="small" id="amountSub">A fizetendő összeg az aktuális foglaláshoz / utalványhoz.</p>
+
+          <div class="steps">
+            <div class="step">
+              <b>1) Utalás indítása</b>
+              <p>Írd be a kedvezményezettet és a számlaszámot / IBAN-t.</p>
+            </div>
+            <div class="step">
+              <b>2) Közlemény pontosan</b>
+              <p>A közlemény alapján tudjuk a fizetést a foglalásodhoz kötni.</p>
+            </div>
+            <div class="step">
+              <b>3) Feldolgozás</b>
+              <p>Amint beérkezik az utalás, feldolgozzuk / visszajelzünk.</p>
             </div>
           </div>
-
-          <!-- jobb oldal -->
-          <aside class="right">
-            <h3>Összeg</h3>
-            <div class="amount" id="amount">—</div>
-            <p class="small" id="amountSub">A fizetendő összeg az aktuális foglaláshoz / utalványhoz.</p>
-
-            <div class="steps">
-              <div class="step">
-                <b>1) Utalás indítása</b>
-                <p>Írd be a kedvezményezettet és a számlaszámot / IBAN-t.</p>
-              </div>
-              <div class="step">
-                <b>2) Közlemény pontosan</b>
-                <p>A közlemény alapján tudjuk a fizetést a foglalásodhoz kötni.</p>
-              </div>
-              <div class="step">
-                <b>3) Feldolgozás</b>
-                <p>Amint beérkezik az utalás, feldolgozzuk / visszajelzünk.</p>
-              </div>
-            </div>
-          </aside>
-        </div>
+        </aside>
       </div>
     </div>
+  </div>
 
-    <script>
-      (function () {
-        const qs = new URLSearchParams(location.search);
-        const id = (qs.get("id") || "").trim();
-        document.getElementById("intentId").textContent = id || "—";
+  <script>
+    (function () {
+      const qs = new URLSearchParams(location.search);
+      const id = (qs.get("id") || "").trim();
+      document.getElementById("intentId").textContent = id || "—";
 
-        const rowsEl = document.getElementById("rows");
-        const statusBox = document.getElementById("statusBox");
+      const rowsEl = document.getElementById("rows");
+      const statusBox = document.getElementById("statusBox");
 
-        function showStatus(type, msg) {
-          statusBox.className = "status " + (type || "");
-          statusBox.textContent = msg || "";
+      function showStatus(type, msg) {
+        statusBox.className = "status " + (type || "");
+        statusBox.textContent = msg || "";
+      }
+
+      function fmtMoney(amount, currency) {
+        if (amount == null || amount === "") return "—";
+        const n = Number(amount);
+        if (!Number.isFinite(n)) return String(amount);
+        try {
+          return new Intl.NumberFormat("hu-HU", {
+            style: "currency",
+            currency: currency || "HUF",
+            maximumFractionDigits: 0,
+          }).format(n);
+        } catch {
+          return `${n} ${currency || "HUF"}`;
+        }
+      }
+
+      async function copy(text) {
+        try {
+          await navigator.clipboard.writeText(text);
+          showStatus("ok", "Kimásolva a vágólapra.");
+          setTimeout(() => showStatus("", ""), 1300);
+        } catch {
+          showStatus("bad", "Nem sikerült a másolás. Másold ki kézzel.");
+        }
+      }
+
+      function row(label, value, copyValue) {
+        const el = document.createElement("div");
+        el.className = "row";
+
+        const k = document.createElement("div");
+        k.className = "k";
+        k.textContent = label;
+
+        const v = document.createElement("div");
+        v.className = "v";
+        v.textContent = value || "—";
+
+        el.appendChild(k);
+        el.appendChild(v);
+
+        if (copyValue) {
+          const b = document.createElement("button");
+          b.className = "button-secondary";
+          b.type = "button";
+          b.textContent = "Másolás";
+          b.addEventListener("click", () => copy(copyValue));
+          el.appendChild(b);
+        } else {
+          el.appendChild(document.createElement("div"));
         }
 
-        function fmtMoney(amount, currency) {
-          if (amount == null || amount === "") return "—";
-          const n = Number(amount);
-          if (!Number.isFinite(n)) return String(amount);
-          try {
-            return new Intl.NumberFormat("hu-HU", {
-              style: "currency",
-              currency: currency || "HUF",
-              maximumFractionDigits: 0,
-            }).format(n);
-          } catch {
-            return `${n} ${currency || "HUF"}`;
-          }
+        return el;
+      }
+
+      async function load() {
+        if (!id) {
+          showStatus("bad", "Hiányzó azonosító (id). Kérlek a fizetés indítását az oldalról kezdd újra.");
+          return;
         }
 
-        async function copy(text) {
-          try {
-            await navigator.clipboard.writeText(text);
-            showStatus("ok", "Kimásolva a vágólapra.");
-            setTimeout(() => showStatus("", ""), 1300);
-          } catch {
-            showStatus("bad", "Nem sikerült a másolás. Másold ki kézzel.");
+        try {
+          const res = await fetch(`/api/transfer-info?id=${encodeURIComponent(id)}`, {
+            headers: { Accept: "application/json" },
+          });
+          if (!res.ok) throw new Error("HTTP " + res.status);
+
+          const data = await res.json();
+
+          const amountText = fmtMoney(data.amount, data.currency);
+          document.getElementById("amount").textContent = amountText;
+
+          // “kind” infó a láblécben
+          const kindHint = document.getElementById("kindHint");
+          if (data.kind === "booking") kindHint.textContent = "Típus: Foglalás";
+          else if (data.kind === "giftcard") kindHint.textContent = "Típus: Ajándékutalvány";
+          else kindHint.textContent = "Típus: Fizetés";
+
+          rowsEl.innerHTML = "";
+
+          rowsEl.appendChild(row("Kedvezményezett", data.beneficiary || "", data.beneficiary || ""));
+          if (data.bankName) rowsEl.appendChild(row("Bank", data.bankName, data.bankName));
+          if (data.account) rowsEl.appendChild(row("Számlaszám", data.account, data.account));
+          if (data.iban) rowsEl.appendChild(row("IBAN", data.iban, data.iban));
+          if (data.swift) rowsEl.appendChild(row("SWIFT", data.swift, data.swift));
+
+          rowsEl.appendChild(row("Összeg", amountText, amountText));
+          rowsEl.appendChild(row("Pénznem", data.currency || "HUF", data.currency || "HUF"));
+
+          const notice = (data.notice || "").trim();
+          rowsEl.appendChild(row("Közlemény", notice || "—", notice || ""));
+
+          if (!notice) {
+            showStatus("bad", "Nem érkezett közlemény a szervertől. Ne utalj, amíg nem javítottuk.");
           }
+        } catch (e) {
+          showStatus(
+            "bad",
+            "Nem sikerült lekérni az utalási adatokat. Ellenőrizd a linket, vagy próbáld meg később."
+          );
         }
+      }
 
-        function row(label, value, copyValue) {
-          const el = document.createElement("div");
-          el.className = "row";
+      load();
+    })();
+  </script>
+</body>
 
-          const k = document.createElement("div");
-          k.className = "k";
-          k.textContent = label;
-
-          const v = document.createElement("div");
-          v.className = "v";
-          v.textContent = value || "—";
-
-          el.appendChild(k);
-          el.appendChild(v);
-
-          if (copyValue) {
-            const b = document.createElement("button");
-            b.className = "button-secondary";
-            b.type = "button";
-            b.textContent = "Másolás";
-            b.addEventListener("click", () => copy(copyValue));
-            el.appendChild(b);
-          } else {
-            el.appendChild(document.createElement("div"));
-          }
-
-          return el;
-        }
-
-        async function load() {
-          if (!id) {
-            showStatus("bad", "Hiányzó azonosító (id). Kérlek a fizetés indítását az oldalról kezdd újra.");
-            return;
-          }
-
-          try {
-            const res = await fetch(`/api/transfer-info?id=${encodeURIComponent(id)}`, {
-              headers: { Accept: "application/json" },
-            });
-            if (!res.ok) throw new Error("HTTP " + res.status);
-
-            const data = await res.json();
-
-            const amountText = fmtMoney(data.amount, data.currency);
-            document.getElementById("amount").textContent = amountText;
-
-            // “kind” infó a láblécben
-            const kindHint = document.getElementById("kindHint");
-            if (data.kind === "booking") kindHint.textContent = "Típus: Foglalás";
-            else if (data.kind === "giftcard") kindHint.textContent = "Típus: Ajándékutalvány";
-            else kindHint.textContent = "Típus: Fizetés";
-
-            rowsEl.innerHTML = "";
-
-            rowsEl.appendChild(row("Kedvezményezett", data.beneficiary || "", data.beneficiary || ""));
-            if (data.bankName) rowsEl.appendChild(row("Bank", data.bankName, data.bankName));
-            if (data.account) rowsEl.appendChild(row("Számlaszám", data.account, data.account));
-            if (data.iban) rowsEl.appendChild(row("IBAN", data.iban, data.iban));
-            if (data.swift) rowsEl.appendChild(row("SWIFT", data.swift, data.swift));
-
-            rowsEl.appendChild(row("Összeg", amountText, String(data.amount ?? "")));
-            rowsEl.appendChild(row("Pénznem", data.currency || "HUF", data.currency || "HUF"));
-
-            const notice = (data.notice || "").trim();
-            rowsEl.appendChild(row("Közlemény", notice || "—", notice || ""));
-
-            if (!notice) {
-              showStatus("bad", "Nem érkezett közlemény a szervertől. Ne utalj, amíg nem javítottuk.");
-            }
-          } catch (e) {
-            showStatus(
-              "bad",
-              "Nem sikerült lekérni az utalási adatokat. Ellenőrizd a linket, vagy próbáld meg később."
-            );
-          }
-        }
-
-        load();
-      })();
-    </script>
-  </body>
 </html>

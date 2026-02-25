@@ -13,7 +13,7 @@ import { getPaymentState } from "./lib/barion.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 
 import { fillVoucherDesign } from "./lib/fill_voucher.js";
-import { sendVoucherEmail } from "./lib/mail.js";
+import { sendVoucherEmail, sendGiftcardAdminEmail } from "./lib/mail.js";
 
 import { transferStore } from "./lib/transferStore.js";
 
@@ -119,126 +119,130 @@ app.get("/api/transfer-info", (req, res) => {
 
 
 // =========================
-// 🎁 GIFT CARD INTEGRÁCIÓ
+// 🎁 GIFT CARD – CSAK ÁTUTALÁS (TRANSFER) + KÓD A KÖZLEMÉNYBE
 // =========================
-const POSKey = process.env.BARION_POSKEY || "d85be135-f5bc-4c84-a8fe-fc3bc55012bb";
-const MerchantId = process.env.BARION_MERCHANT || "dobreiandras@gmail.com";
 
-// ideiglenes store (élesben DB!)
-const giftcardStore = new Map();
+function makeId(prefix = "gift") {
+  return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
 
-// 1. fizetés indítása
-app.post("/api/giftcard/start-payment", async (req, res) => {
-  const { name, email, amount, quantity } = req.body;
-  if (!name || !email || !amount || !quantity) {
-    return res.status(400).json({ error: "Hiányzó adatok" });
-  }
-
-  const total = amount * quantity;
-  const paymentRequestId = "giftcard-" + Date.now();
-
-  // tárolás (később DB-be érdemes)
-  giftcardStore.set(paymentRequestId, { name, email, amount, quantity });
-
-  const paymentRequest = {
-    POSKey,
-    PaymentType: "Immediate",
-    GuestCheckOut: true,
-    FundingSources: ["All"],
-    PaymentRequestId: paymentRequestId,
-    OrderNumber: "GC-" + Date.now(),
-    Currency: "HUF",
-    RedirectUrl: `${process.env.PUBLIC_URL || "http://localhost:3000"}/giftcard_redirect.html`,
-    Transactions: [
-      {
-        POSTransactionId: "T" + Date.now(),
-        Payee: MerchantId,
-        Total: total,
-        Comment: `Ajándékutalvány ${quantity} × ${amount} Ft`,
-        Items: [
-          {
-            Name: "ChocoLeaf Ajándékutalvány",
-            Description: `${quantity} × ${amount} Ft értékű ajándékutalvány`,
-            Quantity: quantity,
-            Unit: "db",
-            UnitPrice: amount,
-            ItemTotal: total
-          }
-        ]
-      }
-    ]
-  };
-
+// Banki közleménynek rövid, egyedi kód (csupa nagybetű, kötőjellel)
+function makeVoucherBase() {
+  // 6 karakteres, nagybetűs alfanumerikus
+  const code = Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `GIFT-${code}`;
+}
+app.get("/api/giftcard/admin/mark-paid", async (req, res) => {
   try {
-    const response = await fetch("https://api.test.barion.com/v2/Payment/Start", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(paymentRequest)
-    });
+    const id = String(req.query.id || "").trim();
+    const token = String(req.query.token || "").trim();
 
-    const data = await response.json();
-    res.json(data);
-  } catch (err) {
-    console.error("Giftcard Barion Start error:", err);
-    res.status(500).json({ error: "Nem sikerült a Barion hívás" });
-  }
-});
+    if (!id) return res.status(400).send("Missing id");
+    if (!process.env.ADMIN_TOKEN) return res.status(500).send("ADMIN_TOKEN not set");
+    if (token !== process.env.ADMIN_TOKEN) return res.status(403).send("Forbidden");
 
-// 2. redirect után lekérdezés
-app.get("/api/giftcard/status", async (req, res) => {
-  const paymentId = req.query.paymentId;
-  if (!paymentId) return res.status(400).json({ error: "Nincs paymentId" });
+    const intent = transferStore.get(id);
+    if (!intent) return res.status(404).send("Unknown id");
+    if (intent.kind !== "giftcard") return res.status(400).send("Not a giftcard");
 
-  try {
-    const response = await fetch(
-      `https://api.test.barion.com/v2/Payment/GetPaymentState?POSKey=${POSKey}&PaymentId=${paymentId}`
-    );
-    const data = await response.json();
-
-    const requestId = data.PaymentRequestId;
-    const stored = giftcardStore.get(requestId);
-
-    if (stored) {
-      res.json({
-        success: data.Status === "Succeeded",
-        userData: stored
-      });
-    } else {
-      res.json({ success: false, error: "Nincs tárolt adat ehhez a fizetéshez" });
+    if (intent.generatedAt) {
+      return res.send("⚠️ Már korábban generálva lett.");
     }
-  } catch (err) {
-    console.error("Giftcard status lekérdezés hiba:", err);
-    res.status(500).json({ error: "Nem sikerült lekérdezni" });
-  }
-});
 
-app.post("/api/giftcard/generate", async (req, res) => {
-  try {
-    const { name, email, amount, quantity } = req.body;
-    console.log("📩 Generate request:", { name, email, amount, quantity });
-
-    if (!name) throw new Error("Nincs név megadva");
+    const { name, email, unitAmount, quantity } = intent.meta;
+    const voucherBase = intent.voucherBase || intent.notice;
 
     const attachments = [];
+
     for (let i = 0; i < quantity; i++) {
-      const { outPath, serial } = await fillVoucherDesign(name, amount);
+      const serial = `${voucherBase}-${String(i + 1).padStart(2, "0")}`;
+      const { outPath } = await fillVoucherDesign(name, unitAmount, serial);
       attachments.push({ path: outPath, serial });
     }
 
     await sendVoucherEmail(email, name, attachments);
 
-    res.json({ success: true });
+    intent.generatedAt = Date.now();
+    transferStore.set(id, intent);
+
+    res.send("✅ Voucher legenerálva és elküldve emailben.");
   } catch (err) {
-    console.error("❌ Voucher generálás hiba:", err);
-    res.status(500).json({ success: false, error: String(err) });
+    console.error(err);
+    res.status(500).send("Szerver hiba: " + String(err?.message || err));
   }
 });
+
+// 1) átutalás indítása (intent létrehozás) + redirect transfer.html-re
+app.post("/api/giftcard/start-payment", async (req, res) => {
+  const { name, email, amount, quantity } = req.body;
+
+  if (!name || !email || !amount || !quantity) {
+    return res.status(400).json({ error: "Hiányzó adatok" });
+  }
+
+  const unitAmount = Number(amount);
+  const qty = Number(quantity);
+
+  if (!Number.isFinite(unitAmount) || unitAmount <= 0) {
+    return res.status(400).json({ error: "Érvénytelen összeg" });
+  }
+  if (!Number.isFinite(qty) || qty <= 0) {
+    return res.status(400).json({ error: "Érvénytelen mennyiség" });
+  }
+
+  const total = unitAmount * qty;
+
+  const id = makeId("gift");
+  const voucherBase = makeVoucherBase();
+  const notice = voucherBase;
+
+  transferStore.set(id, {
+    kind: "giftcard",
+    amount: total,
+    currency: "HUF",
+    notice,
+    voucherBase,
+    meta: {
+      name: String(name).trim(),
+      email: String(email).trim(),
+      unitAmount,
+      quantity: qty,
+    },
+    createdAt: Date.now(),
+  });
+
+  const baseUrl = process.env.PUBLIC_URL;
+  const approveUrl =
+    `${baseUrl}/api/giftcard/admin/mark-paid` +
+    `?id=${encodeURIComponent(id)}` +
+    `&token=${encodeURIComponent(process.env.ADMIN_TOKEN || "")}`;
+
+  try {
+    await sendGiftcardAdminEmail(transferStore.get(id), approveUrl);
+  } catch (e) {
+    console.error("Admin email send failed:", e?.message || e);
+  }
+
+  return res.json({
+    redirectUrl: `/transfer.html?id=${encodeURIComponent(id)}`,
+    id,
+  });
+});
+
+
+
+// 2) Voucher generálás + email küldés (CSAK id alapján)
+/*app.post("/api/giftcard/generate", (_req, res) => {
+  return res.status(410).json({ success: false, error: "Disabled. Use admin/mark-paid." });
+});*/
+
+
 
 
 // szerver indítása
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  const base = process.env.PUBLIC_URL || `http://localhost:${PORT}`;
+  const base = process.env.PUBLIC_URL;
   console.log(`Server running on ${base}`);
 });
 

@@ -8,35 +8,13 @@
         integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Courgette">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Exo+2">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre Baskerville">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 
     <link rel="stylesheet" href="css/giftcard.css">
     <link rel="stylesheet" href="css/style.css">
 
-    <script>
-        // Create BP element on the window
-        window["bp"] = window["bp"] || function () {
-            (window["bp"].q = window["bp"].q || []).push(arguments);
-        };
-        window["bp"].l = 1 * new Date();
-
-        // Insert a script tag on the top of the head to load bp.js
-        scriptElement = document.createElement("script");
-        firstScript = document.getElementsByTagName("script")[0];
-        scriptElement.async = true;
-        scriptElement.src = 'https://pixel.barion.com/bp.js';
-        firstScript.parentNode.insertBefore(scriptElement, firstScript);
-        window['barion_pixel_id'] = 'BP-0000000000-00';
-
-        // Send init event
-        bp('init', 'addBarionPixelId', window['barion_pixel_id']);
-    </script>
-
-    <noscript>
-        <img height="1" width="1" style="display:none" alt="Barion Pixel"
-            src="https://pixel.barion.com/a.gif?ba_pixel_id='BP-0000000000-00'&ev=contentView&noscript=1">
-    </noscript>
+    <meta name="robots" content="noindex,nofollow" />
     <title>Ajándékutalvány | Chocoleaf</title>
 </head>
 
@@ -80,45 +58,41 @@
             <p class="second">Lepj meg valakit egy Édes Élménnyel!<br>
                 Az ajándékutalvány 1 fő részére szól és beváltható a ChocoLeaf bármelyik édességkészítő workshopjára az
                 utalvány értékében.</p>
+
             <section class="amount">
                 <h3>Érték:</h3>
                 <div class="amount-buttons">
-                    <button class="amount-btn" onclick="selectAmount(10000)">10 000 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(14900)">14 900 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(20000)">20 000 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(25000)">25 000 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(30000)">30 000 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(35000)">35 000 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(37900)">37 900 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(40000)">40 000 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(45000)">45 000 Ft</button>
-                    <button class="amount-btn" onclick="selectAmount(50000)">50 000 Ft</button>
+                    <button class="amount-btn" onclick="selectAmount(19000, this)">19 000 Ft</button>
+                    <button class="amount-btn" onclick="selectAmount(39900, this)">39 900 Ft</button>
+                    <button class="amount-btn" onclick="selectAmount(29000, this)">29 000 Ft</button>
+                    <button class="amount-btn" onclick="selectAmount(185900, this)">185 900 Ft</button>
                 </div>
             </section>
+
             <section class="quantity mt-4">
                 <h3>Mennyiség:</h3>
                 <div class="quantity-input">
-                    <button onclick="changeQuantity(-1)">-</button>
+                    <button type="button" onclick="changeQuantity(-1)">-</button>
                     <input type="number" id="quantity" value="1" min="1">
-                    <button onclick="changeQuantity(1)">+</button>
+                    <button type="button" onclick="changeQuantity(1)">+</button>
                 </div>
             </section>
+
             <form id="giftForm">
                 <label id="nameLabel" for="name" class="form-label mt-4">
                     <h3>Az ajándékutalványon szereplő név:</h3>
                 </label>
                 <input type="text" id="name" name="name">
+
                 <label id="emailLabel" for="email" class="form-label">
                     <h3>E-mail cím (ahová az utalványt küldjük):</h3>
                 </label>
                 <input type="email" id="email">
             </form>
-            <button id="PayBtn" class="button-primary mt-4" onclick="startPayment()">Tovább a fizetéshez</button>
-            <div class="payment-logos text-center">
-                <img src="./assets/Ikonok/barion-smart-banner-light.svg"
-                    alt="Fizetés Barionnal - biztonságos online fizetés">
-            </div>
 
+            <button id="PayBtn" class="button-primary mt-4" onclick="startPayment()">
+                Tovább a fizetéshez
+            </button>
 
         </div>
     </section>
@@ -126,74 +100,73 @@
     <script>
         let selectedAmount = null;
 
-        function selectAmount(value) {
+        function selectAmount(value, btn) {
             selectedAmount = value;
-            document.querySelectorAll(".amount-btn").forEach(btn => btn.classList.remove("active"));
-            event.target.classList.add("active");
+            document.querySelectorAll(".amount-btn").forEach(b => b.classList.remove("active"));
+            if (btn) btn.classList.add("active");
         }
 
         function changeQuantity(delta) {
             const input = document.getElementById("quantity");
-            let newValue = parseInt(input.value) + delta;
+            let newValue = (parseInt(input.value) || 1) + delta;
             if (newValue < 1) newValue = 1;
             input.value = newValue;
         }
 
         async function startPayment() {
+            const payBtn = document.getElementById("PayBtn");
+
             const name = document.getElementById("name").value.trim();
             const email = document.getElementById("email").value.trim();
 
-            if (!selectedAmount) {
-                alert("Kérlek válassz összeget!");
-                return;
-            }
-            if (!name || !email) {
-                alert("Kérlek add meg a nevet és az email címet!");
-                return;
-            }
+            if (!selectedAmount) return alert("Kérlek válassz összeget!");
+            if (!name || !email) return alert("Kérlek add meg a nevet és az email címet!");
 
             const quantity = parseInt(document.getElementById("quantity").value) || 1;
 
             try {
-                // a backend endpointot hívjuk, nem közvetlen a Bariont
+                payBtn.disabled = true;
+                payBtn.textContent = "Átutalási adatok betöltése...";
+
                 const response = await fetch("/api/giftcard/start-payment", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        amount: selectedAmount,
-                        quantity
-                    })
+                    body: JSON.stringify({ name, email, amount: selectedAmount, quantity })
                 });
 
                 const data = await response.json();
-                console.log("Backend response:", data);
 
-                if (data.GatewayUrl) {
-                    // átirányítás a Barion fizetőoldalra
-                    window.location.href = data.GatewayUrl;
-                } else {
-                    alert("Hiba történt: " + (data.Errors?.[0]?.Title || "Ismeretlen hiba"));
+                if (!response.ok) {
+                    alert("Hiba történt: " + (data.error || "Ismeretlen hiba"));
+                    return;
                 }
+
+                if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                    return;
+                }
+
+                if (data.id) {
+                    window.location.href = `/transfer.html?id=${encodeURIComponent(data.id)}`;
+                    return;
+                }
+
+                alert("Hiba történt: hiányzó redirectUrl/id a válaszban.");
             } catch (err) {
-                console.error("Hálózati hiba:", err);
+                console.error(err);
                 alert("Nem sikerült kapcsolódni a szerverhez.");
+            } finally {
+                payBtn.disabled = false;
+                payBtn.textContent = "Tovább az átutaláshoz";
             }
         }
     </script>
-
-
 
 
     <!-- Bootstrap + JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
         crossorigin="anonymous"></script>
-    <!-- === Szükséges scriptek (nem kell cookie consent) === -->
-
-    <!-- Barion fizetési integráció -->
-    <script src="https://api.barion.com/js/barion.js" defer></script>
 
     <!-- Cal.com időpontfoglaló -->
     <script src="https://cal.com/embed.js" async></script>
@@ -201,9 +174,8 @@
     <!-- Saját oldal működése -->
     <script src="/js/main.js" defer></script>
 
-    <!-- Cookie consent manager (később az analitika/marketinghez) -->
+    <!-- Cookie consent manager -->
     <script src="/js/consent.js" defer></script>
-
 
 </body>
 
