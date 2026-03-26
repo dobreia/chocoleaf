@@ -1,5 +1,0 @@
-Ajándékutalvány pénzformátum javítása
-Ha az ajándékutalvány több főre, akkor több név
-
-ajándékutalvány hiba üzenetnél email cím
-ajándékutalvány több címzett is legyen
