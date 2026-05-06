@@ -52,22 +52,25 @@
             const container = document.getElementById("workshops-container");
             container.innerHTML = "";
 
-            Object.values(courses).forEach(course => {
-                const col = document.createElement("div");
-                col.className = "col-12 col-sm-6 col-md-3";
-                col.innerHTML = `
-      <div class="workshop-card">
-        <img src="${course.image}" alt="">
-        <h2>${course.title}</h2>
-        <p>${course.description || ""}</p>
-        <p class="duration">${course.durationHour} óra</p>
-        <p class="price">${course.priceHUF.toLocaleString("hu-HU")} Ft</p>
+            Object.values(courses)
+                .filter(course => course.active)
+                .forEach(course => {
+                    const col = document.createElement("div");
+                    col.className = "col-12 col-sm-6 col-md-3";
+                    col.innerHTML = `
+                    <div class="workshop-card">
+                        <img src="${course.imageIndex}" alt="${course.title}">
+                        <h2>${course.title}</h2>
+                        <p>${course.description || ""}</p>
+                        <p class="duration">${course.durationText || course.durationHour + " óra"}</p>
+                        <p class="level">${course.level}</p>
+                        <p class="price">${course.priceHUF.toLocaleString("hu-HU")} Ft</p>
 
-        <a href="${course.calUrl}" class="button button-secondary">Időpontfoglalás</a>
-      </div>
-    `;
-                container.appendChild(col);
-            });
+                        <a href="courses.html?id=${course.id}" class="button button-secondary">Részletek</a>
+                    </div>
+                `;
+                    container.appendChild(col);
+                });
         }
 
         loadWorkshops();

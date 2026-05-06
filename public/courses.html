@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurzus részletek</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/idopontok.css">
+</head>
+
+<body>
+    <div class="container-lg py-4">
+        <div class="header-container">
+            <a href="idopont.html" class="button button-secondary">Vissza</a>
+            <h1 id="course-title">Kurzus részletek</h1>
+        </div>
+
+        <div id="course-details"></div>
+    </div>
+
+    <script>
+        async function loadCourseDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const courseId = params.get("id");
+
+            const container = document.getElementById("course-details");
+
+            if (!courseId) {
+                container.innerHTML = "<p>Nem található kurzusazonosító.</p>";
+                return;
+            }
+
+            const res = await fetch("/api/courses");
+            const courses = await res.json();
+
+            const course = Array.isArray(courses)
+                ? courses.find(item => item.id === courseId)
+                : courses[courseId];
+
+            if (!course || !course.active) {
+                container.innerHTML = "<p>A keresett kurzus nem található.</p>";
+                return;
+            }
+
+            document.getElementById("course-title").textContent = course.title;
+
+            container.innerHTML = `
+                <div class="row gy-4">
+                    <div class="col-12 col-md-6">
+                        <img src="${course.imageDetail}" alt="${course.title}" class="img-fluid rounded">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <p>${course.longDescription || course.description || ""}</p>
+
+                        <p><strong>Időtartam:</strong> ${course.durationText || course.durationHour + " óra"}</p>
+                        <p><strong>Szint:</strong> ${course.level}</p>
+                        <p><strong>Ár:</strong> ${course.priceHUF.toLocaleString("hu-HU")} Ft</p>
+
+                        ${course.details ? `
+                            <h3>Mit tartalmaz a program?</h3>
+                            <ul>
+                                ${course.details.map(item => `<li>${item}</li>`).join("")}
+                            </ul>
+                        ` : ""}
+
+                        <a href="${course.calUrl}" class="button button-secondary mt-3">
+                            Időpontfoglalás
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        loadCourseDetails();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
