@@ -83,6 +83,24 @@
                     <h3 id="nameTitle">Az ajándékutalványon szereplő név:</h3>
                 </label>
                 <div id="name"></div>
+                <section class="buyer-type">
+                    <h3>Számlázási adatok:</h3>
+
+                    <div class="buyer-type-options">
+                        <label class="buyer-card active" id="privateCard">
+                            <input type="radio" name="buyerType" value="private" checked onchange="renderBuyerFields()">
+                            <span>Magánszemély</span>
+                        </label>
+
+                        <label class="buyer-card" id="companyCard">
+                            <input type="radio" name="buyerType" value="company" onchange="renderBuyerFields()">
+                            <span>Cég</span>
+                        </label>
+                    </div>
+                </section>
+
+                <div id="buyerFields" class="buyer-fields"></div>
+
                 <label id="emailLabel" for="email" class="form-label">
                     <h3>E-mail cím (ahová az utalványt küldjük):</h3>
                 </label>
@@ -152,6 +170,39 @@
 
             const names = Array.from(document.querySelectorAll(".voucher-name"))
                 .map(input => input.value.trim());
+            const buyerType = document.querySelector('input[name="buyerType"]:checked').value;
+
+            let billingData = { buyerType };
+
+            if (buyerType === "company") {
+                const companyName = document.getElementById("companyName").value.trim();
+                const companyAddress = document.getElementById("companyAddress").value.trim();
+                const taxNumber = document.getElementById("taxNumber").value.trim();
+
+                if (!companyName || !companyAddress || !taxNumber) {
+                    return alert("Kérlek add meg a céges számlázási adatokat!");
+                }
+
+                billingData = {
+                    buyerType,
+                    companyName,
+                    companyAddress,
+                    taxNumber
+                };
+            } else {
+                const privateName = document.getElementById("privateName").value.trim();
+                const privateAddress = document.getElementById("privateAddress").value.trim();
+
+                if (!privateName || !privateAddress) {
+                    return alert("Kérlek add meg a magánszemély számlázási adatokat!");
+                }
+
+                billingData = {
+                    buyerType,
+                    privateName,
+                    privateAddress
+                };
+            }
 
             if (!selectedAmount) return alert("Kérlek válassz összeget!");
             if (!email) return alert("Kérlek add meg az email címet!");
@@ -172,7 +223,8 @@
                         names: names,
                         email: email,
                         amount: selectedAmount,
-                        quantity: quantity
+                        quantity: quantity,
+                        billingData: billingData
                     })
                 });
 
@@ -202,10 +254,42 @@
                 payBtn.textContent = "Tovább a fizetéshez";
             }
         }
+        function renderBuyerFields() {
+            const buyerType = document.querySelector('input[name="buyerType"]:checked').value;
+            const container = document.getElementById("buyerFields");
+
+            document.querySelectorAll(".buyer-card").forEach(card => {
+                card.classList.remove("active");
+            });
+
+            if (buyerType === "company") {
+                document.getElementById("companyCard").classList.add("active");
+                container.innerHTML = `
+        <label class="form-label buyer-field-label"><h3>Cégnév:</h3></label>
+        <input type="text" id="companyName" class="buyer-input">
+
+        <label class="form-label buyer-field-label"><h3>Székhely:</h3></label>
+        <input type="text" id="companyAddress" class="buyer-input">
+
+        <label class="form-label buyer-field-label"><h3>Adószám:</h3></label>
+        <input type="text" id="taxNumber" class="buyer-input">
+    `;
+            } else {
+                document.getElementById("privateCard").classList.add("active");
+                container.innerHTML = `
+        <label class="form-label buyer-field-label"><h3>Név:</h3></label>
+        <input type="text" id="privateName" class="buyer-input">
+
+        <label class="form-label buyer-field-label"><h3>Lakcím:</h3></label>
+        <input type="text" id="privateAddress" class="buyer-input">
+    `;
+            }
+        }
 
         document.getElementById("quantity").addEventListener("input", renderNameInputs);
 
         renderNameInputs();
+        renderBuyerFields();
     </script>
 
 

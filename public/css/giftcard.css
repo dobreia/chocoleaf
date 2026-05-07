@@ -1,210 +1,316 @@
-    /* Chrome, Safari, Edge */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+/* Chrome, Safari, Edge */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
-    /* Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
 
+.custom-navbar {
+    background-color: #6C485C;
+    padding: 15px 30px;
+}
 
-    .custom-navbar {
-        background-color: #6C485C;
-        /* sötétlila */
-        padding: 15px 30px;
-    }
+.nav-buttons {
+    margin-top: 0 !important;
+}
 
-    .nav-buttons {
-        margin-top: 0 !important;
-    }
+.main {
+    margin: auto;
+    padding-top: 30px;
+    width: 900px;
+    text-align: center;
+    font-family: 'Montserrat', cursive;
+    font-size: 48px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
 
+.second {
+    margin: auto;
+    text-align: center;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 20px;
+    opacity: 0.8;
+    width: 600px;
+}
+
+/* Cards */
+.cards-section {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.cards-section h2 {
+    font-family: 'Courgette', cursive;
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px 20px;
+    width: 280px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Amount buttons */
+.amount-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.amount-btn {
+    background: white;
+    border: 2px solid #6C485C;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.amount-btn:hover {
+    background: #f5eef4;
+    transform: translateY(-1px);
+}
+
+.amount-btn.active {
+    background: #6C485C;
+    color: white;
+    border-color: #6C485C;
+}
+
+/* Quantity */
+.quantity-input {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(108, 72, 92, 0.25);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 14px rgba(108, 72, 92, 0.08);
+}
+
+.quantity-input button {
+    background: #6C485C;
+    color: white;
+    border: none;
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s ease;
+}
+
+.quantity-input button:hover {
+    background: #58384a;
+}
+
+.quantity-input input {
+    width: 64px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    height: 42px;
+    text-align: center;
+    background: white;
+    color: #2f252b;
+}
+
+/* Buyer type */
+.buyer-type-options {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+    margin-bottom: 18px;
+}
+
+.buyer-card {
+    border: 2px solid #6C485C;
+    border-radius: 12px;
+    padding: 12px 22px;
+    cursor: pointer;
+    background: white;
+    font-size: 18px;
+    font-family: 'Exo 2', sans-serif;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(108, 72, 92, 0.06);
+}
+
+.buyer-card:hover {
+    background: #f5eef4;
+    transform: translateY(-1px);
+}
+
+.buyer-card input {
+    display: none;
+}
+
+.buyer-card.active {
+    background: #6C485C;
+    color: white;
+    box-shadow: 0 6px 18px rgba(108, 72, 92, 0.22);
+}
+
+.buyer-fields {
+    margin-top: 10px;
+}
+
+/* Modern form inputs */
+.buyer-input,
+#email,
+.voucher-name {
+    display: block;
+    width: 50% !important;
+    margin-left: 0 !important;
+    margin-bottom: 14px;
+    padding: 13px 16px;
+    border: 1px solid rgba(108, 72, 92, 0.25);
+    border-radius: 12px;
+    background: #fff;
+    font-size: 16px;
+    font-family: 'Exo 2', sans-serif;
+    color: #2f252b;
+    outline: none;
+    box-shadow: 0 4px 14px rgba(108, 72, 92, 0.08);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.buyer-input:focus,
+#email:focus,
+.voucher-name:focus {
+    border-color: #6C485C;
+    box-shadow: 0 0 0 4px rgba(108, 72, 92, 0.12);
+    transform: translateY(-1px);
+}
+
+.buyer-input::placeholder,
+#email::placeholder,
+.voucher-name::placeholder {
+    color: rgba(47, 37, 43, 0.45);
+}
+
+/* Labels */
+#nameLabel,
+#emailLabel {
+    margin-left: 0;
+}
+
+.form-label h3,
+.buyer-type h3,
+.amount h3,
+.quantity h3 {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 600;
+    color: #2f252b;
+    margin-left: 0;
+}
+
+.buyer-field-label {
+    margin-left: 0 !important;
+    display: block;
+}
+
+/* Payment button */
+#PayBtn {
+    display: block;
+    margin: auto;
+}
+
+.payment-logos img {
+    width: 186.75px;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
     .main {
-        margin: auto;
-        padding-top: 30px;
-        width: 900px;
-        text-align: center;
-        font-family: 'Montserrat', cursive;
-        font-size: 48px;
-        margin-bottom: 20px;
-        font-weight: bold;
+        width: 90%;
+        font-size: 36px;
     }
 
     .second {
-        margin: auto;
-        text-align: center;
-        font-family: 'Exo 2', sans-serif;
-        font-size: 20px;
-        opacity: 0.8;
-        width: 600px;
-    }
-
-    /* Cards */
-    .cards-section {
-        padding: 60px 20px;
-        text-align: center;
-    }
-
-    .cards-section h2 {
-        font-family: 'Courgette', cursive;
-        font-size: 36px;
-        margin-bottom: 40px;
+        width: 90%;
+        font-size: 18px;
     }
 
     .cards {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 30px;
+        flex-direction: column;
+        align-items: center;
     }
 
     .card {
-        background: white;
-        border-radius: 16px;
-        padding: 30px 20px;
-        width: 280px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        transition: transform 0.3s ease;
-    }
-
-    .card:hover {
-        transform: translateY(-5px);
-    }
-
-    .card h3 {
-        font-size: 28px;
-        margin-bottom: 10px;
-    }
-
-    .card p {
-        font-size: 16px;
-        margin-bottom: 20px;
-    }
-
-    .amount-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 9px;
-        justify-content: center;
-        margin-top: 20px;
-
-    }
-
-    .amount-btn {
-        background: white;
-        border: 2px solid #6C485C;
-        border-radius: 8px;
-        padding: 12px 20px;
-        font-size: 18px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .amount-btn:hover {
-        background: #f5eef4;
-    }
-
-    .amount-btn.active {
-        background: #6C485C;
-        color: white;
-        border-color: #6C485C;
-    }
-
-    .quantity-input {
-        display: inline-flex;
-        align-items: center;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .quantity-input button {
-        background: #6C485C;
-        color: white;
-        border: none;
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-        cursor: pointer;
-        z-index: 10;
-
-    }
-
-    .quantity-input input {
-        width: 60px;
-        border: none;
-        outline: none;
-        margin-left: -5px;
-        margin-right: -5px;
-        font-size: 18px;
-        height: 40px;
-        text-align: center;
-    }
-
-    #PayBtn {
-        display: block;
-        margin: auto;
-    }
-
-    .voucher-name {
-        display: block;
-        margin-bottom: 12px;
+        width: 90%;
     }
 
     #email,
-    .voucher-name {
-        margin-left: 0 !important;
-        width: 50% !important;
+    .voucher-name,
+    .buyer-input {
+        width: 80% !important;
+    }
+}
+
+@media (max-width: 620px) {
+
+    #email,
+    .voucher-name,
+    .buyer-input {
+        width: 100% !important;
     }
 
-    #nameLabel,
-    #emailLabel {
-        margin-left: 0;
+    .buyer-type-options {
+        flex-direction: column;
     }
 
-    .payment-logos img {
-        width: 186.75px;
+    .buyer-card {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .main {
+        font-size: 28px;
     }
 
-    @media (max-width: 992px) {
-        .main {
-            width: 90%;
-            font-size: 36px;
-        }
-
-        .second {
-            width: 90%;
-            font-size: 18px;
-        }
-
-        .cards {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card {
-            width: 90%;
-        }
-
-        #email,
-        .voucher-name {
-            width: 80% !important;
-        }
+    .second {
+        font-size: 16px;
     }
 
-    @media (max-width: 620px) {
-
-        #email,
-        .voucher-name {
-            width: 100% !important;
-        }
+    .amount-btn {
+        width: 100%;
     }
-
-    @media (max-width: 400px) {
-        .main {
-            font-size: 28px;
-        }
-    }
+}

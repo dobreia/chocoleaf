@@ -181,10 +181,23 @@ app.get("/api/giftcard/admin/mark-paid", async (req, res) => {
 
 // 1) átutalás indítása (intent létrehozás) + redirect transfer.html-re
 app.post("/api/giftcard/start-payment", async (req, res) => {
-  const { name, names, email, amount, quantity } = req.body;
+  const { name, names, email, amount, quantity, billingData } = req.body;
 
   if (!email || !amount || !quantity) {
     return res.status(400).json({ error: "Hiányzó adatok" });
+  }
+  if (!billingData || !billingData.buyerType) {
+    return res.status(400).json({ error: "Hiányzó számlázási adatok" });
+  }
+
+  if (billingData.buyerType === "company") {
+    if (!billingData.companyName || !billingData.companyAddress || !billingData.taxNumber) {
+      return res.status(400).json({ error: "Hiányzó céges számlázási adatok" });
+    }
+  } else {
+    if (!billingData.privateName || !billingData.privateAddress) {
+      return res.status(400).json({ error: "Hiányzó magánszemély számlázási adatok" });
+    }
   }
 
   const unitAmount = Number(amount);
@@ -225,6 +238,7 @@ app.post("/api/giftcard/start-payment", async (req, res) => {
       email: String(email).trim(),
       unitAmount,
       quantity: qty,
+      billingData,
     },
     createdAt: Date.now(),
   });
