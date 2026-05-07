@@ -79,11 +79,10 @@
             </section>
 
             <form id="giftForm">
-                <label id="nameLabel" for="name" class="form-label mt-4">
-                    <h3>Az ajándékutalványon szereplő név:</h3>
+                <label id="nameLabel" for="name" class="form-label">
+                    <h3 id="nameTitle">Az ajándékutalványon szereplő név:</h3>
                 </label>
-                <input type="text" id="name" name="name">
-
+                <div id="name"></div>
                 <label id="emailLabel" for="email" class="form-label">
                     <h3>E-mail cím (ahová az utalványt küldjük):</h3>
                 </label>
@@ -111,18 +110,55 @@
             let newValue = (parseInt(input.value) || 1) + delta;
             if (newValue < 1) newValue = 1;
             input.value = newValue;
+
+            renderNameInputs();
+        }
+
+        function renderNameInputs() {
+            const quantity = parseInt(document.getElementById("quantity").value) || 1;
+            const container = document.getElementById("name");
+            const nameTitle = document.getElementById("nameTitle");
+
+            if (quantity > 1) {
+                nameTitle.textContent = "Az ajándékutalványokon szereplő nevek:";
+            } else {
+                nameTitle.textContent = "Az ajándékutalványon szereplő név:";
+            }
+
+            const previousValues = Array.from(container.querySelectorAll(".voucher-name"))
+                .map(input => input.value);
+
+            container.innerHTML = "";
+
+            for (let i = 0; i < quantity; i++) {
+                const input = document.createElement("input");
+                input.type = "text";
+                input.className = "voucher-name";
+
+                if (quantity > 1) {
+                    input.placeholder = `${i + 1}. ajándékutalvány neve`;
+                }
+
+                input.value = previousValues[i] || "";
+                container.appendChild(input);
+            }
         }
 
         async function startPayment() {
             const payBtn = document.getElementById("PayBtn");
 
-            const name = document.getElementById("name").value.trim();
             const email = document.getElementById("email").value.trim();
+            const quantity = parseInt(document.getElementById("quantity").value) || 1;
+
+            const names = Array.from(document.querySelectorAll(".voucher-name"))
+                .map(input => input.value.trim());
 
             if (!selectedAmount) return alert("Kérlek válassz összeget!");
-            if (!name || !email) return alert("Kérlek add meg a nevet és az email címet!");
+            if (!email) return alert("Kérlek add meg az email címet!");
 
-            const quantity = parseInt(document.getElementById("quantity").value) || 1;
+            if (names.length !== quantity || names.some(name => !name)) {
+                return alert("Kérlek add meg az összes ajándékutalványhoz tartozó nevet!");
+            }
 
             try {
                 payBtn.disabled = true;
@@ -131,7 +167,13 @@
                 const response = await fetch("/api/giftcard/start-payment", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name, email, amount: selectedAmount, quantity })
+                    body: JSON.stringify({
+                        name: names[0],
+                        names: names,
+                        email: email,
+                        amount: selectedAmount,
+                        quantity: quantity
+                    })
                 });
 
                 const data = await response.json();
@@ -157,9 +199,13 @@
                 alert("Nem sikerült kapcsolódni a szerverhez.");
             } finally {
                 payBtn.disabled = false;
-                payBtn.textContent = "Tovább az átutaláshoz";
+                payBtn.textContent = "Tovább a fizetéshez";
             }
         }
+
+        document.getElementById("quantity").addEventListener("input", renderNameInputs);
+
+        renderNameInputs();
     </script>
 
 

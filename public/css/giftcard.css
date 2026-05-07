@@ -1,205 +1,210 @@
-/* Chrome, Safari, Edge */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+    /* Chrome, Safari, Edge */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 
 
-.custom-navbar {
-    background-color: #6C485C;
-    /* sötétlila */
-    padding: 15px 30px;
-}
+    .custom-navbar {
+        background-color: #6C485C;
+        /* sötétlila */
+        padding: 15px 30px;
+    }
 
-.nav-buttons{
-    margin-top: 0 !important;
-}
+    .nav-buttons {
+        margin-top: 0 !important;
+    }
 
-.main {
-    margin: auto;
-    padding-top: 30px;
-    width: 900px;
-    text-align: center;
-    font-family: 'Montserrat', cursive;
-    font-size: 48px;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-.second {
-    margin: auto;
-    text-align: center;
-    font-family: 'Exo 2', sans-serif;
-    font-size: 20px;
-    opacity: 0.8;
-    width: 600px;
-}
-
-/* Cards */
-.cards-section {
-    padding: 60px 20px;
-    text-align: center;
-}
-
-.cards-section h2 {
-    font-family: 'Courgette', cursive;
-    font-size: 36px;
-    margin-bottom: 40px;
-}
-
-.cards {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
-}
-
-.card {
-    background: white;
-    border-radius: 16px;
-    padding: 30px 20px;
-    width: 280px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card h3 {
-    font-size: 28px;
-    margin-bottom: 10px;
-}
-
-.card p {
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.amount-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    justify-content: center;
-    margin-top: 20px;
-
-}
-
-.amount-btn {
-    background: white;
-    border: 2px solid #6C485C;
-    border-radius: 8px;
-    padding: 12px 20px;
-    font-size: 18px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.amount-btn:hover {
-    background: #f5eef4;
-}
-
-.amount-btn.active {
-    background: #6C485C;
-    color: white;
-    border-color: #6C485C;
-}
-
-.quantity-input {
-    display: inline-flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.quantity-input button {
-    background: #6C485C;
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 10;
-
-}
-
-.quantity-input input {
-    width: 60px;
-    border: none;
-    outline: none;
-    margin-left: -5px;
-    margin-right: -5px;
-    font-size: 18px;
-    height: 40px;
-    text-align: center;
-}
-
-#PayBtn {
-    display: block;
-    margin: auto;
-}
-
-#name,
-#email {
-    margin-left: 0;
-    width: 50%;
-}
-
-#nameLabel,
-#emailLabel {
-    margin-left: 0;
-}
-
-.payment-logos img {
-    width: 186.75px;
-}
-
-@media (max-width: 992px) {
     .main {
-        width: 90%;
-        font-size: 36px;
+        margin: auto;
+        padding-top: 30px;
+        width: 900px;
+        text-align: center;
+        font-family: 'Montserrat', cursive;
+        font-size: 48px;
+        margin-bottom: 20px;
+        font-weight: bold;
     }
 
     .second {
-        width: 90%;
-        font-size: 18px;
+        margin: auto;
+        text-align: center;
+        font-family: 'Exo 2', sans-serif;
+        font-size: 20px;
+        opacity: 0.8;
+        width: 600px;
+    }
+
+    /* Cards */
+    .cards-section {
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .cards-section h2 {
+        font-family: 'Courgette', cursive;
+        font-size: 36px;
+        margin-bottom: 40px;
     }
 
     .cards {
-        flex-direction: column;
-        align-items: center;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
     }
 
     .card {
-        width: 90%;
+        background: white;
+        border-radius: 16px;
+        padding: 30px 20px;
+        width: 280px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transition: transform 0.3s ease;
     }
 
-    #name,
-    #email {
-        width: 80%;
+    .card:hover {
+        transform: translateY(-5px);
     }
-}
 
-@media (max-width: 620px) {
-
-    #name,
-    #email {
-        width: 100%;
-    }
-}
-
-@media (max-width: 400px) {
-    .main {
+    .card h3 {
         font-size: 28px;
+        margin-bottom: 10px;
     }
-}
+
+    .card p {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .amount-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+        justify-content: center;
+        margin-top: 20px;
+
+    }
+
+    .amount-btn {
+        background: white;
+        border: 2px solid #6C485C;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .amount-btn:hover {
+        background: #f5eef4;
+    }
+
+    .amount-btn.active {
+        background: #6C485C;
+        color: white;
+        border-color: #6C485C;
+    }
+
+    .quantity-input {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .quantity-input button {
+        background: #6C485C;
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 10;
+
+    }
+
+    .quantity-input input {
+        width: 60px;
+        border: none;
+        outline: none;
+        margin-left: -5px;
+        margin-right: -5px;
+        font-size: 18px;
+        height: 40px;
+        text-align: center;
+    }
+
+    #PayBtn {
+        display: block;
+        margin: auto;
+    }
+
+    .voucher-name {
+        display: block;
+        margin-bottom: 12px;
+    }
+
+    #email,
+    .voucher-name {
+        margin-left: 0 !important;
+        width: 50% !important;
+    }
+
+    #nameLabel,
+    #emailLabel {
+        margin-left: 0;
+    }
+
+    .payment-logos img {
+        width: 186.75px;
+    }
+
+    @media (max-width: 992px) {
+        .main {
+            width: 90%;
+            font-size: 36px;
+        }
+
+        .second {
+            width: 90%;
+            font-size: 18px;
+        }
+
+        .cards {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            width: 90%;
+        }
+
+        #email,
+        .voucher-name {
+            width: 80% !important;
+        }
+    }
+
+    @media (max-width: 620px) {
+
+        #email,
+        .voucher-name {
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .main {
+            font-size: 28px;
+        }
+    }

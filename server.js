@@ -149,14 +149,21 @@ app.get("/api/giftcard/admin/mark-paid", async (req, res) => {
       return res.send("⚠️ Már korábban generálva lett.");
     }
 
-    const { name, email, unitAmount, quantity } = intent.meta;
+    const { name, names, email, unitAmount, quantity } = intent.meta;
     const voucherBase = intent.voucherBase || intent.notice;
+
+    const namesToUse = Array.isArray(names) && names.length > 0
+      ? names
+      : Array.from({ length: quantity }, () => name);
 
     const attachments = [];
 
     for (let i = 0; i < quantity; i++) {
+      const voucherName = namesToUse[i] || name;
       const serial = `${voucherBase}-${String(i + 1).padStart(2, "0")}`;
-      const { outPath } = await fillVoucherDesign(name, unitAmount, serial);
+
+      const { outPath } = await fillVoucherDesign(voucherName, unitAmount, serial);
+
       attachments.push({ path: outPath, serial });
     }
 
@@ -174,14 +181,24 @@ app.get("/api/giftcard/admin/mark-paid", async (req, res) => {
 
 // 1) átutalás indítása (intent létrehozás) + redirect transfer.html-re
 app.post("/api/giftcard/start-payment", async (req, res) => {
-  const { name, email, amount, quantity } = req.body;
+  const { name, names, email, amount, quantity } = req.body;
 
-  if (!name || !email || !amount || !quantity) {
+  if (!email || !amount || !quantity) {
     return res.status(400).json({ error: "Hiányzó adatok" });
   }
 
   const unitAmount = Number(amount);
   const qty = Number(quantity);
+
+  const cleanNames = Array.isArray(names)
+    ? names.map(n => String(n || "").trim()).filter(Boolean)
+    : [String(name || "").trim()].filter(Boolean);
+
+  if (cleanNames.length !== qty) {
+    return res.status(400).json({
+      error: "A megadott nevek száma nem egyezik a mennyiséggel"
+    });
+  }
 
   if (!Number.isFinite(unitAmount) || unitAmount <= 0) {
     return res.status(400).json({ error: "Érvénytelen összeg" });
@@ -203,7 +220,8 @@ app.post("/api/giftcard/start-payment", async (req, res) => {
     notice,
     voucherBase,
     meta: {
-      name: String(name).trim(),
+      name: cleanNames[0],
+      names: cleanNames,
       email: String(email).trim(),
       unitAmount,
       quantity: qty,

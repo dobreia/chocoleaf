@@ -1,5 +1,12 @@
-Ajándékutalvány pénzformátum javítása
-Ha az ajándékutalvány több főre, akkor több név
-
-ajándékutalvány hiba üzenetnél email cím
-ajándékutalvány több címzett is legyen
+[x] Bemutatkozás szöveg élesbe 
+[x] Új részletek oldal minden kurzushoz, képek pluszba mindenhova külön
+[x] A mester kurzusok 2x 5 óra hangsulyozni
+[] Több ajándékutalvány esetén több nevet is meg lehessen adni
+[] Ajándékutalvány vásárlásnál számlázási adatokat elkérni: 
+   Magánszemély vagy cég. Magánszemély: Név, lakcím. Cégnél: Cégnév, Székhely, adószám. Mindkettőnél email cím.
+[] Egy ember több helyet is tudjon lefoglalni, és egyszerre fizetni (backend logikában)
+[] Billingo számlázó prillal összekötni
+[] Stripe fizetés ajándékkártyánál
+[] Aktuális termékek (néven még gondolkodni) egy oldal ahol az aktuális terékek találhatóak, mindig frissül ha jön egy esemény
+[] naptár szinkron a kurzusokkal, firssüljön hány fő foglalt. Jelelzni csak a meghirdetettet és a foglaltakat is.
+   pl ha üres fehéren jelenjen meg, ha foglalnak akkor erősebben pl 3/6 fő
