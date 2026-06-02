@@ -2,7 +2,7 @@
 [x] Új részletek oldal minden kurzushoz, képek pluszba mindenhova külön
 [x] A mester kurzusok 2x 5 óra hangsulyozni
 [x] Több ajándékutalvány esetén több nevet is meg lehessen adni
-[] Ajándékutalvány vásárlásnál számlázási adatokat elkérni: 
+[x] Ajándékutalvány vásárlásnál számlázási adatokat elkérni: 
    Magánszemély vagy cég. Magánszemély: Név, lakcím. Cégnél: Cégnév, Székhely, adószám. Mindkettőnél email cím.
 [] Egy ember több helyet is tudjon lefoglalni, és egyszerre fizetni (backend logikában)
 [] Billingo számlázó prillal összekötni
