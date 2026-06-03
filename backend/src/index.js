@@ -14,6 +14,8 @@ app.get("/api/health", (req, res) => {
 const courseRoutes = require("./routes/courseRoutes");
 app.use("/api/courses", courseRoutes);
 
+const adminCourseRoutes = require("./routes/adminCourseRoutes");
+app.use("/api/admin/courses", adminCourseRoutes);
 
 const PORT = 3001;
 

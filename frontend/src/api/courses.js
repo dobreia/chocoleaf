@@ -9,3 +9,20 @@ export async function getCourses() {
 
   return response.json();
 }
+
+export async function createCourse(courseData) {
+  const response = await fetch(`${API_URL}/admin/courses`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(courseData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Nem sikerült létrehozni a kurzust.");
+  }
+
+  return response.json();
+}
