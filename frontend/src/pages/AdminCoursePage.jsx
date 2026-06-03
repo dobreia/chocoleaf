@@ -1,8 +1,23 @@
-import { useState } from "react";
-import { createCourse } from "../api/courses";
+import { useEffect, useState } from "react";
+import { createCourse, getAdminCourses } from "../api/courses";
 import "../styles/AdminCoursePage.css";
 
 export default function AdminCoursesPage() {
+    const [courses, setCourses] = useState([]);
+
+    async function loadCourses() {
+        try {
+            const data = await getAdminCourses();
+            setCourses(data);
+        } catch (err) {
+            setError(err.message);
+        }
+    }
+
+    useEffect(() => {
+        loadCourses();
+    }, []);
+
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -49,7 +64,9 @@ export default function AdminCoursesPage() {
         } catch (err) {
             setError(err.message);
         }
+        await loadCourses();
     }
+
 
     return (
         <main className="admin-page">
@@ -142,6 +159,38 @@ export default function AdminCoursesPage() {
                         Kurzus létrehozása
                     </button>
                 </form>
+            </div>
+            <div className="admin-card">
+                <h2>Meglévő kurzusok</h2>
+
+                {courses.length === 0 ? (
+                    <p>Nincs még kurzus.</p>
+                ) : (
+                    courses.map((course) => (
+                        <div
+                            key={course.id}
+                            className="course-list-item"
+                        >
+                            <h3>{course.title}</h3>
+
+                            <p>{course.description}</p>
+
+                            <p>
+                                Ár: {course.price.toLocaleString("hu-HU")} Ft
+                            </p>
+
+                            <p>
+                                Kapacitás: {course.capacity} fő
+                            </p>
+
+                            <p>
+                                {new Date(
+                                    course.start_time
+                                ).toLocaleString("hu-HU")}
+                            </p>
+                        </div>
+                    ))
+                )}
             </div>
         </main>
     );

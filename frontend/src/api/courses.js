@@ -26,3 +26,15 @@ export async function createCourse(courseData) {
 
   return response.json();
 }
+
+export async function getAdminCourses() {
+  const response = await fetch(
+    `${API_URL}/admin/courses`
+  );
+
+  if (!response.ok) {
+    throw new Error("Nem sikerült lekérni a kurzusokat.");
+  }
+
+  return response.json();
+}
