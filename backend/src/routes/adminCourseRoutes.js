@@ -3,6 +3,20 @@ const pool = require("../db");
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+    try {
+        const result = await pool.query(`
+      SELECT *
+      FROM courses
+      ORDER BY start_time DESC
+    `);
+
+        res.json(result.rows);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 router.post("/", async (req, res) => {
     try {
         const {
@@ -42,19 +56,30 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     try {
-        const result = await pool.query(`
-      SELECT *
-      FROM courses
-      ORDER BY start_time DESC
-    `);
+        const { id } = req.params;
 
-        res.json(result.rows);
-    } catch (error) {
-        res.status(500).json({
-            message: error.message,
+        const result = await pool.query(
+            `
+      UPDATE courses
+      SET active = false
+      WHERE id = $1
+      RETURNING *
+      `,
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "Kurzus nem található." });
+        }
+
+        res.json({
+            message: "Kurzus inaktiválva.",
+            course: result.rows[0],
         });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 });
 

@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { createCourse, getAdminCourses } from "../api/courses";
+import {
+    createCourse,
+    getAdminCourses,
+    deleteCourse,
+} from "../api/courses";
 import "../styles/AdminCoursePage.css";
 
 export default function AdminCoursesPage() {
@@ -65,6 +69,22 @@ export default function AdminCoursesPage() {
             setError(err.message);
         }
         await loadCourses();
+    }
+
+    async function handleDelete(id) {
+        const confirmDelete = window.confirm(
+            "Biztosan inaktiválod ezt a kurzust?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await deleteCourse(id);
+            setMessage("Kurzus sikeresen inaktiválva.");
+            await loadCourses();
+        } catch (err) {
+            setError(err.message);
+        }
     }
 
 
@@ -160,36 +180,51 @@ export default function AdminCoursesPage() {
                     </button>
                 </form>
             </div>
-            <div className="admin-card">
+            <div className="admin-card admin-list-card">
                 <h2>Meglévő kurzusok</h2>
 
                 {courses.length === 0 ? (
                     <p>Nincs még kurzus.</p>
                 ) : (
-                    courses.map((course) => (
-                        <div
-                            key={course.id}
-                            className="course-list-item"
-                        >
-                            <h3>{course.title}</h3>
+                    <div className="admin-table-wrapper">
+                        <table className="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Cím</th>
+                                    <th>Dátum</th>
+                                    <th>Ár</th>
+                                    <th>Kapacitás</th>
+                                    <th>Státusz</th>
+                                    <th>Művelet</th>
+                                </tr>
+                            </thead>
 
-                            <p>{course.description}</p>
-
-                            <p>
-                                Ár: {course.price.toLocaleString("hu-HU")} Ft
-                            </p>
-
-                            <p>
-                                Kapacitás: {course.capacity} fő
-                            </p>
-
-                            <p>
-                                {new Date(
-                                    course.start_time
-                                ).toLocaleString("hu-HU")}
-                            </p>
-                        </div>
-                    ))
+                            <tbody>
+                                {courses.map((course) => (
+                                    <tr key={course.id}>
+                                        <td>{course.title}</td>
+                                        <td>
+                                            {new Date(course.start_time).toLocaleString("hu-HU")}
+                                        </td>
+                                        <td>{course.price.toLocaleString("hu-HU")} Ft</td>
+                                        <td>{course.capacity} fő</td>
+                                        <td>{course.active ? "Aktív" : "Inaktív"}</td>
+                                        <td>
+                                            {course.active && (
+                                                <button
+                                                    type="button"
+                                                    className="admin-small-button danger"
+                                                    onClick={() => handleDelete(course.id)}
+                                                >
+                                                    Inaktiválás
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
         </main>

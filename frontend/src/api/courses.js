@@ -28,12 +28,23 @@ export async function createCourse(courseData) {
 }
 
 export async function getAdminCourses() {
-  const response = await fetch(
-    `${API_URL}/admin/courses`
-  );
+  const response = await fetch(`${API_URL}/admin/courses`);
 
   if (!response.ok) {
-    throw new Error("Nem sikerült lekérni a kurzusokat.");
+    throw new Error("Nem sikerült lekérni az admin kurzusokat.");
+  }
+
+  return response.json();
+}
+
+export async function deleteCourse(id) {
+  const response = await fetch(`${API_URL}/admin/courses/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Nem sikerült inaktiválni a kurzust.");
   }
 
   return response.json();
