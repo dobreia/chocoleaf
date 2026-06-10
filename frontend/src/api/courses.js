@@ -37,6 +37,23 @@ export async function getAdminCourses() {
   return response.json();
 }
 
+export async function updateCourse(id, courseData) {
+  const response = await fetch(`${API_URL}/admin/courses/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(courseData),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Nem sikerült frissíteni a kurzust.");
+  }
+
+  return response.json();
+}
+
 export async function deleteCourse(id) {
   const response = await fetch(`${API_URL}/admin/courses/${id}`, {
     method: "DELETE",

@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import {
     createCourse,
     getAdminCourses,
+    updateCourse,
     deleteCourse,
 } from "../api/courses";
 import "../styles/AdminCoursePage.css";
 
 export default function AdminCoursesPage() {
     const [courses, setCourses] = useState([]);
+    const [editingCourseId, setEditingCourseId] = useState(null);
 
     async function loadCourses() {
         try {
@@ -49,13 +51,20 @@ export default function AdminCoursesPage() {
         setError("");
 
         try {
-            await createCourse({
+            const payload = {
                 ...formData,
                 price: Number(formData.price),
                 capacity: Number(formData.capacity),
-            });
+                active: formData.active ?? true,
+            };
 
-            setMessage("Kurzus sikeresen létrehozva.");
+            if (editingCourseId) {
+                await updateCourse(editingCourseId, payload);
+                setMessage("Kurzus sikeresen frissítve.");
+            } else {
+                await createCourse(payload);
+                setMessage("Kurzus sikeresen létrehozva.");
+            }
 
             setFormData({
                 title: "",
@@ -64,11 +73,28 @@ export default function AdminCoursesPage() {
                 end_time: "",
                 price: "",
                 capacity: 6,
+                active: true,
             });
+
+            setEditingCourseId(null);
+            await loadCourses();
         } catch (err) {
             setError(err.message);
         }
-        await loadCourses();
+    }
+
+    function handleEdit(course) {
+        setEditingCourseId(course.id);
+
+        setFormData({
+            title: course.title,
+            description: course.description || "",
+            start_time: course.start_time.slice(0, 16),
+            end_time: course.end_time.slice(0, 16),
+            price: course.price,
+            capacity: course.capacity,
+            active: course.active,
+        });
     }
 
     async function handleDelete(id) {
@@ -176,8 +202,32 @@ export default function AdminCoursesPage() {
                     </div>
 
                     <button className="admin-button" type="submit">
-                        Kurzus létrehozása
+                        <h1>
+                            {editingCourseId
+                                ? "Kurzus szerkesztése"
+                                : "Új kurzus létrehozása"}
+                        </h1>
                     </button>
+                    {editingCourseId && (
+                        <button
+                            type="button"
+                            className="admin-button secondary"
+                            onClick={() => {
+                                setEditingCourseId(null);
+                                setFormData({
+                                    title: "",
+                                    description: "",
+                                    start_time: "",
+                                    end_time: "",
+                                    price: "",
+                                    capacity: 6,
+                                    active: true,
+                                });
+                            }}
+                        >
+                            Mégse
+                        </button>
+                    )}
                 </form>
             </div>
             <div className="admin-card admin-list-card">
@@ -211,13 +261,23 @@ export default function AdminCoursesPage() {
                                         <td>{course.active ? "Aktív" : "Inaktív"}</td>
                                         <td>
                                             {course.active && (
-                                                <button
-                                                    type="button"
-                                                    className="admin-small-button danger"
-                                                    onClick={() => handleDelete(course.id)}
-                                                >
-                                                    Inaktiválás
-                                                </button>
+                                                <>
+                                                    <button
+                                                        type="button"
+                                                        className="admin-small-button"
+                                                        onClick={() => handleEdit(course)}
+                                                    >
+                                                        Szerkesztés
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        className="admin-small-button danger"
+                                                        onClick={() => handleDelete(course.id)}
+                                                    >
+                                                        Inaktiválás
+                                                    </button>
+                                                </>
                                             )}
                                         </td>
                                     </tr>

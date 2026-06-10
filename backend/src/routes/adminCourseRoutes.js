@@ -56,6 +56,56 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const {
+      title,
+      description,
+      start_time,
+      end_time,
+      price,
+      capacity,
+      active,
+    } = req.body;
+
+    const result = await pool.query(
+      `
+      UPDATE courses
+      SET
+        title = $1,
+        description = $2,
+        start_time = $3,
+        end_time = $4,
+        price = $5,
+        capacity = $6,
+        active = $7
+      WHERE id = $8
+      RETURNING *
+      `,
+      [
+        title,
+        description,
+        start_time,
+        end_time,
+        price,
+        capacity,
+        active,
+        id,
+      ]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Kurzus nem található." });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 router.delete("/:id", async (req, res) => {
     try {
         const { id } = req.params;
