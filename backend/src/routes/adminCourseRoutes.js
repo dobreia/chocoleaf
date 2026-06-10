@@ -57,21 +57,21 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    const {
-      title,
-      description,
-      start_time,
-      end_time,
-      price,
-      capacity,
-      active,
-    } = req.body;
+        const {
+            title,
+            description,
+            start_time,
+            end_time,
+            price,
+            capacity,
+            active,
+        } = req.body;
 
-    const result = await pool.query(
-      `
+        const result = await pool.query(
+            `
       UPDATE courses
       SET
         title = $1,
@@ -84,26 +84,26 @@ router.put("/:id", async (req, res) => {
       WHERE id = $8
       RETURNING *
       `,
-      [
-        title,
-        description,
-        start_time,
-        end_time,
-        price,
-        capacity,
-        active,
-        id,
-      ]
-    );
+            [
+                title,
+                description,
+                start_time,
+                end_time,
+                price,
+                capacity,
+                active,
+                id,
+            ]
+        );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: "Kurzus nem található." });
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "Kurzus nem található." });
+        }
+
+        res.json(result.rows[0]);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
 });
 
 router.delete("/:id", async (req, res) => {
@@ -112,8 +112,7 @@ router.delete("/:id", async (req, res) => {
 
         const result = await pool.query(
             `
-      UPDATE courses
-      SET active = false
+      DELETE FROM courses
       WHERE id = $1
       RETURNING *
       `,
@@ -125,7 +124,7 @@ router.delete("/:id", async (req, res) => {
         }
 
         res.json({
-            message: "Kurzus inaktiválva.",
+            message: "Kurzus törölve.",
             course: result.rows[0],
         });
     } catch (error) {

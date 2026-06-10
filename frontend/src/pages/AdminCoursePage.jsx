@@ -32,6 +32,7 @@ export default function AdminCoursesPage() {
         end_time: "",
         price: "",
         capacity: 6,
+        active: true,
     });
 
     const [message, setMessage] = useState("");
@@ -132,9 +133,10 @@ export default function AdminCoursesPage() {
 
     return (
         <main className="admin-page">
+            <h1>Kurzusok kezelése</h1>
             <div className="admin-card admin-list-card">
                 <div className="admin-header">
-                    <h1>Kurzusok kezelése</h1>
+
 
                     <button
                         type="button"
@@ -173,25 +175,32 @@ export default function AdminCoursesPage() {
                                         </td>
                                         <td>{course.price.toLocaleString("hu-HU")} Ft</td>
                                         <td>{course.capacity} fő</td>
-                                        <td>{course.active ? "Aktív" : "Inaktív"}</td>
+                                        <td className="text-center">
+                                            <span
+                                                className={`status-dot ${course.active ? "active" : "inactive"}`}
+                                                title={course.active ? "Aktív" : "Inaktív"}
+                                            ></span>
+                                        </td>
                                         <td>
-                                            <button
-                                                type="button"
-                                                className="admin-small-button"
-                                                onClick={() => handleEdit(course)}
-                                            >
-                                                Szerkesztés
-                                            </button>
-
-                                            {course.active && (
+                                            <div className="admin-actions">
                                                 <button
                                                     type="button"
-                                                    className="admin-small-button danger"
-                                                    onClick={() => handleDelete(course.id)}
+                                                    className="admin-small-button"
+                                                    onClick={() => handleEdit(course)}
                                                 >
-                                                    Inaktiválás
+                                                    Szerkesztés
                                                 </button>
-                                            )}
+
+                                                {course.active && (
+                                                    <button
+                                                        type="button"
+                                                        className="admin-small-button danger"
+                                                        onClick={() => handleDelete(course.id)}
+                                                    >
+                                                        Törlés
+                                                    </button>
+                                                )}
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -288,6 +297,21 @@ export default function AdminCoursesPage() {
                                         required
                                     />
                                 </div>
+                                <label className="checkbox-row">
+                                    <input
+                                        type="checkbox"
+                                        name="active"
+                                        checked={formData.active}
+                                        onChange={(e) =>
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                active: e.target.checked,
+                                            }))
+                                        }
+                                    />
+                                    Aktív kurzus
+                                </label>
+
                             </div>
 
                             <div className="modal-actions">
