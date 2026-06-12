@@ -116,8 +116,8 @@ export default function AdminCoursesPage() {
         setFormError("");
 
         try {
-            const start_time = `${formatDate(formData.date)}T${formData.startTime}:00`;
-            const end_time = `${formatDate(formData.date)}T${formData.endTime}:00`;
+            const start_time = `${formatDate(formData.date)}T${formData.startTime}`;
+            const end_time = `${formatDate(formData.date)}T${formData.endTime}`;
 
             const payload = {
                 title: formData.title,
@@ -170,7 +170,7 @@ export default function AdminCoursesPage() {
         <main className="admin-page">
             <h1>Kurzusok kezelése</h1>
 
-            <div className="admin-card admin-list-card">
+            <div className="admin-card admin-list-card container-md">
                 <div className="admin-header">
                     <button
                         type="button"
@@ -215,7 +215,7 @@ export default function AdminCoursesPage() {
                                         <td>{course.title}</td>
 
                                         <td>
-                                            {new Date(course.start_time).toLocaleString("hu-HU")}
+                                            {new Date(course.start_time).toLocaleString("hu-HU")} - {new Date(course.end_time).toLocaleTimeString("hu-HU")}
                                         </td>
 
                                         <td>

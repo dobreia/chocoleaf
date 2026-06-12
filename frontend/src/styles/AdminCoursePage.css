@@ -34,7 +34,6 @@ h2 {
 /* Admin page */
 
 .admin-page {
-    max-width: 900px;
     margin: 40px auto;
     padding: 24px;
 }
@@ -199,7 +198,7 @@ h2 {
 
     width: 100%;
     max-width: 900px;
-    max-height: 78vh;
+    max-height: 800px;
 
     overflow-y: auto;
 
