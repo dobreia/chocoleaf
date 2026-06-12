@@ -12,6 +12,20 @@ export default function AdminCoursesPage() {
     const [editingCourseId, setEditingCourseId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
+    const [formError, setFormError] = useState("");
+
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        start_time: "",
+        end_time: "",
+        price: "",
+        capacity: 6,
+        active: true,
+    });
+
     async function loadCourses() {
         try {
             const data = await getAdminCourses();
@@ -25,18 +39,17 @@ export default function AdminCoursesPage() {
         loadCourses();
     }, []);
 
-    const [formData, setFormData] = useState({
-        title: "",
-        description: "",
-        start_time: "",
-        end_time: "",
-        price: "",
-        capacity: 6,
-        active: true,
-    });
-
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
+    function resetForm() {
+        setFormData({
+            title: "",
+            description: "",
+            start_time: "",
+            end_time: "",
+            price: "",
+            capacity: 6,
+            active: true,
+        });
+    }
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -47,10 +60,47 @@ export default function AdminCoursesPage() {
         }));
     }
 
-    async function handleSubmit(event) {
-        event.preventDefault();
+    function handleCreateNew() {
         setMessage("");
         setError("");
+        setFormError("");
+        setEditingCourseId(null);
+        resetForm();
+        setIsModalOpen(true);
+    }
+
+    function handleEdit(course) {
+        setMessage("");
+        setError("");
+        setFormError("");
+        setEditingCourseId(course.id);
+
+        setFormData({
+            title: course.title || "",
+            description: course.description || "",
+            start_time: course.start_time.slice(0, 16),
+            end_time: course.end_time.slice(0, 16),
+            price: course.price,
+            capacity: course.capacity,
+            active: course.active,
+        });
+
+        setIsModalOpen(true);
+    }
+
+    function handleCloseModal() {
+        setIsModalOpen(false);
+        setEditingCourseId(null);
+        setFormError("");
+        resetForm();
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        setMessage("");
+        setError("");
+        setFormError("");
 
         try {
             const payload = {
@@ -68,76 +118,41 @@ export default function AdminCoursesPage() {
                 setMessage("Kurzus sikeresen létrehozva.");
             }
 
-            setFormData({
-                title: "",
-                description: "",
-                start_time: "",
-                end_time: "",
-                price: "",
-                capacity: 6,
-                active: true,
-            });
-
             setEditingCourseId(null);
             setIsModalOpen(false);
+            resetForm();
             await loadCourses();
         } catch (err) {
-            setError(err.message);
+            setFormError(err.message);
         }
-    }
-    function handleCreateNew() {
-        setEditingCourseId(null);
-        setFormData({
-            title: "",
-            description: "",
-            start_time: "",
-            end_time: "",
-            price: "",
-            capacity: 6,
-            active: true,
-        });
-        setIsModalOpen(true);
-    }
-
-    function handleEdit(course) {
-        setEditingCourseId(course.id);
-
-        setFormData({
-            title: course.title,
-            description: course.description || "",
-            start_time: course.start_time.slice(0, 16),
-            end_time: course.end_time.slice(0, 16),
-            price: course.price,
-            capacity: course.capacity,
-            active: course.active,
-        });
-        setIsModalOpen(true);
     }
 
     async function handleDelete(id) {
         const confirmDelete = window.confirm(
-            "Biztosan inaktiválod ezt a kurzust?"
+            "Biztosan törlöd ezt a kurzust?"
         );
 
         if (!confirmDelete) return;
 
+        setMessage("");
+        setError("");
+        setFormError("");
+
         try {
             await deleteCourse(id);
-            setMessage("Kurzus sikeresen inaktiválva.");
+            setMessage("Kurzus sikeresen törölve.");
             await loadCourses();
         } catch (err) {
             setError(err.message);
         }
     }
 
-
     return (
         <main className="admin-page">
             <h1>Kurzusok kezelése</h1>
+
             <div className="admin-card admin-list-card">
                 <div className="admin-header">
-
-
                     <button
                         type="button"
                         className="admin-button"
@@ -147,8 +162,17 @@ export default function AdminCoursesPage() {
                     </button>
                 </div>
 
-                {message && <div className="admin-message">{message}</div>}
-                {error && <div className="admin-error">{error}</div>}
+                {message && (
+                    <div className="admin-message">
+                        {message}
+                    </div>
+                )}
+
+                {error && (
+                    <div className="admin-error">
+                        {error}
+                    </div>
+                )}
 
                 {courses.length === 0 ? (
                     <p>Nincs még kurzus.</p>
@@ -170,17 +194,26 @@ export default function AdminCoursesPage() {
                                 {courses.map((course) => (
                                     <tr key={course.id}>
                                         <td>{course.title}</td>
+
                                         <td>
                                             {new Date(course.start_time).toLocaleString("hu-HU")}
                                         </td>
-                                        <td>{course.price.toLocaleString("hu-HU")} Ft</td>
-                                        <td>{course.capacity} fő</td>
+
+                                        <td>
+                                            {course.price.toLocaleString("hu-HU")} Ft
+                                        </td>
+
+                                        <td>
+                                            {course.capacity} fő
+                                        </td>
+
                                         <td className="text-center">
                                             <span
                                                 className={`status-dot ${course.active ? "active" : "inactive"}`}
                                                 title={course.active ? "Aktív" : "Inaktív"}
                                             ></span>
                                         </td>
+
                                         <td>
                                             <div className="admin-actions">
                                                 <button
@@ -191,15 +224,13 @@ export default function AdminCoursesPage() {
                                                     Szerkesztés
                                                 </button>
 
-                                                {course.active && (
-                                                    <button
-                                                        type="button"
-                                                        className="admin-small-button danger"
-                                                        onClick={() => handleDelete(course.id)}
-                                                    >
-                                                        Törlés
-                                                    </button>
-                                                )}
+                                                <button
+                                                    type="button"
+                                                    className="admin-small-button danger"
+                                                    onClick={() => handleDelete(course.id)}
+                                                >
+                                                    Törlés
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -223,22 +254,88 @@ export default function AdminCoursesPage() {
                             <button
                                 type="button"
                                 className="modal-close"
-                                onClick={() => setIsModalOpen(false)}
+                                onClick={handleCloseModal}
                             >
                                 ×
                             </button>
                         </div>
 
-                        <form className="admin-form" onSubmit={handleSubmit}>
-                            <div className="form-row">
-                                <label>Cím</label>
-                                <input
-                                    type="text"
-                                    name="title"
-                                    value={formData.title}
-                                    onChange={handleChange}
-                                    required
-                                />
+                        {formError && (
+                            <div className="admin-error modal-error">
+                                {formError}
+                            </div>
+                        )}
+
+                        <form className="admin-form" onSubmit={handleSubmit} noValidate>
+                            <div className="form-grid">
+                                <div className="form-row">
+                                    <label>Cím</label>
+                                    <input
+                                        type="text"
+                                        name="title"
+                                        value={formData.title}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                <div className="form-row">
+                                    <label>Ár (Ft)</label>
+                                    <input
+                                        type="number"
+                                        name="price"
+                                        value={formData.price}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-grid">
+                                <div className="form-row">
+                                    <label>Kezdés</label>
+                                    <input
+                                        type="datetime-local"
+                                        name="start_time"
+                                        value={formData.start_time}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                <div className="form-row">
+                                    <label>Befejezés</label>
+                                    <input
+                                        type="datetime-local"
+                                        name="end_time"
+                                        value={formData.end_time}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-grid">
+                                <div className="form-row">
+                                    <label>Kapacitás</label>
+                                    <input
+                                        type="number"
+                                        name="capacity"
+                                        value={formData.capacity}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                <label className="checkbox-row checkbox-row-inline">
+                                    <input
+                                        type="checkbox"
+                                        name="active"
+                                        checked={formData.active}
+                                        onChange={(event) =>
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                active: event.target.checked,
+                                            }))
+                                        }
+                                    />
+                                    Aktív kurzus
+                                </label>
                             </div>
 
                             <div className="form-row">
@@ -250,70 +347,6 @@ export default function AdminCoursesPage() {
                                 />
                             </div>
 
-                            <div className="form-grid">
-                                <div className="form-row">
-                                    <label>Kezdés</label>
-                                    <input
-                                        type="datetime-local"
-                                        name="start_time"
-                                        value={formData.start_time}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-row">
-                                    <label>Befejezés</label>
-                                    <input
-                                        type="datetime-local"
-                                        name="end_time"
-                                        value={formData.end_time}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="form-grid">
-                                <div className="form-row">
-                                    <label>Ár (Ft)</label>
-                                    <input
-                                        type="number"
-                                        name="price"
-                                        value={formData.price}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-row">
-                                    <label>Kapacitás</label>
-                                    <input
-                                        type="number"
-                                        name="capacity"
-                                        value={formData.capacity}
-                                        onChange={handleChange}
-                                        min="1"
-                                        required
-                                    />
-                                </div>
-                                <label className="checkbox-row">
-                                    <input
-                                        type="checkbox"
-                                        name="active"
-                                        checked={formData.active}
-                                        onChange={(e) =>
-                                            setFormData((prev) => ({
-                                                ...prev,
-                                                active: e.target.checked,
-                                            }))
-                                        }
-                                    />
-                                    Aktív kurzus
-                                </label>
-
-                            </div>
-
                             <div className="modal-actions">
                                 <button className="admin-button" type="submit">
                                     {editingCourseId ? "Mentés" : "Létrehozás"}
@@ -322,7 +355,7 @@ export default function AdminCoursesPage() {
                                 <button
                                     type="button"
                                     className="admin-button secondary"
-                                    onClick={() => setIsModalOpen(false)}
+                                    onClick={handleCloseModal}
                                 >
                                     Mégse
                                 </button>

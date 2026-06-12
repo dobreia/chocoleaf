@@ -1,29 +1,19 @@
 const express = require("express");
-const pool = require("../db");
+const CoursesController = require("../controllers/CoursesController");
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   try {
-    const result = await pool.query(`
-      SELECT
-        id,
-        title,
-        description,
-        start_time,
-        end_time,
-        price,
-        capacity,
-        active,
-        created_at
-      FROM courses
-      WHERE active = true
-      ORDER BY start_time ASC
-    `);
+    const courses = await CoursesController.getAllPublic();
 
-    res.json(result.rows);
+    res.json(courses);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("PUBLIC COURSES ROUTE ERROR:", error);
+
+    res.status(500).json({
+      message: "Hiba történt a kurzusok lekérésekor.",
+    });
   }
 });
 
