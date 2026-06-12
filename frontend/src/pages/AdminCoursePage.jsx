@@ -1,3 +1,6 @@
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import { useEffect, useState } from "react";
 import {
     createCourse,
@@ -19,12 +22,17 @@ export default function AdminCoursesPage() {
     const [formData, setFormData] = useState({
         title: "",
         description: "",
-        start_time: "",
-        end_time: "",
+        date: null,
+        startTime: "10:00",
+        endTime: "12:00",
         price: "",
         capacity: 6,
         active: true,
     });
+
+    function formatDate(date) {
+        return date.toISOString().split("T")[0];
+    }
 
     async function loadCourses() {
         try {
@@ -43,8 +51,9 @@ export default function AdminCoursesPage() {
         setFormData({
             title: "",
             description: "",
-            start_time: "",
-            end_time: "",
+            date: null,
+            startTime: "10:00",
+            endTime: "12:00",
             price: "",
             capacity: 6,
             active: true,
@@ -75,11 +84,15 @@ export default function AdminCoursesPage() {
         setFormError("");
         setEditingCourseId(course.id);
 
+        const startDate = new Date(course.start_time);
+        const endDate = new Date(course.end_time);
+
         setFormData({
             title: course.title || "",
             description: course.description || "",
-            start_time: course.start_time.slice(0, 16),
-            end_time: course.end_time.slice(0, 16),
+            date: startDate,
+            startTime: startDate.toTimeString().slice(0, 5),
+            endTime: endDate.toTimeString().slice(0, 5),
             price: course.price,
             capacity: course.capacity,
             active: course.active,
@@ -103,8 +116,14 @@ export default function AdminCoursesPage() {
         setFormError("");
 
         try {
+            const start_time = `${formatDate(formData.date)}T${formData.startTime}:00`;
+            const end_time = `${formatDate(formData.date)}T${formData.endTime}:00`;
+
             const payload = {
-                ...formData,
+                title: formData.title,
+                description: formData.description,
+                start_time,
+                end_time,
                 price: Number(formData.price),
                 capacity: Number(formData.capacity),
                 active: formData.active ?? true,
@@ -289,13 +308,28 @@ export default function AdminCoursesPage() {
                                 </div>
                             </div>
 
-                            <div className="form-grid">
+                            <div className="form-grid three-columns">
+                                <div className="form-row">
+                                    <label>Dátum</label>
+                                    <DatePicker
+                                        selected={formData.date}
+                                        onChange={(date) =>
+                                            setFormData((prev) => ({
+                                                ...prev,
+                                                date,
+                                            }))
+                                        }
+                                        dateFormat="yyyy. MM. dd."
+                                        placeholderText="Válassz dátumot"
+                                    />
+                                </div>
+
                                 <div className="form-row">
                                     <label>Kezdés</label>
                                     <input
-                                        type="datetime-local"
-                                        name="start_time"
-                                        value={formData.start_time}
+                                        type="time"
+                                        name="startTime"
+                                        value={formData.startTime}
                                         onChange={handleChange}
                                     />
                                 </div>
@@ -303,9 +337,9 @@ export default function AdminCoursesPage() {
                                 <div className="form-row">
                                     <label>Befejezés</label>
                                     <input
-                                        type="datetime-local"
-                                        name="end_time"
-                                        value={formData.end_time}
+                                        type="time"
+                                        name="endTime"
+                                        value={formData.endTime}
                                         onChange={handleChange}
                                     />
                                 </div>

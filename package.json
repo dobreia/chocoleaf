@@ -21,6 +21,7 @@
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.10",
     "pdf-lib": "^1.17.1",
+    "react-datepicker": "^9.1.0",
     "react-router-dom": "^7.16.0",
     "sharp": "^0.34.4"
   }
