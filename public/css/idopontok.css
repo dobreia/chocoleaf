@@ -122,3 +122,126 @@ a {
     background-color: #d49eb9;
     color: white;
 }
+
+.workshops-page .workshops-page-container {
+    max-width: 1620px;
+    padding: 28px 44px 40px;
+}
+
+.workshops-page .header-container {
+    display: none;
+}
+
+.workshops-page #workshops-container {
+    --bs-gutter-x: 28px;
+    --bs-gutter-y: 28px;
+}
+
+.workshops-page #workshops-container > [class*="col-"] {
+    flex: 0 0 auto;
+    width: 25%;
+}
+
+.workshops-page .workshop-card {
+    min-height: 682px;
+    padding: 32px 32px 34px;
+    background: rgba(238, 232, 220, 0.2);
+    border: 7px solid rgba(238, 232, 220, 0.82);
+    border-radius: 42px;
+    box-shadow: 0 12px 20px rgba(20, 13, 18, 0.38);
+    justify-content: flex-start;
+}
+
+.workshops-page .workshop-card img {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 28px;
+}
+
+.workshops-page .workshop-card h2 {
+    max-width: 285px;
+    min-height: 72px;
+    margin: 0 auto 18px;
+    font-family: "Roboto", sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.18;
+}
+
+.workshops-page .workshop-card p:not(.duration):not(.level):not(.price) {
+    max-width: 310px;
+    min-height: 84px;
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.42;
+}
+
+.workshops-page .duration {
+    margin: auto 0 10px;
+    font-size: 31px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.workshops-page .level {
+    min-height: 30px;
+    margin: 0 0 24px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.28;
+}
+
+.workshops-page .price {
+    margin: 0;
+    font-size: 31px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.workshops-page .button {
+    width: 100%;
+    margin-top: 28px;
+    padding: 14px 18px;
+    border-radius: 7px;
+    font-family: "Roboto", sans-serif;
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 1.25;
+}
+
+@media (max-width: 1260px) {
+    .workshops-page #workshops-container > [class*="col-"] {
+        width: 50%;
+    }
+}
+
+@media (max-width: 700px) {
+    .workshops-page .workshops-page-container {
+        padding: 20px 18px 32px;
+    }
+
+    .workshops-page #workshops-container > [class*="col-"] {
+        width: 100%;
+    }
+
+    .workshops-page .workshop-card {
+        min-height: 0;
+        padding: 28px 26px;
+        border-radius: 34px;
+    }
+
+    .workshops-page .workshop-card h2,
+    .workshops-page .workshop-card p:not(.duration):not(.level):not(.price),
+    .workshops-page .level {
+        min-height: 0;
+    }
+
+    .workshops-page .workshop-card h2 {
+        font-size: 27px;
+    }
+
+    .workshops-page .workshop-card p:not(.duration):not(.level):not(.price) {
+        font-size: 18px;
+    }
+}

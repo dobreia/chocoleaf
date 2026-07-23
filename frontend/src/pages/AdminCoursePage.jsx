@@ -167,18 +167,18 @@ export default function AdminCoursesPage() {
     }
 
     return (
-        <main className="admin-page">
+        <main className="admin-page container-md">
             <h1>Kurzusok kezelése</h1>
-
+            <button
+                type="button"
+                className="admin-button"
+                onClick={handleCreateNew}
+            >
+                + Új kurzus
+            </button>
             <div className="admin-card admin-list-card container-md">
                 <div className="admin-header">
-                    <button
-                        type="button"
-                        className="admin-button"
-                        onClick={handleCreateNew}
-                    >
-                        + Új kurzus
-                    </button>
+
                 </div>
 
                 {message && (
