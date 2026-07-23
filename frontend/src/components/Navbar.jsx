@@ -1,51 +1,61 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
 
+const navLinks = [
+    { to: "/", label: "Főoldal" },
+    { to: "/courses", label: "Képzések" },
+    { to: "/gallery", label: "Galéria" },
+    { to: "/giftcards", label: "Ajándékutalvány" },
+    { to: "/contact", label: "Kapcsolat" },
+    { to: "/quote-request", label: "Ajánlatkérés" },
+];
+
 export default function Navbar() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    function closeMenu() {
+        setIsOpen(false);
+    }
+
     return (
-        <nav className="navbar navbar-expand-md chocoleaf-navbar">
-            <div className="container-fluid navbar-container">
-                <Link className="navbar-brand chocoleaf-brand" to="/">
+        <nav className="chocoleaf-navbar" aria-label="Fő navigáció">
+            <div className="container navbar-container">
+                <Link className="chocoleaf-brand" to="/" onClick={closeMenu}>
                     ChocoLeaf
                 </Link>
 
                 <button
-                    className="navbar-toggler"
+                    className="navbar-toggle"
                     type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Menü megnyitása"
+                    aria-controls="primary-navigation"
+                    aria-expanded={isOpen}
+                    aria-label={isOpen ? "Menü bezárása" : "Menü megnyitása"}
+                    onClick={() => setIsOpen((current) => !current)}
                 >
-                    <span className="navbar-toggler-icon"></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
 
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav mx-auto">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/">
-                                Főoldal
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/courses">
-                                Képzések
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/giftcards">
-                                Ajándékutalvány
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/admin/courses">
-                                Admin
-                            </Link>
-                        </li>
+                <div
+                    className={`navbar-menu ${isOpen ? "is-open" : ""}`}
+                    id="primary-navigation"
+                >
+                    <ul>
+                        {navLinks.map((link) => (
+                            <li key={link.to}>
+                                <NavLink
+                                    className={({ isActive }) =>
+                                        `nav-link ${isActive ? "is-active" : ""}`
+                                    }
+                                    to={link.to}
+                                    onClick={closeMenu}
+                                >
+                                    {link.label}
+                                </NavLink>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </div>

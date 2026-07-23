@@ -44,7 +44,23 @@ export default function AdminCoursesPage() {
     }
 
     useEffect(() => {
-        loadCourses();
+        let isMounted = true;
+
+        getAdminCourses()
+            .then((data) => {
+                if (isMounted) {
+                    setCourses(data);
+                }
+            })
+            .catch((err) => {
+                if (isMounted) {
+                    setError(err.message);
+                }
+            });
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     function resetForm() {

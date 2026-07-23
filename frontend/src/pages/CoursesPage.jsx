@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getCourses } from "../api/courses";
 import "../styles/CoursesPage.css";
 
@@ -34,10 +35,10 @@ function getImageSrc(course) {
     return `/${image}`;
 }
 
-function getDetailsHref(course) {
+function getDetailsPath(course) {
     const id = course.id || course.slug;
 
-    return id ? `/courses.html?id=${encodeURIComponent(id)}` : "#";
+    return id ? `/courses/${encodeURIComponent(id)}` : "/courses";
 }
 
 export default function CoursesPage() {
@@ -57,7 +58,7 @@ export default function CoursesPage() {
     if (error) return <h2 className="courses-status">{error}</h2>;
 
     return (
-        <main className="courses-page">
+        <div className="courses-page">
             <section className="courses-grid" aria-label="Mostani képzések">
                 {courses.map((course) => (
                     <article className="course-card" key={course.id || course.slug || course.title}>
@@ -78,12 +79,12 @@ export default function CoursesPage() {
                             <p className="course-card__price">{formatPrice(course)}</p>
                         </div>
 
-                        <a className="course-card__button" href={getDetailsHref(course)}>
+                        <Link className="course-card__button" to={getDetailsPath(course)}>
                             Részletek
-                        </a>
+                        </Link>
                     </article>
                 ))}
             </section>
-        </main>
+        </div>
     );
 }

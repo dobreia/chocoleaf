@@ -1,92 +1,159 @@
 .chocoleaf-navbar {
-    position: relative;
-    z-index: 10;
-    background-color: #6C485C;
-    padding: 14px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: #6c485c;
+    color: #ffffff;
+    box-shadow: 0 2px 12px rgba(35, 24, 31, 0.18);
 }
 
 .navbar-container {
-    position: relative;
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
 }
 
 .chocoleaf-brand {
-    color: white;
-    font-family: 'Courgette', cursive;
-    font-size: 30px;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0;
     text-decoration: none;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    white-space: nowrap;
 }
 
-.chocoleaf-brand:hover {
-    color: #EEE8DC;
+.chocoleaf-brand:hover,
+.chocoleaf-brand:focus-visible {
+    color: #eee8dc;
 }
 
-#navbarNav {
-    justify-content: center;
+.navbar-menu ul {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .nav-link {
-    color: white;
-    font-family: 'Courgette', cursive;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-    font-size: 20px;
-    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 11px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
 }
 
 .nav-link:hover,
-.nav-link:focus {
-    color: #A39DCD;
+.nav-link:focus-visible,
+.nav-link.is-active {
+    color: #2f2630;
+    background: #eee8dc;
 }
 
-.nav-item:not(:first-child) {
-    border-left: 1px solid rgba(255, 255, 255, 0.7);
-    padding-left: 1rem;
-    margin-left: 1rem;
+.navbar-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 6px;
+    background: transparent;
+    color: #ffffff;
+    cursor: pointer;
 }
 
-/* Bootstrap hamburger ikon fehérre */
-
-.navbar-toggler {
-    border-color: white;
+.navbar-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    margin: 5px 0;
+    background: currentColor;
 }
 
-.navbar-toggler:focus {
-    box-shadow: 0 0 0 3px rgba(238, 232, 220, 0.25);
+.site-footer {
+    background: #3d2a35;
+    color: #ffffff;
+    padding: 42px 0;
 }
 
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+.site-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) 1fr;
+    gap: 28px;
 }
 
-/* Mobil / tablet */
+.site-footer__brand {
+    margin: 0 0 8px;
+    font-size: 26px;
+    font-weight: 800;
+}
 
-@media (max-width: 1200px) {
-    .navbar-collapse {
-        text-align: center;
-        margin-top: 14px;
+.site-footer__text,
+.site-footer__copyright {
+    margin: 0;
+    color: #eee8dc;
+}
+
+.site-footer__nav,
+.site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+}
+
+.site-footer a {
+    color: #ffffff;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible,
+.site-footer a.active {
+    color: #eee8dc;
+}
+
+.site-footer__copyright {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 980px) {
+    .navbar-container {
+        flex-wrap: wrap;
     }
 
-    .nav-item {
-        border-left: none !important;
-        padding-left: 0 !important;
-        margin-left: 0 !important;
+    .navbar-toggle {
+        display: inline-block;
+    }
+
+    .navbar-menu {
+        display: none;
+        width: 100%;
+        padding: 0 0 16px;
+    }
+
+    .navbar-menu.is-open {
+        display: block;
+    }
+
+    .navbar-menu ul {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 4px;
     }
 
     .nav-link {
-        padding: 10px 0;
-    }
-}
-
-@media (max-width: 576px) {
-    .chocoleaf-navbar {
-        padding: 12px 14px;
+        width: 100%;
+        justify-content: center;
     }
 
-    .chocoleaf-brand {
-        font-size: 26px;
-    }
-
-    .nav-link {
-        font-size: 18px;
+    .site-footer__inner {
+        grid-template-columns: 1fr;
     }
 }

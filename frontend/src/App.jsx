@@ -1,18 +1,41 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
-import HomePage from "./pages/HomePage";
-import CoursesPage from "./pages/CoursesPage";
+import Layout from "./components/Layout";
+import ScrollToTop from "./components/ScrollToTop";
 import AdminCoursesPage from "./pages/AdminCoursePage";
+import ContactPage from "./pages/ContactPage";
+import CourseDetailsPage from "./pages/CourseDetailsPage";
+import CoursesPage from "./pages/CoursesPage";
+import GalleryPage from "./pages/GalleryPage";
+import GiftCardPage from "./pages/GiftCardPage";
+import HomePage from "./pages/HomePage";
+import NotFoundPage from "./pages/NotFoundPage";
+import QuoteRequestPage from "./pages/QuoteRequestPage";
+import CookiePolicyPage from "./pages/legal/CookiePolicyPage";
+import ImprintPage from "./pages/legal/ImprintPage";
+import PrivacyPolicyPage from "./pages/legal/PrivacyPolicyPage";
+import TermsPage from "./pages/legal/TermsPage";
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-
+      <ScrollToTop />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/courses" element={<CoursesPage />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/courses/:id" element={<CourseDetailsPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/giftcards" element={<GiftCardPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/quote-request" element={<QuoteRequestPage />} />
+          <Route path="/legal/imprint" element={<ImprintPage />} />
+          <Route path="/legal/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/legal/terms" element={<TermsPage />} />
+          <Route path="/legal/cookies" element={<CookiePolicyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+
         <Route path="/admin/courses" element={<AdminCoursesPage />} />
       </Routes>
     </BrowserRouter>
