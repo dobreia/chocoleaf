@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
+import AboutPage from "./pages/AboutPage";
 import AdminCoursesPage from "./pages/AdminCoursePage";
 import ContactPage from "./pages/ContactPage";
 import CourseDetailsPage from "./pages/CourseDetailsPage";
@@ -21,11 +22,13 @@ function App() {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
+        <Route path="/" element={<HomePage />} />
+
         <Route element={<Layout />}>
-          <Route path="/" element={<HomePage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:id" element={<CourseDetailsPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/giftcards" element={<GiftCardPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/quote-request" element={<QuoteRequestPage />} />

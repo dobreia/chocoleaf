@@ -39,7 +39,7 @@
     list-style: none;
 }
 
-.nav-link {
+.chocoleaf-navbar .nav-link {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
@@ -51,9 +51,9 @@
     text-decoration: none;
 }
 
-.nav-link:hover,
-.nav-link:focus-visible,
-.nav-link.is-active {
+.chocoleaf-navbar .nav-link:hover,
+.chocoleaf-navbar .nav-link:focus-visible,
+.chocoleaf-navbar .nav-link.is-active {
     color: #2f2630;
     background: #eee8dc;
 }
@@ -148,7 +148,7 @@
         gap: 4px;
     }
 
-    .nav-link {
+    .chocoleaf-navbar .nav-link {
         width: 100%;
         justify-content: center;
     }

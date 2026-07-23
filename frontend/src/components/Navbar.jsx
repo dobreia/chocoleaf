@@ -6,6 +6,7 @@ const navLinks = [
     { to: "/", label: "Főoldal" },
     { to: "/courses", label: "Képzések" },
     { to: "/gallery", label: "Galéria" },
+    { to: "/about", label: "Rólam" },
     { to: "/giftcards", label: "Ajándékutalvány" },
     { to: "/contact", label: "Kapcsolat" },
     { to: "/quote-request", label: "Ajánlatkérés" },
