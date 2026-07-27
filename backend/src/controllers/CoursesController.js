@@ -101,10 +101,11 @@ class CoursesController {
 
   static async getAllPublic() {
     const result = await pool.query(`
-      SELECT *
+      SELECT DISTINCT ON (title) *
       FROM courses
       WHERE active = true
-      ORDER BY start_time ASC
+        AND start_time >= NOW()
+      ORDER BY title ASC, start_time ASC
     `);
 
     return result.rows;
@@ -112,12 +113,70 @@ class CoursesController {
 
   static async getAllAdmin() {
     const result = await pool.query(`
-      SELECT *
-      FROM courses
-      ORDER BY start_time DESC
+      SELECT DISTINCT ON (title)
+        c.*,
+        stats.total_slots,
+        stats.active_slots,
+        stats.next_start_time,
+        stats.last_start_time
+      FROM courses c
+      JOIN (
+        SELECT
+          title,
+          COUNT(*)::int AS total_slots,
+          COUNT(*) FILTER (WHERE active = true)::int AS active_slots,
+          MIN(start_time) FILTER (WHERE active = true AND start_time >= NOW()) AS next_start_time,
+          MAX(start_time) AS last_start_time
+        FROM courses
+        GROUP BY title
+      ) stats ON stats.title = c.title
+      ORDER BY title ASC, start_time ASC
     `);
 
     return result.rows;
+  }
+
+  static async getAdminSlots(courseId) {
+    const selected = await pool.query(
+      `
+      SELECT title
+      FROM courses
+      WHERE id = $1
+      LIMIT 1
+      `,
+      [courseId]
+    );
+
+    if (selected.rows.length === 0) {
+      return {
+        error: "A kurzus nem található.",
+        status: 404,
+      };
+    }
+
+    const result = await pool.query(
+      `
+      SELECT
+        c.*,
+        COALESCE(COUNT(b.id) FILTER (
+          WHERE b.status IN ('pending', 'confirmed')
+        ), 0)::int AS booked_count
+      FROM courses c
+      LEFT JOIN bookings b ON b.course_id = c.id
+      WHERE c.title = $1
+      GROUP BY c.id
+      ORDER BY c.start_time ASC
+      `,
+      [selected.rows[0].title]
+    );
+
+    return {
+      course: selected.rows[0],
+      slots: result.rows.map((slot) => ({
+        ...slot,
+        available_spots: Math.max(Number(slot.capacity) - Number(slot.booked_count || 0), 0),
+      })),
+    };
   }
 
   static async create(data) {

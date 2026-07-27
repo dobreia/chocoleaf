@@ -4,7 +4,10 @@ import Layout from "./components/Layout";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
 import AboutPage from "./pages/AboutPage";
+import AdminBookingsPage from "./pages/AdminBookingsPage";
 import AdminCoursesPage from "./pages/AdminCoursePage";
+import AdminCourseSlotsPage from "./pages/AdminCourseSlotsPage";
+import BookingCalendarPage from "./pages/BookingCalendarPage";
 import ContactPage from "./pages/ContactPage";
 import CourseDetailsPage from "./pages/CourseDetailsPage";
 import CoursesPage from "./pages/CoursesPage";
@@ -40,6 +43,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/courses/:id" element={<CourseDetailsPage />} />
+          <Route path="/courses/:id/book" element={<BookingCalendarPage />} />
           <Route path="/gallery" element={<GalleryPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -53,6 +57,8 @@ function App() {
 
         <Route path="/transfer" element={<TransferPage />} />
         <Route path="/transfer.html" element={<TransferPage />} />
+        <Route path="/admin/courses/:id" element={<AdminCourseSlotsPage />} />
+        <Route path="/admin/bookings" element={<AdminBookingsPage />} />
         <Route path="/admin/courses" element={<AdminCoursesPage />} />
       </Routes>
     </BrowserRouter>

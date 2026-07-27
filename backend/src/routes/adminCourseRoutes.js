@@ -17,6 +17,18 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/:id/slots", async (req, res) => {
+    const data = await CoursesController.getAdminSlots(req.params.id);
+
+    if (data.error) {
+        return res.status(data.status).json({
+            message: data.error,
+        });
+    }
+
+    res.json(data);
+});
+
 router.post("/", async (req, res) => {
     const data = await CoursesController.create(req.body);
 

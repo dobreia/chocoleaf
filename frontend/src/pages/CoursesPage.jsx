@@ -60,30 +60,41 @@ export default function CoursesPage() {
     return (
         <div className="courses-page">
             <section className="courses-grid" aria-label="Mostani képzések">
-                {courses.map((course) => (
-                    <article className="course-card" key={course.id || course.slug || course.title}>
-                        <img
-                            className="course-card__image"
-                            src={getImageSrc(course)}
-                            alt={course.title}
-                        />
+                {courses.map((course) => {
+                    const detailsPath = getDetailsPath(course);
 
-                        <div className="course-card__content">
-                            <h2>{course.title}</h2>
-                            <p className="course-card__description">{course.description}</p>
-                        </div>
+                    return (
+                        <article className="course-card" key={course.id || course.slug || course.title}>
+                            <img
+                                className="course-card__image"
+                                src={getImageSrc(course)}
+                                alt={course.title}
+                            />
 
-                        <div className="course-card__meta">
-                            <p className="course-card__duration">{formatDuration(course)}</p>
-                            {course.level && <p className="course-card__level">{course.level}</p>}
-                            <p className="course-card__price">{formatPrice(course)}</p>
-                        </div>
+                            <div className="course-card__content">
+                                <h2>{course.title}</h2>
+                                <p className="course-card__description">{course.description}</p>
+                            </div>
 
-                        <Link className="course-card__button" to={getDetailsPath(course)}>
-                            Részletek
-                        </Link>
-                    </article>
-                ))}
+                            <div className="course-card__meta">
+                                <p className="course-card__duration">{formatDuration(course)}</p>
+                                {course.level && <p className="course-card__level">{course.level}</p>}
+                                <p className="course-card__price">{formatPrice(course)}</p>
+                            </div>
+
+                            <Link className="course-card__button" to={detailsPath}>
+                                Részletek
+                            </Link>
+
+                            <Link
+                                className="course-card__button course-card__button--booking"
+                                to={`${detailsPath}/book`}
+                            >
+                                Foglalás
+                            </Link>
+                        </article>
+                    );
+                })}
             </section>
         </div>
     );

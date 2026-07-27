@@ -110,6 +110,18 @@
     transform: translateY(-1px);
 }
 
+.course-card__button--booking {
+    margin-top: 12px;
+    background: #92b4b8;
+    color: #102225;
+}
+
+.course-card__button--booking:hover,
+.course-card__button--booking:focus-visible {
+    background: #a9c9cd;
+    color: #102225;
+}
+
 .courses-status {
     min-height: calc(100vh - 74px);
     margin: 0;

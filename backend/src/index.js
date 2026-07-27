@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+const BookingController = require("./controllers/BookingController");
 
 const app = express();
 
@@ -15,8 +17,14 @@ app.get("/api/health", (req, res) => {
 const courseRoutes = require("./routes/courseRoutes");
 app.use("/api/courses", courseRoutes);
 
+const bookingRoutes = require("./routes/bookingRoutes");
+app.use("/api/bookings", bookingRoutes);
+
 const adminCourseRoutes = require("./routes/adminCourseRoutes");
 app.use("/api/admin/courses", adminCourseRoutes);
+
+const adminBookingRoutes = require("./routes/adminBookingRoutes");
+app.use("/api/admin/bookings", adminBookingRoutes);
 
 const galleryRoutes = require("./routes/galleryRoutes");
 app.use("/api/gallery", galleryRoutes);
@@ -29,6 +37,12 @@ app.use("/api/giftcard", giftcardRoutes);
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+BookingController.initSchema()
+    .catch((error) => {
+        console.error("BOOKING SCHEMA INIT ERROR:", error);
+    })
+    .finally(() => {
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    });
