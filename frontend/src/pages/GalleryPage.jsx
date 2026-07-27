@@ -1,17 +1,90 @@
-import PageHeader from "../components/PageHeader";
+import { useEffect, useState } from "react";
+
+import "../styles/GalleryPage.css";
+
+const galleryStatus = {
+    idle: "idle",
+    loading: "loading",
+    success: "success",
+    error: "error",
+};
 
 export default function GalleryPage() {
+    const [images, setImages] = useState([]);
+    const [status, setStatus] = useState(galleryStatus.idle);
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        async function loadGallery() {
+            setStatus(galleryStatus.loading);
+
+            try {
+                const response = await fetch("/api/gallery", {
+                    signal: controller.signal,
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP hiba: ${response.status}`);
+                }
+
+                const galleryImages = await response.json();
+
+                if (!controller.signal.aborted) {
+                    setImages(galleryImages);
+                    setStatus(galleryStatus.success);
+                }
+            } catch (error) {
+                if (error.name === "AbortError") {
+                    return;
+                }
+
+                console.error("Gallery load error:", error);
+                setStatus(galleryStatus.error);
+            }
+        }
+
+        loadGallery();
+
+        return () => controller.abort();
+    }, []);
+
     return (
-        <section className="page-section">
-            <PageHeader
-                title="Galéria"
-                description="Válogatás a ChocoLeaf munkáiból és hangulatából."
-            />
-            <div className="container page-content">
-                <p>
-                    A React galéria oldal alapja elkészült. A képek betöltése és a
-                    végleges galériaelrendezés egy későbbi fejlesztési lépés része.
+        <section className="gallery-section bg-cream">
+            <div className="container-lg">
+                <h1>Ízelítő munkáimból</h1>
+                <p className="subtitle">
+                    Amennyiben inkább a saját szemednek hiszel, akkor tekintsd meg
+                    legutóbbi munkáimat.
                 </p>
+
+                <div className="row g-4">
+                    {status === galleryStatus.loading && (
+                        <p className="text-center">Képek betöltése...</p>
+                    )}
+
+                    {status === galleryStatus.error && (
+                        <p className="text-center text-danger">
+                            Hiba történt a képek betöltésekor.
+                        </p>
+                    )}
+
+                    {status === galleryStatus.success && images.length === 0 && (
+                        <p className="text-center">Nincsenek képek a galériában.</p>
+                    )}
+
+                    {status === galleryStatus.success &&
+                        images.map((src) => (
+                            <div
+                                className="col-12 col-sm-6 col-md-4 col-lg-3"
+                                key={src}
+                            >
+                                <div className="gallery-item">
+                                    <img src={src} alt="Galéria kép" loading="lazy" />
+                                </div>
+                            </div>
+                        ))}
+                </div>
             </div>
         </section>
     );

@@ -17,6 +17,9 @@ app.use("/api/courses", courseRoutes);
 const adminCourseRoutes = require("./routes/adminCourseRoutes");
 app.use("/api/admin/courses", adminCourseRoutes);
 
+const galleryRoutes = require("./routes/galleryRoutes");
+app.use("/api/gallery", galleryRoutes);
+
 const PORT = 3001;
 
 app.listen(PORT, () => {

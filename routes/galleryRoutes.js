@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 router.get("/api/gallery", (req, res) => {
-    const galleryDir = path.join(__dirname, "../public/assets/gallery");
+    const galleryDir = path.join(__dirname, "../frontend/public/assets/gallery");
     fs.readdir(galleryDir, (err, files) => {
         if (err) {
             console.error(err);
